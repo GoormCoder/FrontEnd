@@ -1,3 +1,3 @@
-const store = "dummy"
+const dummy = "dummy"
 
-export default store;
+export default dummy;
