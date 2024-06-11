@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 type Quest = {
     title: string,
-    difficulty: string,
+    level: string,
     correctPeople: number,
     accuracy: string
 }
@@ -17,16 +17,16 @@ interface SelectProps {
 
 // 임시 문제 리스트
 const questList: Quest[] = [
-    { title: '같은 숫자는 싫어', difficulty: 'Level 1', correctPeople: 10, accuracy: '90%' },
-    { title: '기능개발', difficulty: 'Level 2', correctPeople: 48, accuracy: '80%' },
-    { title: '올바른 괄호', difficulty: 'Level 2', correctPeople: 35, accuracy: '50%' },
-    { title: '프로세스', difficulty: 'Level 2', correctPeople: 15, accuracy: '50%' },
-    { title: '다리를 지나는 트럭', difficulty: 'Level 2', correctPeople: 77, accuracy: '80%' },
-    { title: '주식가격', difficulty: 'Level 2', correctPeople: 5, accuracy: '80%' },
-    { title: '체육복', difficulty: 'Level 1', correctPeople: 50, accuracy: '60%' },
-    { title: '섬 연결하기', difficulty: 'Level 3', correctPeople: 52, accuracy: '50%' },
-    { title: '단속카메라', difficulty: 'Level 3', correctPeople: 95, accuracy: '90%' },
-    { title: '큰 수 만들기', difficulty: 'Level 2', correctPeople: 35, accuracy: '50%' },
+    { title: '같은 숫자는 싫어', level: 'Level 1', correctPeople: 10, accuracy: '90%' },
+    { title: '기능개발', level: 'Level 2', correctPeople: 48, accuracy: '80%' },
+    { title: '올바른 괄호', level: 'Level 2', correctPeople: 35, accuracy: '50%' },
+    { title: '프로세스', level: 'Level 2', correctPeople: 15, accuracy: '50%' },
+    { title: '다리를 지나는 트럭', level: 'Level 2', correctPeople: 77, accuracy: '80%' },
+    { title: '주식가격', level: 'Level 2', correctPeople: 5, accuracy: '80%' },
+    { title: '체육복', level: 'Level 1', correctPeople: 50, accuracy: '60%' },
+    { title: '섬 연결하기', level: 'Level 3', correctPeople: 52, accuracy: '50%' },
+    { title: '단속카메라', level: 'Level 3', correctPeople: 95, accuracy: '90%' },
+    { title: '큰 수 만들기', level: 'Level 2', correctPeople: 35, accuracy: '50%' },
 ];
 
 // 임시 유저 이름
@@ -39,6 +39,7 @@ const QuestListPage = () => {
 
     const [searchText, setSearchText] = useState<string>("");
     const [tagList, setTagList] = useState<Tag[]>([]);
+    const [levelList, setLevelList] = useState<string[]>([]);
     const [levelDisplay, setLevelDisplay] = useState<string>('none');
     const [languageDisplay, setLanguageDisplay] = useState<string>('none');
     const [searchResult, setSearchResult] = useState<Quest[]>(questList);
@@ -62,10 +63,14 @@ const QuestListPage = () => {
         };
     }, [])
 
+    useEffect(() => {
+        search(null, searchText, questList);
+    }, [tagList])
 
-    function setTag(checked: boolean, tagValue: string): void {
+    function setTag(type: string, checked: boolean, tagValue: string): void {
         if (checked) {
             setTagList(pre => [...pre, tagValue]);
+            if (type == "level") setLevelList(pre => [...pre, tagValue]);
         } else {
             removeTag(tagValue);
         }
@@ -76,14 +81,16 @@ const QuestListPage = () => {
         if (checkBox instanceof HTMLInputElement) checkBox.checked = false;
 
         setTagList(pre => pre.filter(tag => tag !== tagValue));
+        setLevelList(pre => pre.filter(tag => tag !== tagValue));
     }
 
     function search(e: any, searchText: string, questList: Quest[]): void {
-        e.preventDefault();
+        if (e) e.preventDefault();
         const searchResult: Quest[] = questList.filter(quest => {
             const nonBlankSearchText = removeBlank(searchText);
             const nonBlankQuestTitle = removeBlank(quest.title);
-            return nonBlankQuestTitle.includes(nonBlankSearchText);
+            if (!levelList.length) return nonBlankQuestTitle.includes(nonBlankSearchText)
+            return nonBlankQuestTitle.includes(nonBlankSearchText) && levelList.includes(quest.level);
         });
         setSearchResult(searchResult);
     }
@@ -124,15 +131,15 @@ const QuestListPage = () => {
                             </div>
                             <div className='select-lists level'>
                                 <div>
-                                    <input type="checkbox" name="Level 1" id="Level 1" onChange={(e) => (setTag(e.target.checked, e.target.id))} />
+                                    <input type="checkbox" name="Level 1" id="Level 1" onChange={(e) => (setTag("level", e.target.checked, e.target.id))} />
                                     <label htmlFor="Level 1">Level 1</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" name="Level 2" id="Level 2" onChange={(e) => (setTag(e.target.checked, e.target.id))} />
+                                    <input type="checkbox" name="Level 2" id="Level 2" onChange={(e) => (setTag("level", e.target.checked, e.target.id))} />
                                     <label htmlFor="Level 2">Level 2</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" name="Level 3" id="Level 3" onChange={(e) => (setTag(e.target.checked, e.target.id))} />
+                                    <input type="checkbox" name="Level 3" id="Level 3" onChange={(e) => (setTag("level", e.target.checked, e.target.id))} />
                                     <label htmlFor="Level 3">Level 3</label>
                                 </div>
                             </div>
@@ -147,15 +154,15 @@ const QuestListPage = () => {
                             </div>
                             <div className='select-lists language'>
                                 <div>
-                                    <input type="checkbox" name="Java" id="Java" onChange={(e) => (setTag(e.target.checked, e.target.id))} />
+                                    <input type="checkbox" name="Java" id="Java" onChange={(e) => (setTag("lan", e.target.checked, e.target.id))} />
                                     <label htmlFor="Java">Java</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" name="Python" id="Python" onChange={(e) => (setTag(e.target.checked, e.target.id))} />
+                                    <input type="checkbox" name="Python" id="Python" onChange={(e) => (setTag("lan", e.target.checked, e.target.id))} />
                                     <label htmlFor="Python">Python</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" name="Oracle" id="Oracle" onChange={(e) => (setTag(e.target.checked, e.target.id))} />
+                                    <input type="checkbox" name="Oracle" id="Oracle" onChange={(e) => (setTag("lan", e.target.checked, e.target.id))} />
                                     <label htmlFor="Oracle">Oracle</label>
                                 </div>
                             </div>
@@ -185,7 +192,7 @@ const QuestListPage = () => {
                             {searchResult.map((row, index) => (
                                 <tr key={index}>
                                     <td>{row.title}</td>
-                                    <td>{row.difficulty}</td>
+                                    <td>{row.level}</td>
                                     <td>{row.correctPeople}</td>
                                     <td>{row.accuracy}</td>
                                 </tr>
@@ -236,17 +243,24 @@ const SearchContainer = styled.div<SelectProps>`
         position: relative;
         border: 1px solid lightgray;
         width: 150px;
-
+        cursor: pointer;
     }
 
     & .select-lists {
-        
         position: absolute;
         background-color: lightgray;
         border: 2px solid black;
         width: 150px;
         top: 25px;
         left: 0px;
+
+        input {
+            cursor: pointer;
+        }
+
+        label {
+            cursor: pointer;
+        }
     }
 
     & .level {
