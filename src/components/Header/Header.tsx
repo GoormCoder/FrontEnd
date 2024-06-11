@@ -18,10 +18,12 @@ const SidebarMenu = styled.div<{ isOpen: boolean }>`
     right: 0;
     display: flex;
     padding: 20px
+    display: flex;
     flex-direction: column;
+    align-items: left;
     background-color: rgba(0, 0, 0, 0.5);
     transition: background-color 0.3s;
-    transform: translateX(${props => (props.isOpen ? '90%' : '100%')});
+    transform: translateX(${props => (props.isOpen ? '0%' : '100%')});
     animation: ${props => (props.isOpen ? slideIn : slideOut)} 0.3s forwards;
 `;
 const slideIn = keyframes`
@@ -30,14 +32,14 @@ const slideIn = keyframes`
         background-color: transparent;
     }
     to {
-        transform: translateX(90%);
+        transform: translateX(0%);
         background-color: rgba(0, 0, 0, 0.5);
     }
 `;
 
 const slideOut = keyframes`
     from {
-        transform: translateX(90%);
+        transform: translateX(0%);
         background-color: rgba(0, 0, 0, 0.5);
     }
     to {
@@ -65,8 +67,9 @@ const LoginText = styled.p`
     display: flex;    
     margin: 0;  
     margin-right: 10px;
+    cursor: pointer;
 `;
-const SideBar = styled.div`
+const SideBarButton = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -98,9 +101,9 @@ const Header = () => {
                 </LeftSection>
                 <RightSection>
                     <LoginText>로그인</LoginText>
-                    <SideBar onClick={toggleSidebar}>
+                    <SideBarButton onClick={toggleSidebar}>
                         <img src={hamburgerButton} alt='hamburger button' width="30px" />
-                    </SideBar>
+                    </SideBarButton>
                 </RightSection>
             </HeaderContainer>
             <SidebarMenu isOpen={isSidebarOpen}>
