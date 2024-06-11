@@ -1,21 +1,64 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const QuestListPage = () => {
 
-    const data = [
-        { title: '문제 1', difficulty: '쉬움', correctPeople: 10, accuracy: '90%' },
-        { title: '문제 2', difficulty: '보통', correctPeople: 8, accuracy: '80%' },
-        { title: '문제 3', difficulty: '어려움', correctPeople: 5, accuracy: '50%' },
+    type Quest = {
+        title: string,
+        difficulty: string,
+        correctPeople: number,
+        accuracy: string
+    }
+
+    // 임시 문제 리스트
+    const questList: Quest[] = [
+        { title: '같은 숫자는 싫어', difficulty: 'Level 1', correctPeople: 10, accuracy: '90%' },
+        { title: '기능개발', difficulty: 'Level 2', correctPeople: 48, accuracy: '80%' },
+        { title: '올바른 괄호', difficulty: 'Level 2', correctPeople: 35, accuracy: '50%' },
+        { title: '프로세스', difficulty: 'Level 2', correctPeople: 15, accuracy: '50%' },
+        { title: '다리를 지나는 트럭', difficulty: 'Level 2', correctPeople: 77, accuracy: '80%' },
+        { title: '주식가격', difficulty: 'Level 2', correctPeople: 5, accuracy: '80%' },
+        { title: '체육복', difficulty: 'Level 1', correctPeople: 50, accuracy: '60%' },
+        { title: '섬 연결하기', difficulty: 'Level 3', correctPeople: 52, accuracy: '50%' },
+        { title: '단속카메라', difficulty: 'Level 3', correctPeople: 95, accuracy: '90%' },
+        { title: '큰 수 만들기', difficulty: 'Level 2', correctPeople: 35, accuracy: '50%' },
     ];
+
+    // 임시 유저 이름
+    const userName: string = "최진수(닉네임)";
+
+    const [searchText, setSearchText] = useState<string>("");
+    const [searchResult, setSearchResult] = useState<Quest[]>(questList);
+
+    function search(e: any, searchText: string, questList: Quest[]): void {
+        e.preventDefault();
+        const searchResult: Quest[] = questList.filter(quest => {
+            const nonBlankSearchText = removeBlank(searchText);
+            const nonBlankQuestTitle = removeBlank(quest.title);
+            return nonBlankQuestTitle.includes(nonBlankSearchText);
+        });
+        setSearchResult(searchResult);
+        log(searchResult)
+    }
+
+    function removeBlank(text: string): string {
+        return text.replace(/\s+/g, '');
+    }
+
+    const log = (msg: any) => {
+        console.log(msg);
+    }
 
     return (
         <QuestListContainer>
             <SearchAndListContainer>
                 <SearchContainer>
-                    <div className="search-input">
-                        <input type="search" />
+                    <form onSubmit={(e) => { search(e, searchText, questList) }}>
+                        <input type="search" onChange={(e) => { setSearchText(e.target.value) }} />
                         <input type="submit" value="검색" />
+                    </form>
+                    <div className="search-input">
+
                     </div>
 
                     <div className="search-select">
@@ -42,7 +85,7 @@ const QuestListPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((row, index) => (
+                            {searchResult.map((row, index) => (
                                 <tr key={index}>
                                     <td>{row.title}</td>
                                     <td>{row.difficulty}</td>
@@ -56,7 +99,7 @@ const QuestListPage = () => {
             </SearchAndListContainer>
             <SideStatusContainer>
                 <div>
-                    이름
+                    {userName}
                 </div>
                 <div>
                     맞춘 문제 수
@@ -77,7 +120,7 @@ const QuestListContainer = styled.div`
     justify-content: center;
     gap: 50px;
     width: 100%;
-    height: 100%;
+    padding-top: 150px;
 `
 const SearchAndListContainer = styled.div`
     border: 1px solid black;
@@ -90,6 +133,7 @@ const SearchContainer = styled.div`
 
 const ListContainer = styled.div`
     border: 1px solid black;
+
 `
 
 const SideStatusContainer = styled.div`
