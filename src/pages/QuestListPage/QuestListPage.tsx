@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { IoSearch } from "react-icons/io5";
 import styled from 'styled-components'
+import SearchOption from './components/SearchOption';
 
 type Quest = {
     state: string | null,
@@ -42,7 +43,8 @@ const QuestListPage = () => {
     const languageSelectRef = useRef<HTMLDivElement | null>(null);
 
     const [searchText, setSearchText] = useState<string>("");
-    const [tagList, setTagList] = useState<Tag[]>([]);
+    const [tagList, setTagList] = useState<string[]>([]);
+    // const [tagList, setTagList] = useState<Tag[]>([]);
     const [levelList, setLevelList] = useState<string[]>([]);
     const [stateList, setStateList] = useState<(string | null)[]>([]);
     const [stateDisplay, setStateDisplay] = useState<string>('none');
@@ -137,7 +139,6 @@ const QuestListPage = () => {
                             onChange={(e) => { setSearchText(e.target.value) }} />
                         <button type="submit"><IoSearch /></button>
                     </SearchFrom>
-
                     <div className="search-select">
 
                         <div className='select-container' ref={stateSelectRef}>
@@ -352,18 +353,20 @@ const SearchContainer = styled.div<SelectProps>`
 const SearchFrom = styled.form`
     display: flex;
     position: relative;
-    border: 1px solid lightgray;
-    border-radius: 5px;
+    align-items: center;
 
     & input {
         width: 100%;
         height: 45px;
         font-size: 16px;
-        outline: none;
-        border-style: none;
+        border: 1px solid lightgray;
         border-radius: 5px;
         padding-left: 15px;
-        cursor: pointer;
+        cursor: text;
+    }
+
+    & input:hover {
+        border: 2px solid #003369;
     }
 
     & ::placeholder {
@@ -372,18 +375,14 @@ const SearchFrom = styled.form`
 
     & button {
         position: absolute;
-        right: 0px;
+        right: 2px;
         width: 5%;
-        height: 45px;
+        height: 40px;
         font-size: 25px;
         background-color: white;
         border-style: none;
         border-radius: 5px;
         cursor: pointer;
-    }
-
-    & svg {
-        
     }
 `
 
