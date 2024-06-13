@@ -99,15 +99,14 @@ const QuestListPage = () => {
 export default QuestListPage
 
 const QuestListContainer = styled.div`
-    /* border: 1px solid black; */
     display: flex;
     justify-content: center;
     gap: 50px;
     width: 100%;
-    padding-top: 100px;
+    margin: 60px 0px 80px 0px;
 `
 const SearchAndListContainer = styled.div`
-    width: 50%;
+    width: 45%;
 `
 
 const SearchContainer = styled.div`
