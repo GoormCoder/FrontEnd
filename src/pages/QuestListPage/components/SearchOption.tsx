@@ -1,42 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { SearchOptionProps } from '../types'
+import styled from 'styled-components'
 
-interface SearchOptionProps {
-    // setTagList: (tags: string[]) => void,
-    setTag: (type: string, checked: boolean, tagValue: string) => void
-}
-// 
-const SearchOption: React.FC<SearchOptionProps> = ({ setTag }) => {
 
-    const selectRef = useRef<HTMLDivElement | null>(null);
-    useEffect(() => {
-        // setTag("test", true, "test")
-    }, [])
+
+const SearchOption: React.FC<SearchOptionProps> = ({ boxType, option, setTag }) => {
 
     return (
-        <div className='select-container' ref={selectRef}>
-            {/* <div className='select-title'
-                onClick={() => {
-                    stateDisplay == 'none' ?
-                        setStateDisplay('block') : setStateDisplay('none')
-                }}>
-                상태 선택 박스
-            </div>
-            <div className='select-lists state'>
-                <div>
-                    <input type="checkbox" name="안 푼 문제" id="안 푼 문제" onChange={(e) => (setTag("state", e.target.checked, e.target.id))} />
-                    <label htmlFor="안 푼 문제">안 푼 문제</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="풀고 있는 문제" id="풀고 있는 문제" onChange={(e) => (setTag("state", e.target.checked, e.target.id))} />
-                    <label htmlFor="풀고 있는 문제">풀고 있는 문제</label>
-                </div>
-                <div>
-                    <input type="checkbox" name="푼 문제" id="푼 문제" onChange={(e) => (setTag("state", e.target.checked, e.target.id))} />
-                    <label htmlFor="푼 문제">푼 문제</label>
-                </div>
-            </div> */}
-        </div>
+        <SearchOptionContainer key={option}>
+            <input type="checkbox" name={option} id={option}
+                onChange={(e) => (setTag(boxType, e.target.checked, e.target.id))} />
+            <label htmlFor={option}>{option}</label>
+        </SearchOptionContainer>
     )
 }
 
 export default SearchOption
+
+const SearchOptionContainer = styled.div`
+    margin: 8px 10px 8px 10px;
+
+    & label{
+        font-weight: bold;
+        margin-left: 3px;
+    }
+`
