@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { IoSearch } from "react-icons/io5";
 import styled from 'styled-components'
 
 type Quest = {
@@ -130,13 +131,12 @@ const QuestListPage = () => {
         <QuestListContainer >
             <SearchAndListContainer>
                 <SearchContainer stateDisplay={stateDisplay} levelDisplay={levelDisplay} languageDisplay={languageDisplay}>
-                    <form onSubmit={(e) => { search(e, searchText, questList) }}>
-                        <input type="search" onChange={(e) => { setSearchText(e.target.value) }} />
-                        <input type="submit" value="검색" />
-                    </form>
-                    <div className="search-input">
-
-                    </div>
+                    <SearchFrom onSubmit={(e) => { search(e, searchText, questList) }}>
+                        <input type="search"
+                            placeholder="풀고 싶은 문제 제목 검색"
+                            onChange={(e) => { setSearchText(e.target.value) }} />
+                        <button type="submit"><IoSearch /></button>
+                    </SearchFrom>
 
                     <div className="search-select">
 
@@ -272,20 +272,20 @@ const QuestListPage = () => {
 export default QuestListPage
 
 const QuestListContainer = styled.div`
-    border: 1px solid black;
+    /* border: 1px solid black; */
     display: flex;
     justify-content: center;
     gap: 50px;
     width: 100%;
-    padding-top: 150px;
+    padding-top: 100px;
 `
 const SearchAndListContainer = styled.div`
-    border: 1px solid black;
-    width: 70%;
+    /* border: 1px solid black; */
+    width: 50%;
 `
 
 const SearchContainer = styled.div<SelectProps>`
-    border: 1px solid black;
+    /* border: 1px solid black; */
 
     & .search-select {
         display: flex;
@@ -349,6 +349,44 @@ const SearchContainer = styled.div<SelectProps>`
     }
 `
 
+const SearchFrom = styled.form`
+    display: flex;
+    position: relative;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+
+    & input {
+        width: 100%;
+        height: 45px;
+        font-size: 16px;
+        outline: none;
+        border-style: none;
+        border-radius: 5px;
+        padding-left: 15px;
+        cursor: pointer;
+    }
+
+    & ::placeholder {
+        color: lightgray;
+    }
+
+    & button {
+        position: absolute;
+        right: 0px;
+        width: 5%;
+        height: 45px;
+        font-size: 25px;
+        background-color: white;
+        border-style: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    & svg {
+        
+    }
+`
+
 const ListContainer = styled.div`
     border: 1px solid black;
 
@@ -356,4 +394,5 @@ const ListContainer = styled.div`
 
 const SideStatusContainer = styled.div`
     border: 1px solid black;
+    width: 18%;
 `
