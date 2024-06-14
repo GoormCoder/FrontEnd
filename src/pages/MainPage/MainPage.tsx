@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header'
 import mainlogo from '../../assets/mainpage_logo.png'
 
 const MainBackground = styled.div`
-    background-color: #000000
+    background-color: #ffffff;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -37,7 +37,9 @@ const MainPage = () => {
             <Header />
             <MainBackground>
                 <MainpageLogo src={mainlogo} alt='mainpage_logo' />
-                <StartButton>시작하기</StartButton>
+                <StartButton>
+                    <a href='/' >시작하기</a>
+                </StartButton>
             </MainBackground>
         </>
     )

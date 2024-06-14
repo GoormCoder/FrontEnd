@@ -108,9 +108,11 @@ const Header = () => {
             </HeaderContainer>
             <SidebarMenu isOpen={isSidebarOpen}>
                 <h2>Menu</h2>
-                <p>Menu Item 1</p>
-                <p>Menu Item 2</p>
-                <p>Menu Item 3</p>
+                <button>X</button>
+                
+                <a href='#'>Menu Item 1</a>
+                <a href='#'>Menu Item 2</a>
+                <a href='#'>Menu Item 3</a>
             </SidebarMenu>      
         </>
     )
