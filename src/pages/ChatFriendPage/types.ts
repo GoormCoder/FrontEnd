@@ -28,6 +28,11 @@ export interface DisplayProps {
     display: boolean;
 }
 
+export interface DisplayAndOpacityProps extends DisplayProps {
+    opacity: boolean;
+}
+
+
 export interface FriendDataProps {
     userID: UserID
     setDisplay: (isOpened: boolean) => void;
