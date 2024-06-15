@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Header from '../../components/Header/Header'
+import Header from '../../components/Header/Header';
 import mainlogo from '../../assets/mainpage_logo.png'
 
 const MainBackground = styled.div`
@@ -10,13 +10,18 @@ const MainBackground = styled.div`
     flex-direction: column;
     align-items: center;
 `;
-const MainpageLogo = styled.img`
+const NewMainpageLogo = styled.div`
     display: flex;
     justify-content: center; /* 가로 중앙 정렬 */
     align-items: center; /* 세로 중앙 정렬 */
     width: 900px;
     margin-top: 150px;
     margin-bottom: 100px;
+    font-size: 150px;
+    color: #49aaffe4;
+    font-family: "cheesecake", sans-serif;
+    font-weight: 900;   
+    font-style: normal;
 `;
 const StartButton = styled.button`
     display: flex;
@@ -36,9 +41,10 @@ const MainPage = () => {
         <>
             <Header />
             <MainBackground>
-                <MainpageLogo src={mainlogo} alt='mainpage_logo' />
+                <NewMainpageLogo>Goorm Coder</NewMainpageLogo>
                 <StartButton>
-                    <a href='/' >시작하기</a>
+                    {/* 연결 링크는 변경되어야 함 */}
+                    <a href='/ide' text-decoration-line='none'>시작하기</a>
                 </StartButton>
             </MainBackground>
         </>
