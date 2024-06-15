@@ -112,7 +112,7 @@ const Header = () => {
                 <a href='#'>Menu Item 1</a>
                 <a href='#'>Menu Item 2</a>
                 <a href='#'>Menu Item 3</a>
-            </SidebarMenu>      
+            </SidebarMenu>
         </>
     )
 }

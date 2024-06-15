@@ -1,27 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { OptionByLan, OptionByLevel, OptionByStatus, SearchOptionBoxProps, SearchOptionBoxes, SearchOptionDisplayProps } from '../types';
-import SearchOption from './SearchOption';
+import { OptionByLan, OptionByLevel, OptionByStatus, OptionBoxProps, OptionBoxes, optionDisplayProps } from './types';
+import Option from './Option';
 import { TiArrowSortedDown } from "react-icons/ti";
 import styled from 'styled-components';
 
 
 
-const SearchOptionBox: React.FC<SearchOptionBoxProps> = ({ boxType, setTag }) => {
+const OptionBox: React.FC<OptionBoxProps> = ({ boxType, setValue }) => {
     const selectRef = useRef<HTMLDivElement | null>(null);
-    const [searchOption, setSearchOption] = useState<string[]>([]);
+    const [option, setOption] = useState<string[]>([]);
 
-    const [selectDisplay, setSelectDisplay] = useState<string>('none');
+    const [display, setDisplay] = useState<string>('none');
 
     useEffect(() => {
-        if (boxType == SearchOptionBoxes.STATE) setSearchOption(Object.values(OptionByStatus))
-        if (boxType == SearchOptionBoxes.LEVEL) setSearchOption(Object.values(OptionByLevel))
-        if (boxType == SearchOptionBoxes.LANGUAGE) setSearchOption(Object.values(OptionByLan))
+        if (boxType == OptionBoxes.STATE) setOption(Object.values(OptionByStatus))
+        if (boxType == OptionBoxes.LEVEL) setOption(Object.values(OptionByLevel))
+        if (boxType == OptionBoxes.LANGUAGE) setOption(Object.values(OptionByLan))
     }, [boxType])
 
     useEffect(() => {
         function handleClickOutSide(e: MouseEvent) {
             if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
-                setSelectDisplay('none');
+                setDisplay('none');
             }
         }
 
@@ -32,27 +32,27 @@ const SearchOptionBox: React.FC<SearchOptionBoxProps> = ({ boxType, setTag }) =>
     }, [])
 
     return (
-        <SearchOptionBoxContainer ref={selectRef}>
-            <SearchOptionTitle
+        <OptionBoxContainer ref={selectRef}>
+            <OptionTitle
                 onClick={() => {
-                    selectDisplay == 'none' ?
-                        setSelectDisplay('block') : setSelectDisplay('none')
+                    display == 'none' ?
+                        setDisplay('block') : setDisplay('none')
                 }}>
                 <div className='option-title'>{boxType}</div>
                 <TiArrowSortedDown />
-            </SearchOptionTitle>
-            <SearchOptionContainer searchOptionDisplay={selectDisplay}>
-                {searchOption.map((option) => (
-                    <SearchOption boxType={boxType} option={option} setTag={setTag} />
+            </OptionTitle>
+            <OptionContainer optionDisplay={display}>
+                {option.map((option) => (
+                    <Option boxType={boxType} option={option} setValue={setValue} />
                 ))}
-            </SearchOptionContainer>
-        </SearchOptionBoxContainer>
+            </OptionContainer>
+        </OptionBoxContainer>
     )
 }
 
-export default SearchOptionBox
+export default OptionBox
 
-const SearchOptionBoxContainer = styled.div`
+const OptionBoxContainer = styled.div`
     position: relative;
     border: 1px solid lightgray;
     border-radius: 5px;
@@ -63,7 +63,7 @@ const SearchOptionBoxContainer = styled.div`
     cursor: pointer;
 `
 
-const SearchOptionTitle = styled.div`
+const OptionTitle = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -82,8 +82,8 @@ const SearchOptionTitle = styled.div`
     }
 `
 
-const SearchOptionContainer = styled.div<SearchOptionDisplayProps>`
-    display: ${props => props.searchOptionDisplay};
+const OptionContainer = styled.div<optionDisplayProps>`
+    display: ${props => props.optionDisplay};
     position: absolute;
     background-color: white;
     border: 1px solid lightgray;
