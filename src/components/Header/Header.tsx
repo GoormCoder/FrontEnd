@@ -7,8 +7,7 @@ const HeaderContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid
-
+    border-bottom: 1px solid;
 `;
 const SidebarMenu = styled.div<{ isOpen: boolean }>`
     position: fixed;
@@ -64,9 +63,10 @@ const LogoText = styled.p`
     margin: 0;
 `;
 const LoginText = styled.p`
+    font-size: x-large;    
     display: flex;    
     margin: 0;  
-    margin-right: 10px;
+    margin-right: 20px;
     cursor: pointer;
 `;
 const SideBarButton = styled.div`
@@ -108,10 +108,11 @@ const Header = () => {
             </HeaderContainer>
             <SidebarMenu isOpen={isSidebarOpen}>
                 <h2>Menu</h2>
-                <p>Menu Item 1</p>
-                <p>Menu Item 2</p>
-                <p>Menu Item 3</p>
-            </SidebarMenu>
+                <button>X</button>
+                <a href='#'>Menu Item 1</a>
+                <a href='#'>Menu Item 2</a>
+                <a href='#'>Menu Item 3</a>
+            </SidebarMenu>      
         </>
     )
 }
