@@ -1,21 +1,33 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import ChatFriendPage from '../../pages/ChatFriendPage/ChatFriendPage'
-import { DisplayProps } from '../../pages/ChatFriendPage/types'
+import { DisplayAndOpacityProps } from '../../pages/ChatFriendPage/types'
 import { IoMdCloudOutline, IoMdClose } from "react-icons/io";
 
 
 const ChatIcon = () => {
 
-    const [isOpened, setIsOpened] = useState<boolean>(false);
+    const [display, setDisplay] = useState<boolean>(false);
+    const [opacity, setOpacity] = useState<boolean>(false);
+
+
+    const setOpenChat = () => {
+
+        setTimeout(() => {
+            display ? setDisplay(pre => !pre) : setOpacity(pre => !pre)
+        }, 100)
+        display ? setOpacity(pre => !pre) : setDisplay(pre => !pre)
+    }
 
     return (
         <ChatContainer>
-            <ChatPageContainer display={isOpened}>
+            <ChatPageContainer display={display} opacity={opacity}>
                 <ChatFriendPage />
             </ChatPageContainer>
-            <ChatIconContainer onClick={() => setIsOpened(pre => !pre)}>
-                {isOpened ? <IoMdClose /> : <IoMdCloudOutline />}
+            <ChatIconContainer onClick={() => { setOpenChat() }}>
+                <div>
+                    {opacity ? <IoMdClose /> : <IoMdCloudOutline />}
+                </div>
             </ChatIconContainer>
         </ChatContainer>
     )
@@ -33,19 +45,35 @@ const ChatContainer = styled.div`
     right: 60px;
 `
 
-const ChatPageContainer = styled.div<DisplayProps>`
-    display: ${props => props.display ? "block" : "none"};;
+const ChatPageContainer = styled.div<DisplayAndOpacityProps>`
+    position: relative;
+    display: ${props => props.display ? "block" : "none"};
+    opacity: ${props => props.opacity ? "1" : "0"};
+    margin-bottom: ${props => props.opacity ? "0px" : "-25px"};
+    transition: 0.2s ease;
 `
 
 const ChatIconContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: #49aaffe4;
-    width: 60px;
-    height: 60px;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
+    
+
+    & div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: #49aaffe4;
+        width: 60px;
+        height: 60px;
+        color: white;
+        font-size: 30px;
+        transition: 0.2s ease;
+        box-shadow: 0px 0px 10px 0px gray;
+        cursor: pointer;
+    }
+
+    & div:active{
+        width: 55px;
+        height: 55px;
+        background-color: #3da5ff;
+    }
 `

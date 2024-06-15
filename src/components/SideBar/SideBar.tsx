@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { SidebarProps } from './types';
 import { FaAnglesRight } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -15,20 +15,34 @@ const SideBar: React.FC<SidebarProps> = ({ isOpen }) => {
         { path: "/rank", value: "랭킹" },
     ]
 
-
+    const chatRef = useRef<HTMLDivElement | null>(null);
     const [isSidebarOpen, setisSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
-        setisSidebarOpen(!isSidebarOpen);
+        setisSidebarOpen(pre => !pre);
     };
+
+    useEffect(() => {
+        function handleClickOutSide(e: MouseEvent) {
+            if (chatRef.current && !chatRef.current.contains(e.target as Node)) {
+                setisSidebarOpen(false);
+            }
+        }
+
+        document.addEventListener('mouseup', handleClickOutSide);
+        return () => {
+            document.removeEventListener('mouseup', handleClickOutSide);
+        };
+    }, [])
+
     return (
-        <SidebarMenu isOpen={isSidebarOpen}>
+        <SidebarMenu isOpen={isSidebarOpen} ref={chatRef}>
             <SideBarButton isOpen={isSidebarOpen} onClick={toggleSidebar}>
                 {isSidebarOpen ? <FaAnglesRight /> : <GiHamburgerMenu />}
             </SideBarButton>
             <h2>Menu</h2>
             {linkData.map((data) => (
-                <Link to={data.path}>{data.value}</Link>
+                <Link to={data.path} onClick={toggleSidebar}>{data.value}</Link>
             ))}
         </SidebarMenu>
     )
