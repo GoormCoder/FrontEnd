@@ -67,11 +67,11 @@ const IDEPage = () => {
     const handleTimeUp = () => {
         if (buttonRef.current) {
             buttonRef.current.click();
-        }else{
+        } else {
             console.error('buttonRef.current is null')
         }
     };
-        
+
     const handleButtonClick = () => {
         alert('시간종료')
     };
@@ -93,7 +93,7 @@ const IDEPage = () => {
                     ></Editor>
                 </EditSection>
             </TopSection>
-            
+
             <BottomSection>
                 <LeftButton>
                     <BottomButton>테스트 케이스 추가</BottomButton>
