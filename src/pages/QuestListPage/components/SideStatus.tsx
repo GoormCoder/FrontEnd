@@ -1,19 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { getRecentSolveQuest, getUserName } from '../../../services/api/questAPI';
+import { getRecentSolveQuest } from '../../../services/api/questAPI';
+import { getUser } from '../../../services/api/userAPI';
 import { BsCheckLg, BsThreeDots } from "react-icons/bs";
 import { FaCircleQuestion } from "react-icons/fa6";
 import RankInfo from './RankInfo';
+import { User } from '../../ChatFriendPage/types';
 
 const SideStatus = () => {
-    const userName: string = getUserName();
-    const recentSolveQuest = getRecentSolveQuest(userName);
+    const user: User = getUser("51");
+    const recentSolveQuest = getRecentSolveQuest(user.id);
     const [rankInfoDisplay, setRankInfoDisplay] = useState<boolean>(false);
     return (
         <SideStatusContainer>
             <div className='user-status'>
                 <div>
-                    {userName}
+                    {user.name + `(${user.nick})`}
                 </div>
                 <FaCircleQuestion onClick={() => setRankInfoDisplay(pre => !pre)} />
                 <RankInfo rankInfoDisplay={rankInfoDisplay} setRankInfoDisplay={setRankInfoDisplay} />
@@ -29,8 +31,8 @@ const SideStatus = () => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>3,837위</td>
-                            <td>3,410점</td>
+                            <td>{user.overallRank}위</td>
+                            <td>{user.overallScore}점</td>
                             <td>140개</td>
                         </tr>
                     </tbody>

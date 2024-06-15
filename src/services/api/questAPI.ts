@@ -17,7 +17,7 @@ export function findAllQuest(): Quest[] {
 }
 
 // 임시 최근문제
-export function getRecentSolveQuest(userName: string): Quest[] {
+export function getRecentSolveQuest(id: string): Quest[] {
     return [
         { state: "T", title: '같은 숫자는 싫어', level: 'Lv. 1', correctPeople: 10, accuracy: '90%' },
         { state: "T", title: '기능개발', level: 'Lv. 2', correctPeople: 48, accuracy: '80%' },
@@ -29,10 +29,3 @@ export function getRecentSolveQuest(userName: string): Quest[] {
     ];
 }
 
-// 임시 유저 정보
-export function getUserName(): string {
-    const name = "최진수";
-    const nick = "구름코더";
-
-    return `${name}(${nick})`;
-}

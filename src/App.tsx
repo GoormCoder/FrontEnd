@@ -12,6 +12,7 @@ import BattlePage from './pages/BattlePage/BattlePage';
 import ChangePwPage from './pages/ChangePwPage/ChangePwPage';
 import BoardPage from './pages/BoardPage/BoardPage';
 import Header from './components/Header/Header';
+import ChatIcon from './components/ChatIcon/ChatIcon';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/changepw" element={<ChangePwPage />} />
         <Route path="/board" element={<BoardPage />} />
       </Routes>
+      <ChatIcon />
     </div>
   );
 }
