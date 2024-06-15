@@ -32,8 +32,11 @@ export interface DisplayAndOpacityProps extends DisplayProps {
     opacity: boolean;
 }
 
+export interface SetPageProps {
+    setPage: (page: string) => void;
+}
 
-export interface FriendDataProps {
+export interface FriendDataProps extends SetPageProps {
     userID: UserID
     setDisplay: (isOpened: boolean) => void;
 }

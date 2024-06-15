@@ -19,7 +19,7 @@ const ChatFriendPage = () => {
         <ChatFriendContainer>
             <Title>{currentPage}</Title>
             <FriendListContainer display={display}>
-                <FriendList />
+                <FriendList setPage={setPage} />
             </FriendListContainer>
             <ChatListContainer display={!display}>
                 <ChatList />
@@ -38,7 +38,7 @@ const ChatFriendContainer = styled.div`
     display: flex;
     position: relative;
     flex-direction: column;
-    border: 1px solid black;
+    border: 1px solid lightgray;
     border-radius: 20px;
     width: 330px;
     height: 570px;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { BsChevronLeft } from "react-icons/bs";
-import { ChatRoomDataProps, FriendDataProps } from '../types';
+import { ChatRoomDataProps } from '../types';
 import styled from 'styled-components';
 const Chat: React.FC<ChatRoomDataProps> = ({ chatRoomData, setDisplay }) => {
     return (
