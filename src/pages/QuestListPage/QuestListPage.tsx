@@ -1,19 +1,20 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 import { IoSearch } from "react-icons/io5";
 
-import { Quest, SearchOptionBoxes, Tag } from './types';
+import { Quest, Tag } from './types';
+import { OptionBoxes } from '../../components/OptionBox/types';
 import { findAllQuest } from '../../services/api/questAPI';
-
-import SearchOptionBox from './components/SearchOptionBox';
+import OptionBox from '../../components/OptionBox/OptionBox';
 import QuestList from './components/QuestList';
 import TagBox from './components/TagBox';
 
 import styled from 'styled-components'
 import SideStatus from './components/SideStatus';
 
+
 const QuestListPage = () => {
     const questList: Quest[] = findAllQuest();
-    const searchOptionBoxes = Object.values(SearchOptionBoxes);
+    const searchOptionBoxes = Object.values(OptionBoxes);
 
     const [searchText, setSearchText] = useState<string>("");
     const [tagList, setTagList] = useState<Tag[]>([]);
@@ -79,7 +80,7 @@ const QuestListPage = () => {
                     </SearchFrom>
                     <div className="search-select">
                         {searchOptionBoxes.map((type) => (
-                            <SearchOptionBox boxType={type} setTag={setTag} />
+                            <OptionBox boxType={type} setValue={setTag} />
                         ))}
 
                     </div>

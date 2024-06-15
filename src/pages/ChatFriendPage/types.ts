@@ -10,8 +10,8 @@ export type User = {
     praiseScore: number;
     solveRank: number;
     solveScore: number;
-    fightRank: number;
-    fightScore: number;
+    battleRank: number;
+    battleScore: number;
 }
 
 export type IDName = {

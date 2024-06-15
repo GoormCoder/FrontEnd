@@ -29,7 +29,7 @@ const ChatContainer = styled.div`
     align-items: end;
     gap: 10px;
     position: fixed;
-    bottom: 60px;
+    bottom: 40px;
     right: 60px;
 `
 
@@ -41,8 +41,6 @@ const ChatIconContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    border: 1px solid black;
     border-radius: 50%;
     background-color: lightgreen;
     width: 60px;
