@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { getUserName } from '../../../services/api/questAPI';
+import { getRecentSolveQuest, getUserName } from '../../../services/api/questAPI';
 import { BsCheckLg, BsThreeDots } from "react-icons/bs";
+import { FaCircleQuestion } from "react-icons/fa6";
+import RankInfo from './RankInfo';
 
 const SideStatus = () => {
     const userName: string = getUserName();
+    const recentSolveQuest = getRecentSolveQuest(userName);
+    const [rankInfoDisplay, setRankInfoDisplay] = useState<boolean>(false);
     return (
         <SideStatusContainer>
             <div className='user-status'>
-                {userName}
+                <div>
+                    {userName}
+                </div>
+                <FaCircleQuestion onClick={() => setRankInfoDisplay(pre => !pre)} />
+                <RankInfo rankInfoDisplay={rankInfoDisplay} setRankInfoDisplay={setRankInfoDisplay} />
             </div>
             <div className='quest-status'>
                 <table>
@@ -38,10 +46,18 @@ const SideStatus = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><BsCheckLg /></td>
-                            <td>같은 숫자는 싫어</td>
-                        </tr>
+                        {recentSolveQuest.map((row, index) => (
+                            <tr key={index}>
+                                <td>
+                                    {row.state ?
+                                        <>
+                                            {row.state == "T" ? <BsCheckLg /> : <BsThreeDots />}
+                                        </>
+                                        : ''}
+                                </td>
+                                <td style={{ textAlign: "left", cursor: "pointer" }}>{row.title}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
@@ -55,15 +71,35 @@ const SideStatusContainer = styled.div`
     border: 1px solid lightgray;
     border-radius: 10px;
     background-color: white;
-    width: 18%;
-    height: 725px;
+    width: 310px;
+    height: fit-content;
+    /* height: 725px; */
+    @media only screen and (max-width: 430px) {
+        width: 90%;
+        height: fit-content;
+        & .recent-quest {
+            display: none;
+        }
+    }
 
     & .user-status{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         padding: 20px 20px 0px 20px;
         font-size: 20px;
         font-weight: bold;
         color: #003369;
         
+        & svg {
+            font-size: 18px;
+            color: lightgray;
+            cursor: pointer;
+            :hover {
+                color:gray;
+            }
+        }
     }
 
     & .quest-status{
@@ -104,7 +140,7 @@ const SideStatusContainer = styled.div`
             width: 100%;
             border: 1px solid lightgray;
             text-align: center;
-            margin-top: 10px;
+            margin: 10px 0px 25px 0px;
         }
 
         th {

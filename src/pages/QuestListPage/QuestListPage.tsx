@@ -15,9 +15,6 @@ const QuestListPage = () => {
     const questList: Quest[] = findAllQuest();
     const searchOptionBoxes = Object.values(SearchOptionBoxes);
 
-
-
-
     const [searchText, setSearchText] = useState<string>("");
     const [tagList, setTagList] = useState<Tag[]>([]);
     const [levelList, setLevelList] = useState<string[]>([]);
@@ -104,16 +101,25 @@ const QuestListContainer = styled.div`
     gap: 50px;
     width: 100%;
     margin: 60px 0px 80px 0px;
+
+    @media only screen and (max-width: 430px) {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 15px;
+    }
 `
 const SearchAndListContainer = styled.div`
-    width: 45%;
+    width: 770px;
+    @media only screen and (max-width: 430px) {
+        width: 90%;
+    }
 `
 
 const SearchContainer = styled.div`
     & .search-select {
         display: flex;
         justify-content: space-between;
-
+        width: 100%;
     }
 `
 

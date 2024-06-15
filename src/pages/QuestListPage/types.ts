@@ -34,6 +34,11 @@ export interface TagBoxProps {
     removeTag: (tagValue: string) => void;
 }
 
+export interface RnakInfoProps {
+    rankInfoDisplay: boolean;
+    setRankInfoDisplay?: (isOpend: boolean) => void
+}
+
 // enum
 export enum SearchOptionBoxes {
     STATE = "상태",
@@ -48,9 +53,9 @@ export enum OptionByStatus {
 }
 
 export enum OptionByLevel {
-    LEVEL_1 = "Level 1",
-    LEVEL_2 = "Level 2",
-    LEVEL_3 = "Level 3"
+    LEVEL_1 = "Lv. 1",
+    LEVEL_2 = "Lv. 2",
+    LEVEL_3 = "Lv. 3"
 }
 
 export enum OptionByLan {
