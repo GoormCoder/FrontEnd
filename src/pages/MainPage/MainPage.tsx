@@ -2,52 +2,53 @@ import React from 'react'
 import styled from 'styled-components'
 import Header from '../../components/Header/Header';
 import mainlogo from '../../assets/mainpage_logo.png'
+import { Link } from 'react-router-dom';
 
 const MainBackground = styled.div`
-    background-color: #ffffff;
-    height: 100vh;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 100px;
+    background-color: #ffffff;
+    height: 100vh;
+    z-index: 30;
 `;
 const NewMainpageLogo = styled.div`
     display: flex;
     justify-content: center; /* 가로 중앙 정렬 */
     align-items: center; /* 세로 중앙 정렬 */
-    width: 900px;
-    margin-top: 150px;
-    margin-bottom: 100px;
-    font-size: 150px;
+    width: 1100px;
+    font-size: 200px;
     color: #49aaffe4;
     font-family: "cheesecake", sans-serif;
     font-weight: 900;   
     font-style: normal;
 `;
-const StartButton = styled.button`
+const StartButton = styled(Link)`
     display: flex;
     align-items: center;
     justify-content: center; 
     width: 500px;
     height: 170px;
-    margin-top: 100px;
-    background-color: #D9D9D9;
+    background-color: #0055b0;
+    color: #ffffff;
     border: none;
     border-radius: 10px;
-    font-size: 36px;
+    font-size: 45px;
+    font-weight: 900;
+    text-decoration: none;
 `;
 
 const MainPage = () => {
     return (
-        <>
-            <Header />
-            <MainBackground>
-                <NewMainpageLogo>Goorm Coder</NewMainpageLogo>
-                <StartButton>
-                    {/* 연결 링크는 변경되어야 함 */}
-                    <a href='/ide' text-decoration-line='none'>시작하기</a>
-                </StartButton>
-            </MainBackground>
-        </>
+        <MainBackground>
+            <NewMainpageLogo>Goorm Coder</NewMainpageLogo>
+            <StartButton to="/login">
+                시작하기
+            </StartButton>
+        </MainBackground>
     )
 }
 

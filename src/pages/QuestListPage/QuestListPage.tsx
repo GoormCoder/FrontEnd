@@ -101,7 +101,7 @@ const QuestListContainer = styled.div`
     justify-content: center;
     gap: 50px;
     width: 100%;
-    margin: 60px 0px 80px 0px;
+    margin: 100px 0px 80px 0px;
 
     @media only screen and (max-width: 430px) {
         flex-direction: column-reverse;
