@@ -42,9 +42,10 @@ const ChatIconContainer = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background-color: lightgreen;
+    background-color: #49aaffe4;
     width: 60px;
     height: 60px;
+    color: white;
     font-size: 30px;
     cursor: pointer;
 `
