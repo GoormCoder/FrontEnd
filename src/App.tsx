@@ -13,6 +13,8 @@ import ChangePwPage from './pages/ChangePwPage/ChangePwPage';
 import BoardPage from './pages/BoardPage/BoardPage';
 import Header from './components/Header/Header';
 import ChatIcon from './components/ChatIcon/ChatIcon';
+import FindIdPage from './pages/FindIdPage/FindIdPage';
+import FindPwPage from './pages/FindPwPage/FindPwPage';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path="/battle" element={<BattlePage />} />
         <Route path="/changepw" element={<ChangePwPage />} />
         <Route path="/board" element={<BoardPage />} />
+        <Route path="/findId" element={<FindIdPage />} />
+        <Route path="/findPw" element={<FindPwPage />} />
       </Routes>
       <ChatIcon />
     </div>
