@@ -9,7 +9,7 @@ import { getUserBattleData } from '../../services/api/battleAPI'
 const BattlePage = () => {
 
     const userID = getUserID("51");
-    const userBattleData = getUserBattleData(userID.id);
+    const userBattleData = getUserBattleData(userID.userID);
     const tierImagePath = require(`../../assets/tier/${userBattleData.tier}_tier.png`);
     const searchOptionBoxes = Object.values(OptionBoxes).slice(1, 3);
     const setValue = (type: string, checked: boolean, value: string) => {

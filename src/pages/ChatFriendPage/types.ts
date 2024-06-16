@@ -14,16 +14,27 @@ export type User = {
     battleScore: number;
 }
 
-export type IDName = {
-    id: string;
+export type ChatData = {
+    userID: string;
+    message: string;
+    time: string;
+}
+
+// Interface
+
+export interface UserID {
+    userID: string;
     userName: string;
 }
 
-export type UserID = IDName
+export interface ChatRoom extends UserID {
+    chatRoomID: string;
+}
 
-export type ChatRoom = IDName
+export interface ChatDataProps {
+    chatData: ChatData;
+}
 
-// Interface
 export interface DisplayProps {
     display: boolean;
 }
@@ -32,8 +43,11 @@ export interface DisplayAndOpacityProps extends DisplayProps {
     opacity: boolean;
 }
 
+export interface SetPageProps {
+    setPage: (page: string) => void;
+}
 
-export interface FriendDataProps {
+export interface FriendDataProps extends SetPageProps {
     userID: UserID
     setDisplay: (isOpened: boolean) => void;
 }

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import Friend from './Friend'
 import styled from 'styled-components'
-import { DisplayProps, User, UserID } from '../types'
-import { getFriendsID } from '../../../services/api/chatFriendAPI'
+import { DisplayProps, SetPageProps, User, UserID } from '../types'
+import { getFriendsID } from '../../../services/api/friendAPI'
 import { getUser, getUserID } from '../../../services/api/userAPI'
 
-const FriendList = () => {
+const FriendList: React.FC<SetPageProps> = ({ setPage }) => {
     const user = getUser("51")
     const friends = getFriendsID(user.id)
     const littleFriends = friends.slice(0, 5);
@@ -27,9 +27,8 @@ const FriendList = () => {
                 ))}
             </List>
             <FriendContainer display={display}>
-                <Friend userID={friendID} setDisplay={setDisplay} />
+                <Friend userID={friendID} setDisplay={setDisplay} setPage={setPage} />
             </FriendContainer>
-
         </FriendListContainer>
     )
 }
@@ -41,10 +40,14 @@ const FriendListContainer = styled.div`
     overflow: auto;
 `
 const List = styled.div`
-    
+    & :hover {
+        background-color: whitesmoke;
+    }
 `
 
 const FriendContent = styled.div`
+    padding: 20px;
+    border-bottom: 1px solid;
     cursor: pointer;
 `
 

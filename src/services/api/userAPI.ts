@@ -12,7 +12,7 @@ export function getUserID(userId: string): UserID {
     const userData: User = dummyUsers.filter(user => {
         return user.id === userId;
     })[0]
-    return ({ id: userData.id, userName: userData.name + `(${userData.nick})` })
+    return ({ userID: userData.id, userName: userData.name + `(${userData.nick})` })
 }
 
 export const dummyUsers: User[] = [
