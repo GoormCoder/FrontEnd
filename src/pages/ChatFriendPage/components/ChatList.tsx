@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ChatRoom, DisplayProps, User } from '../types'
 import Chat from './Chat'
-import { getChatRooms } from '../../../services/api/chatFriendAPI'
+import { getChatRooms } from '../../../services/api/chatAPI'
 import { getUserID } from '../../../services/api/userAPI'
 
 const ChatList = () => {
     const userID = getUserID("51");
-    const chatRooms = getChatRooms(userID.id);
+    const chatRooms = getChatRooms(userID.userID);
     const [roomData, setRoomData] = useState<ChatRoom>(chatRooms[0]);
     const [display, setDisplay] = useState<boolean>(false);
     const setChatDetail = (room: ChatRoom) => {
@@ -33,13 +33,18 @@ const ChatList = () => {
 export default ChatList
 
 const ChatListContainer = styled.div`
-    
+    height: 100%;
+    overflow: auto;
 `
 const List = styled.div`
-    
+    & :hover {
+        background-color: whitesmoke;
+    }
 `
 
 const ChatContent = styled.div`
+    padding: 20px;
+    border-bottom: 1px solid;
     cursor: pointer;
 `
 

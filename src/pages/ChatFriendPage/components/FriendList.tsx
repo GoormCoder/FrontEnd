@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Friend from './Friend'
 import styled from 'styled-components'
 import { DisplayProps, SetPageProps, User, UserID } from '../types'
-import { getFriendsID } from '../../../services/api/chatFriendAPI'
+import { getFriendsID } from '../../../services/api/friendAPI'
 import { getUser, getUserID } from '../../../services/api/userAPI'
 
 const FriendList: React.FC<SetPageProps> = ({ setPage }) => {

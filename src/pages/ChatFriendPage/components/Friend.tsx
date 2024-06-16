@@ -1,20 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CurrentPage, DisplayProps, FriendDataProps } from '../types'
 import { BsChevronLeft, BsChatDotsFill } from "react-icons/bs";
 import { IoMdCloseCircle } from "react-icons/io";
 import styled from 'styled-components';
 import { getUser } from '../../../services/api/userAPI';
 import Chat from './Chat';
+import CheckModal from '../../../components/Modal/CheckModal';
+import { CheckModalContainer, ModalText } from '../../../components/Modal/types';
 const Friend: React.FC<FriendDataProps> = ({ userID, setDisplay, setPage }) => {
 
-    const user = getUser(userID.id)
+    const user = getUser(userID.userID)
     const [chatDisplay, setChatDisplay] = useState<boolean>(false);
+    const [modalDisplay, setModalDisplay] = useState<boolean>(false);
+    const [modalValue, setModalValue] = useState<boolean | null>()
 
     const setAllClose = () => {
         setChatDisplay(false);
         setDisplay(false);
         setPage(CurrentPage.CHAT_LIST)
     }
+
+    useEffect(() => {
+        setModalValue(null);
+        setModalDisplay(false)
+    }, [modalValue])
 
     return (
         <FriendContainer>
@@ -30,14 +39,17 @@ const Friend: React.FC<FriendDataProps> = ({ userID, setDisplay, setPage }) => {
                     <BsChatDotsFill />
                     <div>1:1채팅</div>
                 </div>
-                <div className='delete btn'>
+                <div className='delete btn' onClick={() => setModalDisplay(pre => !pre)}>
                     <IoMdCloseCircle />
                     <div>친구삭제</div>
                 </div>
             </ButtonContainer>
             <ChatContainer display={chatDisplay}>
-                <Chat chatRoomData={{ id: "", userName: user.name }} setDisplay={setAllClose} />
+                <Chat chatRoomData={{ userID: userID.userID, userName: user.name, chatRoomID: "" }} setDisplay={setAllClose} />
             </ChatContainer>
+            <CheckModalContainer display={modalDisplay}>
+                <CheckModal textType={ModalText.DELETE} setValue={setModalValue} />
+            </CheckModalContainer>
         </FriendContainer>
     )
 }
