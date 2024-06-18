@@ -7,6 +7,14 @@ export type Quest = {
     accuracy: string
 };
 
+export type QuestTest = {
+    num: number | null,
+    title: string | null,
+    level: number | null,
+    solved: number | null,
+    accuracy: number | null
+};
+
 export type Tag = string;
 
 // Interface
