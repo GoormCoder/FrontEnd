@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import MainPage from './pages/MainPage/MainPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import JoinPage from './pages/JoinPage/JoinPage';
@@ -15,9 +15,11 @@ import Header from './components/Header/Header';
 import ChatIcon from './components/ChatIcon/ChatIcon';
 
 function App() {
+  const location = useLocation();
+  const hideHeaderRoutes = ['/ide'];
   return (
     <div>
-      <Header />
+      {!hideHeaderRoutes.includes(location.pathname) && <Header />}
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />

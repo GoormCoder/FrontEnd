@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import CodeEditor from '../../components/Editor/Editor'
 import { Editor } from '@monaco-editor/react'
 import Timer from '../../components/Timer/Timer'
-import { error } from 'console'
+import dummy from './dummy.json'
+
 
 interface BottomButtonProps {
     isSubmit?: boolean;
@@ -51,6 +52,7 @@ const ProblemTitle = styled.div`
 `;
 const ProblemDetail = styled.div`
     height: auto;
+    color: #b2c0cc;
 `;
 
 
@@ -80,9 +82,9 @@ const IDEPage = () => {
             <TopSection>
                 <ProblemSection>
                     <ProblemTitle>문제 설명</ProblemTitle>
-                    <ProblemDetail>설명~~~~~~~~~~~~~~₩내용</ProblemDetail>
+                    <ProblemDetail>{dummy.title}</ProblemDetail>
                     <ProblemTitle>입출력 예</ProblemTitle>
-                    <ProblemDetail>설명~~~~~~~~~~~~~~₩내용</ProblemDetail>
+                    <ProblemDetail>{dummy.description}</ProblemDetail>
                 </ProblemSection>
                 <EditSection>
                     <Timer onTimeUp={handleTimeUp}></Timer>
