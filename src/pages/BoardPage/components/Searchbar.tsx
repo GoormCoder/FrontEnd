@@ -1,11 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IoMdSearch } from "react-icons/io";
+import { IoSearch } from "react-icons/io5";
 
 
-const SearchBarContainer = styled.div`
-    margin: 20px 0;
-    text-align: center;   
+const SearchBarContainer = styled.form`
+    display: flex;
+    position: relative;
+    align-items: center;
+
+    & input {
+        width: 100%;
+        height: 45px;
+        font-size: 16px;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        padding-left: 15px;
+        cursor: text;
+    }
+
+    & input:hover {
+        border: 2px solid #003369;
+    }
+
+    & ::placeholder {
+        color: lightgray;
+    }
+
+    & button {
+        position: absolute;
+        right: 2px;
+        width: 5%;
+        height: 40px;
+        font-size: 25px;
+        background-color: white;
+        border-style: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }   
 `;
 interface SearchbarProps {
     searchQuery: string;
@@ -15,18 +46,15 @@ interface SearchbarProps {
 const Searchbar: React.FC<SearchbarProps> = ({ searchQuery, setSearchQuery }) => {
     return (
     <SearchBarContainer>
-        <h2> Board</h2>
         <input 
-            type="text" 
+            type="search" 
             value={searchQuery} 
             onChange={(e) => setSearchQuery(e.target.value)} 
-            placeholder="Search posts..."
+            placeholder="검색하고 싶은 게시글 검색"
         />
-        <input type='submit' value='검색'></input>
-        {/* 검색버튼 둘중하나 정해서 쓰기 */}
         <button
             type="submit"
-        ><IoMdSearch />
+        ><IoSearch />
         </button>    
     </SearchBarContainer>
     );    
