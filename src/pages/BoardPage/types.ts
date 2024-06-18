@@ -4,3 +4,6 @@ export interface Post {
     Likes: number;
     Date: string;
 };
+export interface PostListProps {
+    posts: Post[];
+}

@@ -3,24 +3,19 @@ import Searchbar from './components/Searchbar';
 import styled from 'styled-components';
 import dummy from './dummy.json';
 import dummy2 from './dummy2.json';
-import PostItem from './components/Post';
+import PostList from './components/PostList';
 import Pagination from './components/pagination';
 import BoardTabs from './components/BoardTab';
-import { Post } from './types';
+import { Post, PostListProps } from './types';
 
 
 const BoardContainer = styled.div`
     display: flex;
     flex-direction: column;
-    
-    border: 1px solid #292929;
-    border-radius: 5px;
-    padding: 20px;
-    margin-top: 20px;
-`;
-
-const PostList = styled.div`
-    margin-top: 20px;
+    justify-content: center;
+    gap: 50px;
+    width: 100%;
+    margin: 100px 0px 80px 0px;
 `;
 
 const BoardPage: React.FC = () => {
@@ -46,19 +41,9 @@ const BoardPage: React.FC = () => {
 
     return (
         <BoardContainer>
-            <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <BoardTabs selectedTab={selectedTab} setSelectedTab={setselectedTab} />
-            <PostList>
-                {currentPosts.map((post, index) => (
-                    <PostItem 
-                        key={index}
-                        title={post.Title}
-                        author={post.Author}
-                        likes={post.Likes}
-                        date={post.Date}
-                    />
-                ))}
-            </PostList>
+            <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <PostList posts={currentPosts} />
             <Pagination
                 totalPosts={filteredPosts.length}
                 postsPerPage={postsPerPage}
