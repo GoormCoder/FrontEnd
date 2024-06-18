@@ -57,7 +57,7 @@ function JoinPage() {
             return alert('비밀번호는 최소 6자리 이상이어야 합니다.');
         }
 
-        axiosInstance.get(`/users/id-duplicated/${UserId}`)
+        axiosInstance.get(`/members/id-duplicated/${UserId}`)
             .then(response => {
                 if (response.data) {
                     return alert('이미 존재하는 아이디입니다!!');
@@ -72,7 +72,7 @@ function JoinPage() {
                         address: Address,
                     }
 
-                    axiosInstance.post('/users/join', body)
+                    axiosInstance.post('/members/join', body)
                         .then(response => {
                             if (response.data) {
                                 setShowSuccessAlert(true);
