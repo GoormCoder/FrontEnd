@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { ModalProps } from './types'
 
-const CheckModal: React.FC<ModalProps> = ({ width, height, textType, setValue }) => {
+const CheckModal: React.FC<ModalProps> = ({ width, height, text, textType, setValue }) => {
     return (
         <CheckModalContainer>
             <CheckModalContent width={width} height={height}>
-                <div className='text'>{textType}</div>
+                <div className='text'>{text}님을<br />{textType}</div>
                 <div className='modal-btn'>
                     <button className='ok' onClick={() => setValue(true)}>확인</button>
                     <button className='no' onClick={() => setValue(false)}>취소</button>
@@ -24,7 +24,6 @@ const CheckModalContainer = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #d3d3d377;
     width: 100%;
     height: 100%;
     border-radius: 20px;
@@ -46,6 +45,7 @@ const CheckModalContent = styled.div<{ width?: number, height?: number }>`
         height: 75%;
         font-size: 20px;
         font-weight: bold;
+        text-align: center
     }
 
     & .modal-btn {

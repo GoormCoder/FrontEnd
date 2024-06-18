@@ -61,6 +61,8 @@ export interface ChatRoomDataProps {
 export enum CurrentPage {
     FRIEND_LIST = "친구",
     FRIEND_DETAIL = "친구상세",
+    FRIEND_ADD = "친구추가",
+    FRIEND_ADD_DETAIL = "친구추가상세",
     CHAT_LIST = "채팅",
     CHAT_DETAIL = "채팅상세"
 }
