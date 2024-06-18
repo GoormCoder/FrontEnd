@@ -1,4 +1,26 @@
-import { Quest } from "../../pages/QuestListPage/types";
+import axios from "./axios";
+import { Quest, QuestTest } from "../../pages/QuestListPage/types";
+
+
+
+// 문제 전체 조회
+export async function findAll(): Promise<QuestTest[]> {
+    try {
+        // axios로 데이터 가져오기
+        const response = await axios.get("/questions/all");
+
+        // 실제 데이터 타입과 QuestTest 타입 매핑
+        const data: QuestTest[] = response.data;
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return [];
+    }
+}
+
+
+
 
 // 임시 문제 리스트
 export function findAllQuest(): Quest[] {
