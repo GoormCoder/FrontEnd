@@ -1,7 +1,7 @@
 import axiosInstance from '../axiosInstance';
 import React, { useState } from 'react';
 import { Container, Form, Title, Label, Input, Select, SubmitButton, LinksContainer, Link } from '../../components/PageStyle';
-import { useNavigate } from 'react-router-dom'; // useHistory import 추가
+import { useNavigate } from 'react-router-dom'; 
 
 
 function JoinPage() {
@@ -84,7 +84,11 @@ function JoinPage() {
                                 alert('Registration Failed');
                             }
                         }).catch(error => {
-                            alert('회원가입 중 오류 발생');
+                            if (error.response && error.response.data && error.response.data.message) {
+                                alert(error.response.data.message);
+                            } else {
+                                alert('회원가입 중 오류 발생');
+                            }
                             console.error('Error:', error);
                         });
                 }
