@@ -10,50 +10,47 @@ import {
     Link
 } from '../../components/PageStyle';
 
-function LoginPage() {
+function FindPwPage() {
+    const [Email, setEmail] = useState("");
     const [UserId, setUserId] = useState("");
-    const [Password, setPassword] = useState("");
 
+    const onEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.currentTarget.value);
+    }
     const onUserIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUserId(event.currentTarget.value);
     }
-
-    const onPasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.currentTarget.value);
-    }
-
     const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // 로그인 로직 처리
+        // 비밀번호 찾기 로직 구현
     }
 
     return (
         <Container>
             <Form onSubmit={onSubmitHandler}>
-                <Title>로그인</Title>
+                <Title>비밀번호 찾기</Title>
+                <Label>이메일</Label>
+                <Input
+                    type='email'
+                    value={Email}
+                    onChange={onEmailHandler}
+                />
                 <Label>아이디</Label>
                 <Input
                     type='text'
                     value={UserId}
                     onChange={onUserIdHandler}
                 />
-                <Label>비밀번호</Label>
-                <Input
-                    type='password'
-                    value={Password}
-                    onChange={onPasswordHandler}
-                />
-                <SubmitButton type='submit'>로그인</SubmitButton>
+                <br />
+                <SubmitButton type='submit'>비밀번호 찾기</SubmitButton>
                 <LinksContainer>
+                    <Link href="/login">로그인</Link>
                     <Link href="/findId">아이디 찾기</Link>
-                    <Link href="/findPw">비밀번호 찾기</Link>
                     <Link href="/join">회원가입</Link>
                 </LinksContainer>
             </Form>
         </Container>
-    );
+    )
 }
 
-export default LoginPage;
-
-
+export default FindPwPage;
