@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import MainPage from './pages/MainPage/MainPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import JoinPage from './pages/JoinPage/JoinPage';
@@ -17,9 +17,11 @@ import FindIdPage from './pages/FindIdPage/FindIdPage';
 import FindPwPage from './pages/FindPwPage/FindPwPage';
 
 function App() {
+  const location = useLocation();
+  const hideHeaderRoutes = ['/ide'];
   return (
     <div>
-      <Header />
+      {!hideHeaderRoutes.includes(location.pathname) && <Header />}
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
