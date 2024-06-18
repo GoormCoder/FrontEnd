@@ -1,31 +1,51 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { FaUserFriends } from "react-icons/fa";
+import { FaUserFriends, FaUserPlus } from "react-icons/fa";
 import { BsChatDotsFill } from "react-icons/bs";
 import ChatList from './components/ChatList';
 import FriendList from './components/FriendList';
 import { CurrentPage, DisplayProps } from './types';
+import FriendAdd from './components/FriendAdd';
 const ChatFriendPage = () => {
     const [currentPage, setCurrentPage] = useState<string>(CurrentPage.FRIEND_LIST)
-    const [display, setDisplay] = useState<boolean>(true);
+    const [friendDisplay, setFriendDisplay] = useState<boolean>(true);
+    const [addDisplay, setAddDisplay] = useState<boolean>(false);
+    const [chatDisplay, setChatDisplay] = useState<boolean>(false);
 
     const setPage = (page: string) => {
         setCurrentPage(page);
-        if (page === CurrentPage.FRIEND_LIST) setDisplay(true)
-        if (page === CurrentPage.CHAT_LIST) setDisplay(false)
+        if (page === CurrentPage.FRIEND_LIST) {
+            setFriendDisplay(true)
+            setChatDisplay(false)
+            setAddDisplay(false)
+        }
+        if (page === CurrentPage.CHAT_LIST) {
+            setChatDisplay(true)
+            setFriendDisplay(false)
+            setAddDisplay(false)
+        }
+        if (page === CurrentPage.FRIEND_ADD) {
+            setAddDisplay(true)
+            setChatDisplay(false)
+            setFriendDisplay(false)
+        }
     }
 
     return (
         <ChatFriendContainer>
             <Title>{currentPage}</Title>
-            <FriendListContainer display={display}>
+            <FriendListContainer display={friendDisplay}>
                 <FriendList setPage={setPage} />
             </FriendListContainer>
-            <ChatListContainer display={!display}>
+            <FriendAddContainer display={addDisplay}>
+                <FriendAdd setPage={setPage} />
+            </FriendAddContainer>
+            <ChatListContainer display={chatDisplay}>
                 <ChatList />
             </ChatListContainer>
             <NavigationBar>
                 <FaUserFriends onClick={() => { setPage(CurrentPage.FRIEND_LIST) }} />
+                <FaUserPlus onClick={() => { setPage(CurrentPage.FRIEND_ADD) }} />
                 <BsChatDotsFill onClick={() => { setPage(CurrentPage.CHAT_LIST) }} />
             </NavigationBar>
         </ChatFriendContainer>
@@ -55,6 +75,12 @@ const Title = styled.div`
 `
 
 const FriendListContainer = styled.div<DisplayProps>`
+    display: ${props => props.display ? "block" : "none"};
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 470px;
+`
+const FriendAddContainer = styled.div<DisplayProps>`
     display: ${props => props.display ? "block" : "none"};
     border-top: 1px solid black;
     border-bottom: 1px solid black;
