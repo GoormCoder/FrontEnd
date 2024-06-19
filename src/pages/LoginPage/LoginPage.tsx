@@ -61,6 +61,7 @@ function LoginPage() {
                 }, 2000); // 2초 후에 메시지 숨기기
             }
         } catch (error) {
+            setIsLoading(false);
             if (axios.isAxiosError(error)) {
                 if (error.response) {
                     // 서버에서 반환된 에러 메시지 사용
