@@ -32,7 +32,6 @@ function App() {
         <Route path="/battle" element={<BattlePage />} />
         <Route path="/changepw" element={<ChangePwPage />} />
         <Route path="/board" element={<BoardPage />} />
-        <Route path="/postwrite" element={<PostDetail />} />
       </Routes>
       <ChatIcon />
     </div>
