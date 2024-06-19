@@ -6,7 +6,7 @@ const CheckModal: React.FC<ModalProps> = ({ width, height, text, textType, setVa
     return (
         <CheckModalContainer>
             <CheckModalContent width={width} height={height}>
-                <div className='text'>{text}님을<br />{textType}</div>
+                <div className='text'>{text}<br />{textType}</div>
                 <div className='modal-btn'>
                     <button className='ok' onClick={() => setValue(true)}>확인</button>
                     <button className='no' onClick={() => setValue(false)}>취소</button>

@@ -26,9 +26,9 @@ export enum OptionByStatus {
 }
 
 export enum OptionByLevel {
-    LEVEL_1 = "Lv. 1",
-    LEVEL_2 = "Lv. 2",
-    LEVEL_3 = "Lv. 3"
+    LEVEL_1 = 1,
+    LEVEL_2 = 2,
+    LEVEL_3 = 3
 }
 
 export enum OptionByLan {

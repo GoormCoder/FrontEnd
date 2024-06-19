@@ -20,14 +20,32 @@ export type ChatData = {
     time: string;
 }
 
+export type Requester = {
+    requestId: number,
+    requester: {
+        id: number,
+        loginId: string,
+        nickname: string
+    }
+}
+
+export type FriendData = {
+    loginId: string;
+    name: string;
+    nickname: string;
+    email: string;
+    birth: Date;
+}
+
 // Interface
 
 export interface UserID {
-    userID: string;
-    userName: string;
+    loginId: string;
+    name: string;
+    nickname: String;
 }
 
-export interface ChatRoom extends UserID {
+export interface ChatRoomID extends UserID {
     chatRoomID: string;
 }
 
@@ -48,12 +66,12 @@ export interface SetPageProps {
 }
 
 export interface FriendDataProps extends SetPageProps {
-    userID: UserID
+    friendID: UserID
     setDisplay: (isOpened: boolean) => void;
 }
 
 export interface ChatRoomDataProps {
-    chatRoomData: ChatRoom
+    chatRoomData: ChatRoomID
     setDisplay: (isOpened: boolean) => void;
 }
 

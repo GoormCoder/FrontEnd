@@ -6,7 +6,7 @@ import { CheckModalContainer, ModalText } from '../../../components/Modal/types'
 import CheckModal from '../../../components/Modal/CheckModal';
 import MessageBox from './MessageBox';
 import { getChatData } from '../../../services/api/chatAPI';
-import { getUser } from '../../../services/api/userAPI';
+import { getUser } from '../../../services/api/memberAPI';
 const Chat: React.FC<ChatRoomDataProps> = ({ chatRoomData, setDisplay }) => {
 
     const [display, setLeaveDisplay] = useState<boolean>(false);
@@ -23,7 +23,7 @@ const Chat: React.FC<ChatRoomDataProps> = ({ chatRoomData, setDisplay }) => {
         setChatDatas(pre => [...pre, { userID: "51", message: message, time: "오후 11시40분" }])
         setMessage("");
         setTimeout(() => {
-            setChatDatas(pre => [...pre, { userID: "1", message: `안녕하세요 저는 ${getUser(chatRoomData.userID).name}입니다!`, time: "오후 11시41분" }])
+            setChatDatas(pre => [...pre, { userID: "1", message: `안녕하세요 저는 ${getUser(chatRoomData.loginId).name}입니다!`, time: "오후 11시41분" }])
         }, 2000)
     }
 
@@ -44,7 +44,7 @@ const Chat: React.FC<ChatRoomDataProps> = ({ chatRoomData, setDisplay }) => {
         <ChatContainer>
             <Title >
                 <BsChevronLeft onClick={() => setDisplay(false)} />
-                {`${chatRoomData.userName}`}
+                {`${chatRoomData.name}`}
 
                 <BsThreeDotsVertical onClick={() => { setLeaveDisplay(pre => !pre) }} />
             </Title>

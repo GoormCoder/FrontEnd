@@ -20,6 +20,7 @@ const HeaderContainer = styled.div`
 
 const LeftSection = styled(Link)`
     display: flex;
+    width: fit-content;
     align-items: center;
     margin-left: 80px;
     gap: 10px;

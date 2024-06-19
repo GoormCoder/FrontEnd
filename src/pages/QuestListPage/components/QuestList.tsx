@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Quest, QuestListProps } from '../types'
 import { BsCheckLg, BsThreeDots, BsChevronBarLeft, BsChevronBarRight, BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { useAppSelector } from '../../../hooks/reduxHooks';
+import { Link } from 'react-router-dom';
 
 
 const numbers = [1, 2, 3, 4]
 
-const QuestList: React.FC<QuestListProps> = ({ searchResult }) => {
+const QuestList = () => {
+    const { searchResult } = useAppSelector(state => state.quest);
     return (
         <>
             <QuestListContainer>
@@ -21,8 +23,8 @@ const QuestList: React.FC<QuestListProps> = ({ searchResult }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {searchResult.map((row, index) => (
-                            <tr key={index}>
+                        {searchResult.map((row) => (
+                            <tr key={row.id}>
                                 <td style={{ textAlign: 'center' }}>
                                     {row.state ?
                                         <>
@@ -30,11 +32,18 @@ const QuestList: React.FC<QuestListProps> = ({ searchResult }) => {
                                         </>
                                         : ''}
                                 </td>
-                                <td style={{ textAlign: 'left', fontWeight: "bold", cursor: "pointer" }}>{row.title}</td>
+
+                                <td style={{ textAlign: 'left', fontWeight: "bold" }}>
+                                    <Link to={`/quest/${row.id}`}>
+                                        {row.title}
+                                    </Link>
+                                </td>
+
                                 <td style={{ textAlign: 'center', fontWeight: "bold" }}>{row.level}</td>
-                                <td style={{ textAlign: 'center' }}>{row.correctPeople}</td>
+                                <td style={{ textAlign: 'center' }}>{row.solved}</td>
                                 <td style={{ textAlign: 'center' }}>{row.accuracy}</td>
                             </tr>
+
                         ))}
                     </tbody>
                 </table>
@@ -66,7 +75,7 @@ const QuestListContainer = styled.div`
     }
 
     th, td {
-        border: none; /* 세로줄 제거 */
+        border: none;
         padding: 8px;
     }
 
@@ -92,6 +101,12 @@ const QuestListContainer = styled.div`
 
     svg {
         color: #238dff;
+    }
+
+    a{  
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
     }
 `
 

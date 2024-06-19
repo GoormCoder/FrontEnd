@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { FaUserFriends, FaUserPlus } from "react-icons/fa";
 import { BsChatDotsFill } from "react-icons/bs";
@@ -6,7 +6,11 @@ import ChatList from './components/ChatList';
 import FriendList from './components/FriendList';
 import { CurrentPage, DisplayProps } from './types';
 import FriendAdd from './components/FriendAdd';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import { setMemberIdEmpty, setSearchText } from '../../store/slices/memberSlice';
+import { findAllFriendRequest, findAllFriends } from '../../store/slices/friendSlice';
 const ChatFriendPage = () => {
+    const dispatch = useAppDispatch();
     const [currentPage, setCurrentPage] = useState<string>(CurrentPage.FRIEND_LIST)
     const [friendDisplay, setFriendDisplay] = useState<boolean>(true);
     const [addDisplay, setAddDisplay] = useState<boolean>(false);
@@ -30,6 +34,26 @@ const ChatFriendPage = () => {
             setFriendDisplay(false)
         }
     }
+
+    // 채팅방 불러오는 로직
+    useEffect(() => {
+        // if (chatDisplay) dispatch(findAllChatRoom());
+
+    }, [chatDisplay])
+
+    useEffect(() => {
+        if (addDisplay) {
+            dispatch(setSearchText(''))
+            dispatch(setMemberIdEmpty());
+            dispatch(findAllFriendRequest("user4"))
+        }
+    }, [addDisplay])
+
+    useEffect(() => {
+        if (friendDisplay) {
+            dispatch(findAllFriends("user4"))
+        }
+    }, [friendDisplay]);
 
     return (
         <ChatFriendContainer>

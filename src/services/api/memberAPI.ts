@@ -1,4 +1,18 @@
+import axios from "./axios";
 import { User, UserID } from "../../pages/ChatFriendPage/types";
+
+
+export function findAllMemberByKeywordApi(keyword: string): Promise<UserID[]> {
+    return axios.get(`/members/${keyword}`)
+        .then(res => {
+            const data: UserID[] = res.data
+            return data;
+        })
+        .catch(err => {
+            console.error("Error fetching data:", err);
+            return [];
+        });
+}
 
 // 임시 유저 정보
 export function getUser(userId: string): User {
@@ -12,7 +26,7 @@ export function getUserID(userId: string): UserID {
     const userData: User = dummyUsers.filter(user => {
         return user.id === userId;
     })[0]
-    return ({ userID: userData.id, userName: userData.name + `(${userData.nick})` })
+    return ({ loginId: userData.id, name: userData.name + `(${userData.nick})`, nickname: userData.nick })
 }
 
 export const dummyUsers: User[] = [

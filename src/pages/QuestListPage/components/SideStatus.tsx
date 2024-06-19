@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { getRecentSolveQuest } from '../../../services/api/questAPI';
-import { getUser } from '../../../services/api/userAPI';
+import { getUser } from '../../../services/api/memberAPI';
 import { BsCheckLg, BsThreeDots } from "react-icons/bs";
 import { FaCircleQuestion } from "react-icons/fa6";
 import RankInfo from './RankInfo';
@@ -9,7 +8,6 @@ import { User } from '../../ChatFriendPage/types';
 
 const SideStatus = () => {
     const user: User = getUser("51");
-    const recentSolveQuest = getRecentSolveQuest(user.id);
     const [rankInfoDisplay, setRankInfoDisplay] = useState<boolean>(false);
     return (
         <SideStatusContainer>
@@ -48,7 +46,7 @@ const SideStatus = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {recentSolveQuest.map((row, index) => (
+                        {/* {recentSolveQuest.map((row, index) => (
                             <tr key={index}>
                                 <td>
                                     {row.state ?
@@ -59,7 +57,7 @@ const SideStatus = () => {
                                 </td>
                                 <td style={{ textAlign: "left", cursor: "pointer" }}>{row.title}</td>
                             </tr>
-                        ))}
+                        ))} */}
                     </tbody>
                 </table>
             </div>

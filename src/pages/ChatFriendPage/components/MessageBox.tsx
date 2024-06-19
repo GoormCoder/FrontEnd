@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getUser } from '../../../services/api/userAPI'
+import { getUser } from '../../../services/api/memberAPI'
 import { ChatDataProps } from '../types';
 
 const MessageBox: React.FC<ChatDataProps> = ({ chatData }) => {
