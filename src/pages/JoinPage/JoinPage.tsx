@@ -1,7 +1,7 @@
 import axiosInstance from '../axiosInstance';
 import React, { useState } from 'react';
 import { Container, Form, Title, Label, Input, Select, SubmitButton, LinksContainer, Link } from '../../components/PageStyle';
-import { useNavigate } from 'react-router-dom'; // useHistory import 추가
+import { useNavigate } from 'react-router-dom'; 
 
 
 function JoinPage() {
@@ -57,7 +57,7 @@ function JoinPage() {
             return alert('비밀번호는 최소 6자리 이상이어야 합니다.');
         }
 
-        axiosInstance.get(`/users/id-duplicated/${UserId}`)
+        axiosInstance.get(`/members/id-duplicated/${UserId}`)
             .then(response => {
                 if (response.data) {
                     return alert('이미 존재하는 아이디입니다!!');
@@ -72,7 +72,7 @@ function JoinPage() {
                         address: Address,
                     }
 
-                    axiosInstance.post('/users/join', body)
+                    axiosInstance.post('/members/join', body)
                         .then(response => {
                             if (response.data) {
                                 setShowSuccessAlert(true);
@@ -84,7 +84,11 @@ function JoinPage() {
                                 alert('Registration Failed');
                             }
                         }).catch(error => {
-                            alert('회원가입 중 오류 발생');
+                            if (error.response && error.response.data && error.response.data.message) {
+                                alert(error.response.data.message);
+                            } else {
+                                alert('회원가입 중 오류 발생');
+                            }
                             console.error('Error:', error);
                         });
                 }
