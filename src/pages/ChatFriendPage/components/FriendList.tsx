@@ -1,33 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Friend from './Friend'
 import styled from 'styled-components'
-import { DisplayProps, SetPageProps, User, UserID } from '../types'
-import { getFriendsID } from '../../../services/api/friendAPI'
-import { getUser, getUserID } from '../../../services/api/userAPI'
+import { DisplayProps, FriendData, SetPageProps, User, UserID } from '../types'
+import { getUser } from '../../../services/api/memberAPI'
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks'
+import { setFriend } from '../../../store/slices/friendSlice'
 
 const FriendList: React.FC<SetPageProps> = ({ setPage }) => {
-    const user = getUser("51")
-    const friends = getFriendsID(user.id)
-    const littleFriends = friends.slice(0, 5);
-    const [friendID, setFriendID] = useState<UserID>(getUserID(user.id));
+    const dispatch = useAppDispatch();
+    const { friends, friend } = useAppSelector(state => state.friend);
     const [display, setDisplay] = useState<boolean>(false);
-
-    const setFriendDetail = (userID: UserID) => {
-        setFriendID(userID);
+    const setFriendDetail = (friend: FriendData) => {
         setDisplay(true)
+        dispatch(setFriend(friend))
     }
-
     return (
         <FriendListContainer>
             <List>
-                {friends.map((friend, index) => (
-                    <FriendContent key={index} onClick={() => setFriendDetail(friend)}>
-                        {friend.userName}
-                    </FriendContent>
+                {friends.map((data) => (
+                    <div className='content-container'>
+                        <FriendContent key={data.loginId} onClick={() => setFriendDetail(data)}>
+                            {`${data.name}(${data.nickname})`}
+                        </FriendContent>
+                    </div>
                 ))}
             </List>
             <FriendContainer display={display}>
-                <Friend userID={friendID} setDisplay={setDisplay} setPage={setPage} />
+                <Friend friendID={friend} setDisplay={setDisplay} setPage={setPage} />
             </FriendContainer>
         </FriendListContainer>
     )
@@ -40,7 +39,7 @@ const FriendListContainer = styled.div`
     overflow: auto;
 `
 const List = styled.div`
-    & :hover {
+    & .content-container:hover {
         background-color: whitesmoke;
     }
 `

@@ -3,13 +3,10 @@ import { CurrentPage, DisplayProps, FriendDataProps } from '../types'
 import { BsChevronLeft, BsChatDotsFill } from "react-icons/bs";
 import { IoMdCloseCircle } from "react-icons/io";
 import styled from 'styled-components';
-import { getUser } from '../../../services/api/userAPI';
 import Chat from './Chat';
 import CheckModal from '../../../components/Modal/CheckModal';
 import { CheckModalContainer, ModalText } from '../../../components/Modal/types';
-const Friend: React.FC<FriendDataProps> = ({ userID, setDisplay, setPage }) => {
-
-    const user = getUser(userID.userID)
+const Friend: React.FC<FriendDataProps> = ({ friendID, setDisplay, setPage }) => {
     const [chatDisplay, setChatDisplay] = useState<boolean>(false);
     const [modalDisplay, setModalDisplay] = useState<boolean>(false);
     const [modalValue, setModalValue] = useState<boolean | null>()
@@ -29,23 +26,23 @@ const Friend: React.FC<FriendDataProps> = ({ userID, setDisplay, setPage }) => {
         <FriendContainer>
             <Title>
                 <BsChevronLeft onClick={() => setDisplay(false)} />
-                {`${user.name}(${user.nick})`}
+                {`${friendID.name}(${friendID.nickname})`}
             </Title>
             <DetailContent>
                 FriendDetail
             </DetailContent>
             <ButtonContainer>
-                <div className='chat btn' onClick={() => setChatDisplay(pre => !pre)}>
+                <div className='chat friend-btn' onClick={() => setChatDisplay(pre => !pre)}>
                     <BsChatDotsFill />
                     <div>1:1채팅</div>
                 </div>
-                <div className='delete btn' onClick={() => setModalDisplay(pre => !pre)}>
+                <div className='delete friend-btn' onClick={() => setModalDisplay(pre => !pre)}>
                     <IoMdCloseCircle />
                     <div>친구삭제</div>
                 </div>
             </ButtonContainer>
             <ChatContainer display={chatDisplay}>
-                <Chat chatRoomData={{ userID: userID.userID, userName: user.name, chatRoomID: "" }} setDisplay={setAllClose} />
+                <Chat chatRoomData={{ loginId: friendID.loginId, name: friendID.name, nickname: friendID.nickname, chatRoomID: "" }} setDisplay={setAllClose} />
             </ChatContainer>
             <CheckModalContainer display={modalDisplay}>
                 <CheckModal textType={ModalText.DELETE} setValue={setModalValue} />
@@ -90,7 +87,7 @@ const ButtonContainer = styled.div`
     width: 100%;
     border-top: 1px solid lightgray;
     padding-top: 10px;
-    & .btn{
+    & .friend-btn{
         display: flex;
         flex-direction: column;
         align-items: center;

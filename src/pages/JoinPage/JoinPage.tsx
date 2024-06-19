@@ -1,4 +1,4 @@
-import axiosInstance from '../axiosInstance';
+import axiosInstance from '../../services/api/axios';
 import React, { useState } from 'react';
 import { Container, Form, Title, Label, Input, Select, SubmitButton, LinksContainer, Link } from '../../components/PageStyle';
 import { useNavigate } from 'react-router-dom'; 
@@ -117,7 +117,7 @@ function JoinPage() {
                 <Input type='text' value={Address} onChange={onAddressHandler} />
                 <SubmitButton type='submit'>회원가입</SubmitButton>
                 <LinksContainer>
-                <Link href="/login">로그인 페이지로 돌아가기</Link>
+                    <Link href="/login">로그인 페이지로 돌아가기</Link>
                 </LinksContainer>
             </Form>
             {showSuccessAlert && (
@@ -125,7 +125,7 @@ function JoinPage() {
                     회원가입에 성공했습니다. 로그인 페이지로 이동합니다.
                 </div>
             )}
-            
+
         </Container>
     );
 }

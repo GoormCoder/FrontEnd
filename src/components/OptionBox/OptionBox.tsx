@@ -14,7 +14,7 @@ const OptionBox: React.FC<OptionBoxProps> = ({ boxType, setValue }) => {
 
     useEffect(() => {
         if (boxType == OptionBoxes.STATE) setOption(Object.values(OptionByStatus))
-        if (boxType == OptionBoxes.LEVEL) setOption(Object.values(OptionByLevel))
+        if (boxType == OptionBoxes.LEVEL) setOption([OptionByLevel.LEVEL_1.toString(), OptionByLevel.LEVEL_2.toString(), OptionByLevel.LEVEL_3.toString()])
         if (boxType == OptionBoxes.LANGUAGE) setOption(Object.values(OptionByLan))
     }, [boxType])
 

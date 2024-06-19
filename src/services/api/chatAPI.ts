@@ -1,11 +1,11 @@
-import { ChatData, ChatRoom, UserID } from "../../pages/ChatFriendPage/types";
-import { dummyUsers } from "./userAPI";
+import { ChatData, ChatRoomID, UserID } from "../../pages/ChatFriendPage/types";
+import { dummyUsers } from "./memberAPI";
 
 // userName -> userId로 추후에 수정하고 백엔드에서 id로 유저 이름 + (닉네임) 형태로 반환
-export function getChatRooms(id: string): ChatRoom[] {
+export function getChatRooms(id: string): ChatRoomID[] {
 
-    const chatRooms: ChatRoom[] = dummyUsers.map((user) => {
-        return ({ userID: user.id, userName: user.name + `(${user.nick})`, chatRoomID: "" })
+    const chatRooms: ChatRoomID[] = dummyUsers.map((user) => {
+        return ({ loginId: user.id, name: user.name + `(${user.nick})`, nickname: user.nick, chatRoomID: "" })
     })
     return chatRooms.slice(0, 10)
 }

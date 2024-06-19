@@ -19,23 +19,28 @@ import FindPwPage from './pages/FindPwPage/FindPwPage';
 
 function App() {
   const location = useLocation();
-  const hideHeaderRoutes = ['/ide'];
+  const hideHeaderRoutes = [/^\/ide$/, /^\/quest\/\d+$/, /^\/login$/, /^\/join$/];
+  const shouldHideHeader = hideHeaderRoutes.some((routePattern) =>
+    routePattern.test(location.pathname)
+  );
   return (
     <div>
-      {!hideHeaderRoutes.includes(location.pathname) && <Header />}
+      {!shouldHideHeader && <Header />}
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/join" element={<JoinPage />} />
-        <Route path="/ide" element={<IDEPage />} />
         <Route path="/my" element={<MyPage />} />
+        <Route path="/ide" element={<IDEPage />} />
         <Route path="/quest" element={<QuestListPage />} />
+        <Route path="/quest/:num" element={<IDEPage />} />
         <Route path="/rank" element={<RankPage />} />
         <Route path="/battle" element={<BattlePage />} />
         <Route path="/changepw" element={<ChangePwPage />} />
         <Route path="/board" element={<BoardPage />} />
         <Route path="/findId" element={<FindIdPage />} />
         <Route path="/findPw" element={<FindPwPage />} />
+        <Route path="*" element={<MainPage />} />
       </Routes>
       <ChatIcon />
     </div>

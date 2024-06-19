@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ChatRoom, DisplayProps, User } from '../types'
+import { ChatRoomID, DisplayProps, User } from '../types'
 import Chat from './Chat'
 import { getChatRooms } from '../../../services/api/chatAPI'
-import { getUserID } from '../../../services/api/userAPI'
+import { getUserID } from '../../../services/api/memberAPI'
 
 const ChatList = () => {
     const userID = getUserID("51");
-    const chatRooms = getChatRooms(userID.userID);
-    const [roomData, setRoomData] = useState<ChatRoom>(chatRooms[0]);
+    const chatRooms = getChatRooms(userID.loginId);
+    const [roomData, setRoomData] = useState<ChatRoomID>(chatRooms[0]);
     const [display, setDisplay] = useState<boolean>(false);
-    const setChatDetail = (room: ChatRoom) => {
+    const setChatDetail = (room: ChatRoomID) => {
         setRoomData(room);
         setDisplay(true)
     }
@@ -19,7 +19,7 @@ const ChatList = () => {
             <List>
                 {chatRooms.map((room, index) => (
                     <ChatContent key={index} onClick={() => setChatDetail(room)}>
-                        {room.userName}
+                        {room.name}
                     </ChatContent>
                 ))}
             </List>
