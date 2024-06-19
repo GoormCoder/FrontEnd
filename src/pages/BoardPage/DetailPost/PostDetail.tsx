@@ -50,11 +50,11 @@ const PostContainer = styled.div`
             }
             & .back-button {
                 background-color: gray;
-                color: white;
+                color: #ffffff;
             }
             & .submit-button {
                 background-color: #003369;
-                color: white;
+                color: #ffffff;
             }
         }
     }
