@@ -6,7 +6,7 @@ import SideBar from '../SideBar/SideBar';
 import { Link } from 'react-router-dom';
 
 const HeaderContainer = styled.div`
-    display: fixed;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: white;

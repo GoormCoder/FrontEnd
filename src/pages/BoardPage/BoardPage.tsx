@@ -3,30 +3,31 @@ import Searchbar from './components/Searchbar';
 import styled from 'styled-components';
 import dummy from './dummy.json';
 import dummy2 from './dummy2.json';
-import PostItem from './components/Post';
+import PostList from './components/PostList';
 import Pagination from './components/pagination';
 import BoardTabs from './components/BoardTab';
-import { Post } from './types';
+import { Post, PostListProps } from './types';
 
-
+const PageContainer =styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+    justify-content: center; /* 중앙 정렬 */
+    width: 100vh;
+`;
 const BoardContainer = styled.div`
     display: flex;
     flex-direction: column;
-    
-    border: 1px solid #292929;
-    border-radius: 5px;
-    padding: 20px;
-    margin-top: 20px;
-`;
-
-const PostList = styled.div`
-    margin-top: 20px;
+    gap: 50px;
+    width: 80vh;
+    margin: 100px 0px 80px 0px;
 `;
 
 const BoardPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setcurrentPage] = useState(1);
     const [selectedTab, setselectedTab] = useState('dummy');
+    const [searchTerm, setsearchTerm] = useState(''); // 검색어 상태 추가
     const postsPerPage = 10;
 
     const boards: { [key:string]: Post[]} = {
@@ -35,9 +36,14 @@ const BoardPage: React.FC = () => {
     };
     const posts = boards[selectedTab];
     const filteredPosts = posts.filter(post =>
-        post.Title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.Author.toLowerCase().includes(searchQuery.toLowerCase())
+        post.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.Author.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setsearchTerm(searchQuery);
+    };
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -45,27 +51,20 @@ const BoardPage: React.FC = () => {
     const paginate = (pageNumber: number) => setcurrentPage(pageNumber);    
 
     return (
-        <BoardContainer>
-            <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            <BoardTabs selectedTab={selectedTab} setSelectedTab={setselectedTab} />
-            <PostList>
-                {currentPosts.map((post, index) => (
-                    <PostItem 
-                        key={index}
-                        title={post.Title}
-                        author={post.Author}
-                        likes={post.Likes}
-                        date={post.Date}
-                    />
-                ))}
-            </PostList>
-            <Pagination
-                totalPosts={filteredPosts.length}
-                postsPerPage={postsPerPage}
-                currentPage={currentPage}
-                paginate={paginate}
-            />
-        </BoardContainer>
+        <PageContainer>
+            <BoardContainer>
+                <BoardTabs selectedTab={selectedTab} setSelectedTab={setselectedTab} />
+                <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleSearch={handleSearch} />
+                <PostList posts={currentPosts} />
+                <Pagination
+                    totalPosts={filteredPosts.length}
+                    postsPerPage={postsPerPage}
+                    currentPage={currentPage}
+                    paginate={paginate}
+                />
+            </BoardContainer>    
+        </PageContainer>
+        
     );
 };
 

@@ -11,6 +11,7 @@ import RankPage from './pages/RankPage/RankPage';
 import BattlePage from './pages/BattlePage/BattlePage';
 import ChangePwPage from './pages/ChangePwPage/ChangePwPage';
 import BoardPage from './pages/BoardPage/BoardPage';
+import PostDetail from './pages/BoardPage/DetailPost/PostDetail';
 import Header from './components/Header/Header';
 import ChatIcon from './components/ChatIcon/ChatIcon';
 import FindIdPage from './pages/FindIdPage/FindIdPage';
