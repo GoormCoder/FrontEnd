@@ -31,5 +31,3 @@ const PostItem: React.FC<Post> = ({ Title, Author, Likes, Date }) => {
 };
 
 export default PostItem;
-
-

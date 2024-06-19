@@ -41,21 +41,19 @@ const SearchBarContainer = styled.form`
 interface SearchbarProps {
     searchQuery: string;
     setSearchQuery: (query: string) => void;
+    handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const Searchbar: React.FC<SearchbarProps> = ({ searchQuery, setSearchQuery }) => {
+const Searchbar: React.FC<SearchbarProps> = ({ searchQuery, setSearchQuery, handleSearch }) => {
     return (
-    <SearchBarContainer>
+    <SearchBarContainer onSubmit={handleSearch}>
         <input 
             type="search" 
             value={searchQuery} 
             onChange={(e) => setSearchQuery(e.target.value)} 
             placeholder="검색하고 싶은 게시글 검색"
         />
-        <button
-            type="submit"
-        ><IoSearch />
-        </button>    
+        <button type="submit"><IoSearch /></button>    
     </SearchBarContainer>
     );    
 };
