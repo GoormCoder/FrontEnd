@@ -74,15 +74,11 @@ function JoinPage() {
 
                     axiosInstance.post('/members/join', body)
                         .then(response => {
-                            if (response.data) {
-                                setShowSuccessAlert(true);
-                                setTimeout(() => {
-                                    setShowSuccessAlert(false);
-                                    navigate('/login');
-                                }, 2000);
-                            } else {
-                                alert('Registration Failed');
-                            }
+                            setShowSuccessAlert(true);
+                            setTimeout(() => {
+                                setShowSuccessAlert(false);
+                                navigate('/login');
+                            }, 2000);
                         }).catch(error => {
                             if (error.response && error.response.data && error.response.data.message) {
                                 alert(error.response.data.message);
