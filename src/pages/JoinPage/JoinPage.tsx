@@ -14,7 +14,9 @@ function JoinPage() {
     const [Gender, setGender] = useState("");
     const [Password, setPassword] = useState("");
     const [ConfirmPassword, setConfirmPassword] = useState("");
-    const [Address, setAddress] = useState("");
+    //const [Address, setAddress] = useState("");
+    const [Nickname, setNickname] = useState("");
+
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
     const onUserIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,14 +40,17 @@ function JoinPage() {
     const onConfirmPasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setConfirmPassword(event.target.value);
     }
-    const onAddressHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAddress(event.target.value);
+    const onNicknameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNickname(event.target.value);
     }
+    // const onAddressHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setAddress(event.target.value);
+    // }
 
     const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!UserId || !Email || !Name || !Age || !Gender || !Password || !ConfirmPassword || !Address) {
+        if (!UserId || !Email || !Name || !Age || !Gender || !Password || !ConfirmPassword || !Nickname) {
             return alert('모든 입력 필드를 채워주세요.');
         }
 
@@ -69,7 +74,7 @@ function JoinPage() {
                         age: Age,
                         gender: Gender,
                         password: Password,
-                        address: Address,
+                        nick: Nickname,
                     }
 
                     axiosInstance.post('/members/join', body)
@@ -113,8 +118,8 @@ function JoinPage() {
                 <Input type='password' value={Password} onChange={onPasswordHandler} />
                 <Label>비밀번호 확인</Label>
                 <Input type='password' value={ConfirmPassword} onChange={onConfirmPasswordHandler} />
-                <Label>주소</Label>
-                <Input type='text' value={Address} onChange={onAddressHandler} />
+                <Label>닉네임</Label>
+                <Input type='text' value={Nickname} onChange={onNicknameHandler} />
                 <SubmitButton type='submit'>회원가입</SubmitButton>
                 <LinksContainer>
                 <Link href="/login">로그인 페이지로 돌아가기</Link>
