@@ -8,13 +8,18 @@ import Pagination from './components/pagination';
 import BoardTabs from './components/BoardTab';
 import { Post, PostListProps } from './types';
 
-
+const PageContainer =styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+    justify-content: center; /* 중앙 정렬 */
+    width: 100vh;
+`;
 const BoardContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 50px;
-    width: 100%;
+    width: 80vh;
     margin: 100px 0px 80px 0px;
 `;
 
@@ -22,6 +27,7 @@ const BoardPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setcurrentPage] = useState(1);
     const [selectedTab, setselectedTab] = useState('dummy');
+    const [searchTerm, setsearchTerm] = useState(''); // 검색어 상태 추가
     const postsPerPage = 10;
 
     const boards: { [key:string]: Post[]} = {
@@ -30,9 +36,14 @@ const BoardPage: React.FC = () => {
     };
     const posts = boards[selectedTab];
     const filteredPosts = posts.filter(post =>
-        post.Title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.Author.toLowerCase().includes(searchQuery.toLowerCase())
+        post.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.Author.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setsearchTerm(searchQuery);
+    };
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -40,17 +51,20 @@ const BoardPage: React.FC = () => {
     const paginate = (pageNumber: number) => setcurrentPage(pageNumber);    
 
     return (
-        <BoardContainer>
-            <BoardTabs selectedTab={selectedTab} setSelectedTab={setselectedTab} />
-            <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            <PostList posts={currentPosts} />
-            <Pagination
-                totalPosts={filteredPosts.length}
-                postsPerPage={postsPerPage}
-                currentPage={currentPage}
-                paginate={paginate}
-            />
-        </BoardContainer>
+        <PageContainer>
+            <BoardContainer>
+                <BoardTabs selectedTab={selectedTab} setSelectedTab={setselectedTab} />
+                <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleSearch={handleSearch} />
+                <PostList posts={currentPosts} />
+                <Pagination
+                    totalPosts={filteredPosts.length}
+                    postsPerPage={postsPerPage}
+                    currentPage={currentPage}
+                    paginate={paginate}
+                />
+            </BoardContainer>    
+        </PageContainer>
+        
     );
 };
 
