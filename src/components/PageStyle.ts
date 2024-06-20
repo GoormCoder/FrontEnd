@@ -86,6 +86,15 @@ export const ErrorMessage = styled.div`
     text-align: center;
 `;
 
+export const SuccessMessage = styled.div`
+    margin-bottom: 15px;
+    padding: 10px;
+    color: #fff;
+    background: #2ecc71;
+    border-radius: 5px;
+    text-align: center;
+`;
+
 export const LoadingSpinner = styled.div`
     display: inline-block;
     width: 20px;
