@@ -16,6 +16,7 @@ import Header from './components/Header/Header';
 import ChatIcon from './components/ChatIcon/ChatIcon';
 import FindIdPage from './pages/FindIdPage/FindIdPage';
 import FindPwPage from './pages/FindPwPage/FindPwPage';
+import ResetPwPage from './pages/ResetPwPage/ResetPwPage';
 
 function App() {
   const location = useLocation();
@@ -40,6 +41,7 @@ function App() {
         <Route path="/board" element={<BoardPage />} />
         <Route path="/findId" element={<FindIdPage />} />
         <Route path="/findPw" element={<FindPwPage />} />
+        <Route path="/resetPw/:UserId" element={<ResetPwPage />} />
         <Route path="*" element={<MainPage />} />
       </Routes>
       <ChatIcon />

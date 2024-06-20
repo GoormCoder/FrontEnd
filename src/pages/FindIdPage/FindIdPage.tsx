@@ -83,7 +83,7 @@ function FindIdPage() {
                 />
                 <br />
                 <SubmitButton type='submit' disabled={isLoading}>
-                {isLoading ? <LoadingSpinner /> : '아이디 찾기'}
+                    {isLoading ? <LoadingSpinner /> : '아이디 찾기'}
                 </SubmitButton>
                 <LinksContainer>
                     <Link href="/login">로그인</Link>
