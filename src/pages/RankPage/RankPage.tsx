@@ -127,7 +127,10 @@ const RankPage: React.FC = () => {
   return (
     <div className="container">
       <div className="header">
-        <h1>랭킹 페이지</h1>
+        <br />
+        <br />
+        <br />
+        <br />
         <button className="toggle-button" onClick={handleToggleRanking}>
           {rankingType === "score"
             ? "칭찬 랭킹"

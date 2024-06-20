@@ -4,6 +4,7 @@
   width: 80%;
   margin: 0 auto;
   padding: 20px;
+  padding-top: 30px;
   font-family: Arial, sans-serif;
 }
 
@@ -13,6 +14,7 @@ h1 {
 }
 
 .card {
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 20px;
@@ -73,6 +75,7 @@ h1 {
   background-color: #007bff;
   color: white;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
@@ -84,4 +87,22 @@ li {
   margin-bottom: 5px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card .user-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.card .user-info p {
+  margin: 0;
+}
+
+.card .user-info p span {
+  font-weight: bold;
+}
+
+.right-align {
+  float: right;
 }
