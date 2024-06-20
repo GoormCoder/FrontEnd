@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios'; 
-import { useNavigate } from 'react-router-dom';
 
 import {
     Container,
@@ -17,37 +17,44 @@ import {
     LoadingSpinner
 } from '../../components/PageStyle';
 
-function FindPwPage() {
-    const [Email, setEmail] = useState("");
-    const [UserId, setUserId] = useState("");
+function ResetPwPage() {
+    const { UserId } = useParams(); // URL 파라미터에서 userId 가져오기
+    const [Password, setPassword] = useState("");
+    const [ConfirmPassword, setConfirmPassword] = useState("");
     const [Error, setError] = useState("");
+    const [Success, setSuccess] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    const [Success, setSuccess] = useState("");
 
+    const onPasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.currentTarget.value);
+    }
 
-    const onEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.currentTarget.value);
+    const onConfirmPasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setConfirmPassword(event.currentTarget.value);
     }
-    const onUserIdHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUserId(event.currentTarget.value);
-    }
+
     const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
         setError("");
         setSuccess("");
 
+        if (Password !== ConfirmPassword) {
+            setError("비밀번호가 일치하지 않습니다.");
+            setIsLoading(false);
+            return;
+        }
+
         try {
-            const response = await axiosInstance.post('/members/findPw', {
-                email: Email,
-                loginId: UserId
+            const response = await axiosInstance.post(`/members/resetPw/${UserId}`, {
+                password: Password
             });
 
             if (response.status === 200) {
-                setSuccess('비밀번호 재설정 페이지로 이동합니다.');
+                setSuccess('비밀번호가 성공적으로 변경되었습니다.');
                 setTimeout(() => {
-                    navigate(`/resetPw/${UserId}`); // 성공 시 비밀번호 재설정 페이지로 이동
+                    navigate('/login'); // 성공 시 로그인 페이지로 이동
                 }, 2000);
             }
         } catch (error) {
@@ -55,7 +62,7 @@ function FindPwPage() {
                 if (error.response) {
                     setError(error.response.data.message);
                 } else {
-                    setError('비밀번호 찾기 중 문제가 발생했습니다.');
+                    setError('비밀번호 재설정 중 문제가 발생했습니다.');
                 }
             } else {
                 setError('예상치 못한 오류가 발생했습니다.');
@@ -64,30 +71,30 @@ function FindPwPage() {
             setIsLoading(false);
         }
     }
-    
+
     return (
         <Container>
             <Form onSubmit={onSubmitHandler}>
-                <Title>비밀번호 찾기</Title>
+                <Title>비밀번호 재설정</Title>
                 {Error && <ErrorMessage>{Error}</ErrorMessage>}
-                {Success && <SuccessMessage>{Success}</SuccessMessage>}            
-                <Label>아이디</Label>
+                {Success && <SuccessMessage>{Success}</SuccessMessage>}
+                <Label>새 비밀번호</Label>
                 <Input
-                    type='text'
-                    value={UserId}
-                    onChange={onUserIdHandler}
+                    type='password'
+                    value={Password}
+                    onChange={onPasswordHandler}
                     required
                 />
-                <Label>이메일</Label>
+                <Label>비밀번호 확인</Label>
                 <Input
-                    type='email'
-                    value={Email}
-                    onChange={onEmailHandler}
+                    type='password'
+                    value={ConfirmPassword}
+                    onChange={onConfirmPasswordHandler}
                     required
                 />
                 <br />
                 <SubmitButton type='submit' disabled={isLoading}>
-                    {isLoading ? <LoadingSpinner /> : '비밀번호 찾기'}
+                    {isLoading ? <LoadingSpinner /> : '비밀번호 재설정'}
                 </SubmitButton>
                 <LinksContainer>
                     <Link href="/login">로그인</Link>
@@ -97,6 +104,6 @@ function FindPwPage() {
             </Form>
         </Container>
     )
-} 
+}
 
-export default FindPwPage;
+export default ResetPwPage;
