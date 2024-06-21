@@ -9,7 +9,7 @@ import CheckModal from '../../../components/Modal/CheckModal';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
 import { findAllMemberByKeyword, setMemberIdEmpty, setSearchText } from '../../../store/slices/memberSlice';
 import { acceptFriendRequest, findAllFriendRequest, friendRequest, setRequestersEmpty } from '../../../store/slices/friendSlice';
-import { ToastContainer, toast } from 'react-toastify';
+// import { ToastContainer, toast } from 'react-toastify';
 
 const FriendAdd: React.FC<SetPageProps> = ({ setPage }) => {
     const dispatch = useAppDispatch();
