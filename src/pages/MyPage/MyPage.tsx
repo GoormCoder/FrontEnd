@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./MyPage.css";
 
 interface UserInfoData {
-  email: string;
+  id: string;
   name: string;
+  nick: string;
+  email: string;
+  bio: string;
+  birthDate: string;
 }
 
 interface DuelRecord {
@@ -15,48 +19,92 @@ interface ScoresData {
   praiseScore: number;
   answerCount: number;
   duelScore: number;
+  overallScore: number;
+  problemScore: number;
+  solutionScore: number;
 }
 
 const UserInfo: React.FC<{
   data: UserInfoData | null;
-  onUpdateName: (name: string) => void;
-}> = ({ data, onUpdateName }) => {
+  onUpdateUserInfo: (updatedData: Partial<UserInfoData>) => void;
+}> = ({ data, onUpdateUserInfo }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState(data ? data.name : "");
+  const [formData, setFormData] = useState<Partial<UserInfoData>>({});
 
   useEffect(() => {
     if (data) {
-      setName(data.name);
+      setFormData(data);
     }
   }, [data]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleUpdate = async () => {
-    await onUpdateName(name);
+    await onUpdateUserInfo(formData);
     setIsEditing(false);
   };
 
   return (
     <div className="card">
-      <h2>가입 정보</h2>
-      <p>이메일: {data ? data.email : "Loading..."}</p>
-      {isEditing ? (
-        <>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <button className="btn" onClick={handleUpdate}>
-            완료
+      <h2>
+        가입 정보
+        {!isEditing && (
+          <button
+            className="btn right-align"
+            onClick={() => setIsEditing(true)}
+          >
+            정보 변경
           </button>
+        )}
+      </h2>
+      {data ? (
+        <>
+          <p>ID: {data.id}</p>
+          <p>이메일: {data.email}</p>
+          <p>이름: {data.name}</p>
+          {isEditing ? (
+            <>
+              <label>닉네임: </label>
+              <input
+                type="text"
+                name="nick"
+                value={formData.nick || ""}
+                onChange={handleChange}
+              />
+              <label>생년월일: </label>
+              <input
+                type="date"
+                name="birthDate"
+                value={formData.birthDate || ""}
+                onChange={handleChange}
+              />
+              <label>자기소개: </label>
+              <input
+                type="text"
+                name="bio"
+                value={formData.bio || ""}
+                onChange={handleChange}
+              />
+              <button className="btn" onClick={handleUpdate}>
+                완료
+              </button>
+            </>
+          ) : (
+            <>
+              <p>닉네임: {data.nick}</p>
+              <p>생년월일: {data.birthDate}</p>
+              <p>자기소개: {data.bio}</p>
+            </>
+          )}
         </>
       ) : (
-        <>
-          <p>이름: {data ? data.name : "Loading..."}</p>
-          <button className="btn" onClick={() => setIsEditing(true)}>
-            이름변경
-          </button>
-        </>
+        <p>로딩 중...</p>
       )}
     </div>
   );
@@ -84,12 +132,15 @@ const DuelRecords: React.FC<{ records: DuelRecord[] }> = ({ records }) => {
 const Scores: React.FC<{ data: ScoresData | null }> = ({ data }) => {
   return (
     <div className="card">
-      <h2>점수 조회</h2>
+      <h2>내 점수</h2>
       {data ? (
         <>
-          <p>칭찬: {data.praiseScore}</p>
-          <p>답변: {data.answerCount}</p>
-          <p>1대1 대결: {data.duelScore}</p>
+          <p>총 점수: {data.overallScore}</p>
+          <p>칭찬 점수: {data.praiseScore}</p>
+          <p>답변 개수: {data.answerCount}</p>
+          <p>대결 점수: {data.duelScore}</p>
+          <p>문제 점수: {data.problemScore}</p>
+          <p>풀이 점수: {data.solutionScore}</p>
         </>
       ) : (
         <p>점수 정보가 없습니다.</p>
@@ -104,75 +155,81 @@ const MyPage: React.FC = () => {
   const [scores, setScores] = useState<ScoresData | null>(null);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await fetch("/api/userInfo?email=user@example.com");
-        if (!response.ok) {
-          throw new Error("Failed to fetch user info");
-        }
-        const data: UserInfoData = await response.json();
-        setUserInfo(data);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
+    const savedUserInfo = localStorage.getItem("userInfo");
+    const savedDuelRecords = localStorage.getItem("duelRecords");
+    const savedScores = localStorage.getItem("scores");
 
-    fetchUserInfo();
+    if (savedUserInfo) {
+      setUserInfo(JSON.parse(savedUserInfo));
+    } else {
+      setUserInfo({
+        id: "user123",
+        name: "김구름",
+        nick: "구르미",
+        email: "goormi@example.com",
+        bio: "안녕하세요! 저는 구르마입니다.",
+        birthDate: "1999-01-01",
+      });
+    }
+
+    if (savedDuelRecords) {
+      setDuelRecords(JSON.parse(savedDuelRecords));
+    } else {
+      setDuelRecords([
+        { opponent: "김ㅇㅇ", result: "승" },
+        { opponent: "이ㅇㅇ", result: "패" },
+        { opponent: "박ㅇㅇ", result: "무승부" },
+      ]);
+    }
+
+    if (savedScores) {
+      setScores(JSON.parse(savedScores));
+    } else {
+      setScores({
+        overallScore: 1234,
+        praiseScore: 120,
+        answerCount: 45,
+        duelScore: 300,
+        problemScore: 50,
+        solutionScore: 80,
+      });
+    }
   }, []);
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      if (userInfo) {
-        try {
-          const [recordsResponse, scoresResponse] = await Promise.all([
-            fetch(`/api/duelRecords?username=${userInfo.name}`),
-            fetch(`/api/scores?username=${userInfo.name}`),
-          ]);
-
-          if (!recordsResponse.ok || !scoresResponse.ok) {
-            throw new Error("Failed to fetch user details");
-          }
-
-          const duelRecordsData: DuelRecord[] = await recordsResponse.json();
-          const scoresData: ScoresData = await scoresResponse.json();
-
-          setDuelRecords(duelRecordsData);
-          setScores(scoresData);
-        } catch (error) {
-          console.error("Error fetching user details:", error);
-        }
-      }
-    };
-
-    fetchUserDetails();
+    if (userInfo) {
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    }
   }, [userInfo]);
 
-  const updateUserName = async (name: string) => {
+  useEffect(() => {
+    if (duelRecords.length > 0) {
+      localStorage.setItem("duelRecords", JSON.stringify(duelRecords));
+    }
+  }, [duelRecords]);
+
+  useEffect(() => {
+    if (scores) {
+      localStorage.setItem("scores", JSON.stringify(scores));
+    }
+  }, [scores]);
+
+  const updateUserInfo = async (updatedData: Partial<UserInfoData>) => {
     if (userInfo) {
-      try {
-        const response = await fetch("/api/updateName", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: userInfo.email, name }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to update name");
-        }
-
-        setUserInfo((prev) => (prev ? { ...prev, name } : prev));
-      } catch (error) {
-        console.error("Error updating user name:", error);
-      }
+      const updatedUserInfo = { ...userInfo, ...updatedData };
+      setUserInfo(updatedUserInfo);
+      localStorage.setItem("userInfo", JSON.stringify(updatedUserInfo));
     }
   };
 
   return (
     <div className="container">
-      <h1>마이페이지</h1>
-      <UserInfo data={userInfo} onUpdateName={updateUserName} />
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <UserInfo data={userInfo} onUpdateUserInfo={updateUserInfo} />
       <DuelRecords records={duelRecords} />
       <Scores data={scores} />
     </div>
