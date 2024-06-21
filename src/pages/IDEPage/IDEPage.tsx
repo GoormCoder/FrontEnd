@@ -1,14 +1,10 @@
-import React, { useRef } from 'react'
-import styled from 'styled-components'
-import CodeEditor from '../../components/Editor/Editor'
-import { Editor } from '@monaco-editor/react'
-import Timer from '../../components/Timer/Timer'
-import dummy from './dummy.json'
-
-
-interface BottomButtonProps {
-    isSubmit?: boolean;
-}
+import React, { useRef, useState } from 'react';
+import styled from 'styled-components';
+import { Editor } from '@monaco-editor/react';
+import Timer from '../../components/Timer/Timer';
+import dummy from './dummy.json';
+import { BottomButtonProps, QuestionSummaryDto } from './types';
+import { createSolve } from '../../services/api/solveAPI';
 
 const MainContainer = styled.div`
     display: flex;
@@ -22,6 +18,7 @@ const TopSection = styled.div`
 const BottomSection = styled.div`
     background-color: #303030;
     display: flex;
+    justify-content: space-between;
     height: 40px;
 `;
 const LeftButton = styled.div`
@@ -29,7 +26,7 @@ const LeftButton = styled.div`
 `;
 const RightButton = styled.div`
     display: flex;
-        
+    margin-right: 10px;
 `;
 
 const ProblemSection = styled.div`
@@ -55,28 +52,56 @@ const ProblemDetail = styled.div`
     color: #b2c0cc;
 `;
 
-
 const BottomButton = styled.button<BottomButtonProps>`
-    background-color: ${props => props.isSubmit ? 'blue' : '#D5D5D5'};
+    height: 40px;
+    font-size: 16px;
+    border: ${props => props.isSubmit ? 'none' : '1px solid lightgray'};
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: ${props => props.isSubmit ? '#003369' : '#D5D5D5'};
+    color: ${props => props.isSubmit ? '#ffffff' : '#000000'};
     margin-top: 5px;
     margin-left: 14px;
-    border-radius: 5px;
+
+    &:hover {
+        background-color: ${props => props.isSubmit ? '#002244' : '#C5C5C5'};
+    }
 `;
 
-const IDEPage = () => {
+const IDEPage: React.FC = () => {
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const [initialCode, setInitialCode] = useState(
+        `public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}`);
+    const [language, setLanguage] = useState('JAVA'); 
+    const [questionId, setQuestionId] = useState(1); 
 
     const handleTimeUp = () => {
         if (buttonRef.current) {
             buttonRef.current.click();
         } else {
-            console.error('buttonRef.current is null')
+            console.error('error');
         }
     };
 
-    const handleButtonClick = () => {
-        alert('시간종료')
+    const handleButtonClick = async () => {
+        try {
+            const solveRequest = {
+                code: initialCode,
+                language: language
+            };
+            const response = await createSolve(questionId, solveRequest);
+            alert('풀이 제출이 완료되었습니다.');
+            console.log(response);
+        } catch (error) {
+            console.error('풀이 제출 중 오류가 발생했습니다:', error);
+            alert('풀이 제출 중 오류가 발생했습니다.');
+        }
     };
+
     return (
         <MainContainer>
             <TopSection>
@@ -90,8 +115,12 @@ const IDEPage = () => {
                     <Timer onTimeUp={handleTimeUp}></Timer>
                     <Editor
                         language='java'
-                        defaultValue='import React from /n'
+                        defaultValue={initialCode}
                         theme='vs-dark'
+                        options={{
+                            padding: { top: 20, bottom: 20 },
+                        }}
+                        onChange={(value) => setInitialCode(value || '')} 
                     ></Editor>
                 </EditSection>
             </TopSection>
@@ -105,11 +134,11 @@ const IDEPage = () => {
                     <BottomButton>다른 사람의 풀이</BottomButton>
                     <BottomButton>초기화</BottomButton>
                     <BottomButton>코드 실행</BottomButton>
-                    <BottomButton isSubmit ref={buttonRef} onClick={handleButtonClick} >제출 후 채점하기</BottomButton>
+                    <BottomButton isSubmit ref={buttonRef} onClick={handleButtonClick}>제출 후 채점하기</BottomButton>
                 </RightButton>
             </BottomSection>
         </MainContainer>
-    )
-}
+    );
+};
 
-export default IDEPage
+export default IDEPage;

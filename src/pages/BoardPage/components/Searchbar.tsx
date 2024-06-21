@@ -7,6 +7,7 @@ const SearchBarContainer = styled.form`
     display: flex;
     position: relative;
     align-items: center;
+    padding: 5px 0;
 
     & input {
         width: 100%;

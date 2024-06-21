@@ -1,41 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { VscDebugStart } from "react-icons/vsc";
+import { TbPlayerPause } from "react-icons/tb";
+import { GrPowerReset } from "react-icons/gr";
+import { TimerProps } from './types';
 
-// Styled Components
 const TimerContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: end;
     align-items: center;
     background-color: #222222;
     color: white;
-    border: 1px solid white;
+    border-bottom: 1px solid white;
+    padding: 10px;
+    gap: 10px;
 `;
 
 const TimeDisplay = styled.div`
     font-size: 2rem;
-    margin-bottom: 20px;
-    display: flex;
-    margin-top: auto;
+    flex: 1;
+    text-align: right;
+    margin-right: 20px;
 `;
 
 const Button = styled.button`
     background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
-    margin: 5px;
+    padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 
     &:hover {
         background-color: #45a049;
     }
+
+    &:focus {
+        outline: none;
+    }
 `;
 
-interface TimerProps {
-    onTimeUp: () => void;
-}
+const AddTimeButton = styled(Button)`
+    background-color: #2196F3;
+
+    &:hover {
+        background-color: #1E88E5;
+    }
+`;
+
 
 const Timer: React.FC<TimerProps> = ({ onTimeUp }) => {
     const [time, setTime] = useState(60); // 기본값 1분
@@ -77,10 +91,10 @@ const Timer: React.FC<TimerProps> = ({ onTimeUp }) => {
     return (
         <TimerContainer>
             <TimeDisplay>{new Date(time * 1000).toISOString().substr(14, 5)}</TimeDisplay>
-            <Button onClick={handleStart}>Start</Button>
-            <Button onClick={handleStop}>Stop</Button>
-            <Button onClick={handleReset}>Reset</Button>
-            <Button onClick={() => handleAddTime(1)}>Add 1 minute</Button>
+            <Button onClick={handleStart}><VscDebugStart /> Start</Button>
+            <Button onClick={handleStop}><TbPlayerPause /> Stop</Button>
+            <Button onClick={handleReset}><GrPowerReset /> Reset</Button>
+            <AddTimeButton onClick={() => handleAddTime(1)}>Add 1 minute</AddTimeButton>
         </TimerContainer>
     );
 };
