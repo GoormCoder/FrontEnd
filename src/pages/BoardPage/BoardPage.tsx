@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Searchbar from './components/Searchbar';
 import styled from 'styled-components';
-import dummy from './dummy.json';
-import dummy2 from './dummy2.json';
 import PostList from './components/PostList';
 import Pagination from './components/pagination';
 import BoardTabs from './components/BoardTab';
@@ -13,16 +12,22 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center; 
-    justify-content: center; 
-    width: 100vh;
+    justify-content: flex-start; 
+    width: 100vw;
+    min-height: 100vh; 
+    background-color: #f0f0f0; 
+    padding-top: 100px; 
 `;
 
 const BoardContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 50px;
-    width: 80vh;
-    margin: 100px 0px 80px 0px;
+    width: 60vw;
+    max-width: 800px;
+    min-height: 600px; /* 컨텐츠가 없을 때 최소 높이를 설정 */
+    margin: auto;
+    margin-top: 10px; /* 추가 여백으로 위로 이동 */
 `;
 
 const SeparatedContainer = styled.div`
@@ -30,8 +35,28 @@ const SeparatedContainer = styled.div`
     border-radius: 5px;
     padding: 20px;
     width: 100%;
+    background-color: white;
 `;
 
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+`;
+
+const WriteButton = styled.button`
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+`;
 
 const BoardPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -40,6 +65,7 @@ const BoardPage: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [posts, setPosts] = useState<BoardDetails[]>([]);
     const postsPerPage = 10;
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllBoardPosts()
@@ -50,6 +76,7 @@ const BoardPage: React.FC = () => {
                 console.error('게시글을 불러오는 중 오류가 발생했습니다:', error);
             });
     }, [selectedTab]);
+    
     const filteredPosts = posts.filter(post =>
         (post.title && post.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (post.member.nickname && post.member.nickname.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -58,6 +85,10 @@ const BoardPage: React.FC = () => {
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setSearchTerm(searchQuery);
+    };
+
+    const handleWriteButtonClick = () => {
+        navigate('/Postwrite');
     };
 
     const indexOfLastPost = currentPage * postsPerPage;
@@ -71,6 +102,9 @@ const BoardPage: React.FC = () => {
                 <BoardTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
                 <SeparatedContainer>
                     <Searchbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleSearch={handleSearch} />
+                    <ButtonContainer>
+                        <WriteButton onClick={handleWriteButtonClick}>글쓰기</WriteButton>
+                    </ButtonContainer>
                     <PostList posts={currentPosts} />
                     <Pagination
                         totalPosts={filteredPosts.length}
