@@ -1,19 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getUser } from '../../../services/api/memberAPI'
 import { ChatDataProps } from '../types';
+import { useAppSelector } from '../../../hooks/reduxHooks';
 
 const MessageBox: React.FC<ChatDataProps> = ({ chatData }) => {
-    const id = "51";
-    const state = id === chatData.userID ? true : false
-
+    const { loginedMember } = useAppSelector(state => state.member);
+    const state = loginedMember.loginId === chatData.sender.longinId ? true : false
     return (
         <MessageContainer state={state}>
             <div className='text'>
                 {chatData.message}
             </div>
             <div className='time'>
-                {chatData.time}
+                {new Intl.DateTimeFormat('ko-KR', {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                }).format(new Date(chatData.createdAt))}
             </div>
         </MessageContainer>
     )
@@ -24,11 +27,11 @@ export default MessageBox
 const MessageContainer = styled.div<{ state: boolean }>`
     display: flex;
     flex-direction: ${props => props.state ? "row-reverse" : "row"};
-    padding: 10px;
+    padding: 5px 10px 5px 10px;
     gap: 10px;
 
     & .text {
-        padding: 15px;
+        padding: 12px;
         max-width: 190px;
         border-radius: 10px;
         background-color: ${props => props.state ? "#49aaffe4" : "whitesmoke"};

@@ -7,18 +7,23 @@ import { testLog } from '../../../utils/testLog';
 import { CheckModalContainer, ModalText } from '../../../components/Modal/types';
 import CheckModal from '../../../components/Modal/CheckModal';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
-import { findAllMemberByKeyword, setSearchText } from '../../../store/slices/memberSlice';
+import { findAllMemberByKeyword, setMemberIdEmpty, setSearchText } from '../../../store/slices/memberSlice';
 import { acceptFriendRequest, findAllFriendRequest, friendRequest, setRequestersEmpty } from '../../../store/slices/friendSlice';
 import { ToastContainer, toast } from 'react-toastify';
 
 const FriendAdd: React.FC<SetPageProps> = ({ setPage }) => {
     const dispatch = useAppDispatch();
     const { requesters } = useAppSelector(state => state.friend);
-    const { searchText, memberId } = useAppSelector(state => state.member);
+    const { loginedMember, searchText, memberId } = useAppSelector(state => state.member);
 
     const [modalDisplay, setModalDisplay] = useState<boolean>(false);
     const [modalValue, setModalValue] = useState<boolean | null>()
 
+    useEffect(() => {
+        dispatch(setSearchText(''))
+        dispatch(setMemberIdEmpty());
+        dispatch(findAllFriendRequest(loginedMember.loginId))
+    }, [])
 
     useEffect(() => {
         setModalValue(null);
@@ -28,11 +33,15 @@ const FriendAdd: React.FC<SetPageProps> = ({ setPage }) => {
 
     const handleSearch = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(findAllMemberByKeyword(searchText));
+        if (searchText != "") {
+            dispatch(findAllMemberByKeyword(searchText));
+        } else {
+            dispatch(setMemberIdEmpty());
+        }
     };
 
     const handleRequest = (receiver: string) => {
-        dispatch(friendRequest({ loginId: "user3", receiver: receiver }))
+        dispatch(friendRequest({ loginId: loginedMember.loginId, receiver: receiver }))
     }
     // loginId, requester, requestId
     const handleAccept = (loginId: string, requester: string, requestId: number) => {
@@ -69,7 +78,7 @@ const FriendAdd: React.FC<SetPageProps> = ({ setPage }) => {
             <RequestList>
                 {requesters.map((data) => (
                     <ResultContent key={data.requestId} >
-                        {`${data.requester.loginId}(${data.requester.nickname})`} <button className='ok' onClick={() => { handleAccept("user4", data.requester.loginId, data.requestId) }}>수락</button>
+                        {`${data.requester.loginId}(${data.requester.nickname})`} <button className='ok' onClick={() => { handleAccept(loginedMember.loginId, data.requester.loginId, data.requestId) }}>수락</button>
                     </ResultContent>
                 ))}
             </RequestList>

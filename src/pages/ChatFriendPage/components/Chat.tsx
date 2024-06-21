@@ -1,50 +1,103 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BsChevronLeft, BsFillSendFill, BsThreeDotsVertical } from "react-icons/bs";
-import { ChatData, ChatRoomDataProps } from '../types';
+import { ChatData, ChatMessageRequest, ChatRoomDataProps } from '../types';
 import styled from 'styled-components';
 import { CheckModalContainer, ModalText } from '../../../components/Modal/types';
 import CheckModal from '../../../components/Modal/CheckModal';
 import MessageBox from './MessageBox';
-import { getChatData } from '../../../services/api/chatAPI';
-import { getUser } from '../../../services/api/memberAPI';
-const Chat: React.FC<ChatRoomDataProps> = ({ chatRoomData, setDisplay }) => {
+import { Client, IMessage } from "@stomp/stompjs";
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
+import { deleteChatRoom, findAllChat, findAllChatRoom, setChatRoomEmpty, setChats, setChatsEmpty } from '../../../store/slices/chatSlice';
+import { showAlert } from '../../../store/slices/alertSlice';
 
-    const [display, setLeaveDisplay] = useState<boolean>(false);
-    const [opacity, setOpacity] = useState<boolean>(false);
-    const [chatDatas, setChatDatas] = useState<ChatData[]>(getChatData(chatRoomData.chatRoomID))
+const Chat: React.FC<ChatRoomDataProps> = ({ setDisplay }) => {
+    const dispatch = useAppDispatch();
+    const { chatRoom, chats } = useAppSelector(state => state.chat);
+    const { loginedMember } = useAppSelector(state => state.member);
+    const [stompClient, setStompClient] = useState<Client | null>(null);
     const [message, setMessage] = useState<string>("");
+    const [display, setLeaveDisplay] = useState<boolean>(false);
     const [modalDisplay, setModalDisplay] = useState<boolean>(false);
-    const [modalValue, setModalValue] = useState<boolean | null>()
-
+    const [modalValue, setModalValue] = useState<boolean | null>(null);
     const messageEndRef = useRef<HTMLDivElement | null>(null);
 
+
+
+    useEffect(() => {
+        if (chatRoom.chatRoomId) {
+            dispatch(findAllChat(chatRoom.chatRoomId));
+            const client = new Client({
+                brokerURL: "ws://192.168.45.61:8080/ws", // 서버 WebSocket URL
+                reconnectDelay: 5000,
+                connectHeaders: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                },
+                onConnect: () => {
+                    console.log(`Connected to ChatRoom ${chatRoom.chatRoomId}`);
+                    client.subscribe(`/sub/chats/room/${chatRoom.chatRoomId}`, (data: IMessage) => {
+                        // console.log(data)
+                        const msg: string = data.body;
+                        // const msg: ChatData = JSON.parse(data.body);
+                        dispatch(setChats({
+                            message: msg,
+                            loginedMember: {
+                                loginId: "jinsu123", name: "최진수"
+                                // loginId: msg.sender.longinId, name: msg.sender.name
+                            }
+                        }));
+                    });
+                },
+            });
+            client.activate();
+            setStompClient(client);
+            return () => {
+                client.deactivate();
+            }
+        }
+    }, [chatRoom.chatRoomId]);
+
     const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        setChatDatas(pre => [...pre, { userID: "51", message: message, time: "오후 11시40분" }])
-        setMessage("");
-        setTimeout(() => {
-            setChatDatas(pre => [...pre, { userID: "1", message: `안녕하세요 저는 ${getUser(chatRoomData.loginId).name}입니다!`, time: "오후 11시41분" }])
-        }, 2000)
+        e.preventDefault();
+        if (stompClient && stompClient.connected) {
+            const chatMessage: ChatMessageRequest = {
+                chatRoomId: chatRoom.chatRoomId,
+                senderLoginId: loginedMember.loginId,
+                message: message,
+            };
+            stompClient.publish({
+                destination: `/pub/send`,
+                body: JSON.stringify(chatMessage),
+            });
+            setMessage("");
+        }
+    };
+
+    useEffect(() => {
+        messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [chats, chatRoom]);
+
+    const closeAndDataEmpty = () => {
+        setDisplay(false);
+        dispatch(setChatRoomEmpty())
+        dispatch(setChatsEmpty());
     }
 
     useEffect(() => {
-        if (modalValue === true) {
-            setDisplay(false);
+        if (modalValue) {
+            dispatch(deleteChatRoom(chatRoom.chatRoomId));
+            closeAndDataEmpty();
+            dispatch(showAlert(null, "chatDelete", "채팅방 삭제가 완료되었습니다."));
         }
         setModalDisplay(false);
         setModalValue(null);
         setLeaveDisplay(false);
     }, [modalValue])
 
-    useEffect(() => {
-        messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [chatDatas, chatRoomData]);
-
     return (
         <ChatContainer>
             <Title >
-                <BsChevronLeft onClick={() => setDisplay(false)} />
-                {`${chatRoomData.name}`}
+                <BsChevronLeft onClick={closeAndDataEmpty} />
+                {`${chatRoom.chatRoomName}`}
 
                 <BsThreeDotsVertical onClick={() => { setLeaveDisplay(pre => !pre) }} />
             </Title>
@@ -52,9 +105,36 @@ const Chat: React.FC<ChatRoomDataProps> = ({ chatRoomData, setDisplay }) => {
                 <button onClick={() => setModalDisplay(true)}>채팅방 나가기</button>
             </LeaveBuuton>
             <ChatContent>
-                {chatDatas.map((data) => (
-                    <MessageBox chatData={data} />
-                ))}
+                {chats.map((data, index) => {
+                    let showDate;
+                    let display;
+                    const date = new Intl.DateTimeFormat('ko-KR', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: '2-digit',
+                    }).format(new Date(data.createdAt))
+
+                    const beforeDate = index != 0 && new Intl.DateTimeFormat('ko-KR', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: '2-digit',
+                    }).format(new Date(chats[index - 1].createdAt))
+
+                    if (date != beforeDate) {
+                        showDate = date;
+                        display = true;
+                    } else {
+                        showDate = "";
+                        display = false;
+                    }
+
+                    return (
+                        <>
+                            {display ? <div className='date'>{showDate}</div> : null}
+                            <MessageBox chatData={data} />
+                        </>
+                    )
+                })}
                 <div ref={messageEndRef}></div>
             </ChatContent>
             <SendContainer onSubmit={sendMessage}>
@@ -71,6 +151,7 @@ const Chat: React.FC<ChatRoomDataProps> = ({ chatRoomData, setDisplay }) => {
 export default Chat
 
 const ChatContainer = styled.div`
+    position: relative;
     padding: 15px 0 15px 0;
     & svg {
         cursor: pointer;
@@ -130,10 +211,18 @@ const LeaveBuuton = styled.div<{ display: boolean }>`
 const ChatContent = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 10px;
     height: 470px;
     overflow: auto;
     z-index: -10;
+
+    & .date{
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        color: #003369;
+        margin: 20px 0 10px 0;
+    }
 `;
 
 const SendContainer = styled.form`

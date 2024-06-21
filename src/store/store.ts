@@ -2,12 +2,16 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import questReducer from './slices/questSlice';
 import memberSlice from './slices/memberSlice';
 import friendSlice from './slices/friendSlice';
+import chatSlice from './slices/chatSlice';
+import alertSlice from './slices/alertSlice';
 
 export const store = configureStore({
     reducer: {
         quest: questReducer,
         member: memberSlice,
-        friend: friendSlice
+        friend: friendSlice,
+        chat: chatSlice,
+        alert: alertSlice
     },
 });
 

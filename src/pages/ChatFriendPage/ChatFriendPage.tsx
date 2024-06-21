@@ -6,15 +6,12 @@ import ChatList from './components/ChatList';
 import FriendList from './components/FriendList';
 import { CurrentPage, DisplayProps } from './types';
 import FriendAdd from './components/FriendAdd';
-import { useAppDispatch } from '../../hooks/reduxHooks';
-import { setMemberIdEmpty, setSearchText } from '../../store/slices/memberSlice';
-import { findAllFriendRequest, findAllFriends } from '../../store/slices/friendSlice';
-const ChatFriendPage = () => {
-    const dispatch = useAppDispatch();
-    const [currentPage, setCurrentPage] = useState<string>(CurrentPage.FRIEND_LIST)
-    const [friendDisplay, setFriendDisplay] = useState<boolean>(true);
+const ChatFriendPage: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
+
+    const [currentPage, setCurrentPage] = useState<string>(CurrentPage.CHAT_LIST)
+    const [chatDisplay, setChatDisplay] = useState<boolean>(true);
+    const [friendDisplay, setFriendDisplay] = useState<boolean>(false);
     const [addDisplay, setAddDisplay] = useState<boolean>(false);
-    const [chatDisplay, setChatDisplay] = useState<boolean>(false);
 
     const setPage = (page: string) => {
         setCurrentPage(page);
@@ -35,42 +32,25 @@ const ChatFriendPage = () => {
         }
     }
 
-    // 채팅방 불러오는 로직
-    useEffect(() => {
-        // if (chatDisplay) dispatch(findAllChatRoom());
-
-    }, [chatDisplay])
-
-    useEffect(() => {
-        if (addDisplay) {
-            dispatch(setSearchText(''))
-            dispatch(setMemberIdEmpty());
-            dispatch(findAllFriendRequest("user4"))
-        }
-    }, [addDisplay])
-
-    useEffect(() => {
-        if (friendDisplay) {
-            dispatch(findAllFriends("user4"))
-        }
-    }, [friendDisplay]);
-
     return (
         <ChatFriendContainer>
             <Title>{currentPage}</Title>
-            <FriendListContainer display={friendDisplay}>
-                <FriendList setPage={setPage} />
-            </FriendListContainer>
-            <FriendAddContainer display={addDisplay}>
-                <FriendAdd setPage={setPage} />
-            </FriendAddContainer>
-            <ChatListContainer display={chatDisplay}>
-                <ChatList />
-            </ChatListContainer>
+            {chatDisplay ?
+                <ChatListContainer display={chatDisplay}>
+                    <ChatList />
+                </ChatListContainer> : null}
+            {friendDisplay ?
+                <FriendListContainer display={friendDisplay}>
+                    <FriendList setPage={setPage} />
+                </FriendListContainer> : null}
+            {addDisplay ?
+                <FriendAddContainer display={addDisplay}>
+                    <FriendAdd setPage={setPage} />
+                </FriendAddContainer> : null}
             <NavigationBar>
+                <BsChatDotsFill onClick={() => { setPage(CurrentPage.CHAT_LIST) }} />
                 <FaUserFriends onClick={() => { setPage(CurrentPage.FRIEND_LIST) }} />
                 <FaUserPlus onClick={() => { setPage(CurrentPage.FRIEND_ADD) }} />
-                <BsChatDotsFill onClick={() => { setPage(CurrentPage.CHAT_LIST) }} />
             </NavigationBar>
         </ChatFriendContainer>
     )

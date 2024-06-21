@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Header from '../../components/Header/Header';
 import mainlogo from '../../assets/mainpage_logo.png'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MainBackground = styled.div`
     position: relative;
@@ -26,7 +26,7 @@ const NewMainpageLogo = styled.div`
     font-weight: 900;   
     font-style: normal;
 `;
-const StartButton = styled(Link)`
+const StartButton = styled.div`
     display: flex;
     align-items: center;
     justify-content: center; 
@@ -42,10 +42,18 @@ const StartButton = styled(Link)`
 `;
 
 const MainPage = () => {
+    const navigate = useNavigate();
+    const checkLogin = () => {
+        if (localStorage.getItem("accessToken")) {
+            navigate('/quest');
+        } else {
+            navigate('/login');
+        }
+    }
     return (
         <MainBackground>
             <NewMainpageLogo>Goorm Coder</NewMainpageLogo>
-            <StartButton to="/login">
+            <StartButton onClick={checkLogin}>
                 시작하기
             </StartButton>
         </MainBackground>

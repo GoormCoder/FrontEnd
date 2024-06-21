@@ -5,14 +5,14 @@ import { acceptFriendRequestApi, findAllFriendRequestApi, findAllFriendsApi, fri
 
 
 interface FriendState {
-    friend: UserID;
+    friend: FriendData;
     friends: FriendData[]
     requesters: Requester[]
     message: string
 }
 
 const initialState: FriendState = {
-    friend: { loginId: "", name: "", nickname: "" },
+    friend: { loginId: "", name: "", nickname: "", email: "", birth: new Date, info: "" },
     friends: [],
     requesters: [],
     message: ""
@@ -77,9 +77,7 @@ const friendSlice = createSlice({
         setRequestersEmpty(state) {
             state.requesters = [];
         },
-        setFriend(state, action: PayloadAction<UserID>) {
-            console.log(action.payload);
-
+        setFriend(state, action: PayloadAction<FriendData>) {
             state.friend = action.payload;
         }
     },

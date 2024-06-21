@@ -14,10 +14,27 @@ export type User = {
     battleScore: number;
 }
 
+export type ChatRoomData = {
+    chatRoomId: number;
+    chatRoomName: string;
+    lastMessage: {
+        message: string;
+        createdAt: string;
+    };
+    sender: {
+        id: number;
+        loginId: string;
+        name: string;
+    }
+}
+
 export type ChatData = {
-    userID: string;
     message: string;
-    time: string;
+    createdAt: Date;
+    sender: {
+        longinId: string;
+        name: string;
+    }
 }
 
 export type Requester = {
@@ -35,6 +52,7 @@ export type FriendData = {
     nickname: string;
     email: string;
     birth: Date;
+    info: string;
 }
 
 // Interface
@@ -42,11 +60,10 @@ export type FriendData = {
 export interface UserID {
     loginId: string;
     name: string;
-    nickname: String;
+    nickname: string;
 }
-
-export interface ChatRoomID extends UserID {
-    chatRoomID: string;
+export interface FriendWrapper {
+    friend: FriendData;
 }
 
 export interface ChatDataProps {
@@ -66,13 +83,17 @@ export interface SetPageProps {
 }
 
 export interface FriendDataProps extends SetPageProps {
-    friendID: UserID
     setDisplay: (isOpened: boolean) => void;
 }
 
 export interface ChatRoomDataProps {
-    chatRoomData: ChatRoomID
     setDisplay: (isOpened: boolean) => void;
+}
+
+export interface ChatMessageRequest {
+    chatRoomId: number;
+    senderLoginId: string;
+    message: string;
 }
 
 // Enum
