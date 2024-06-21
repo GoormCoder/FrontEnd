@@ -4,6 +4,7 @@ import { FaAnglesRight } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { logoutApi } from '../../services/api/memberAPI';
 const SideBar: React.FC<SidebarProps> = ({ isOpen }) => {
 
     const linkData = [
@@ -18,8 +19,11 @@ const SideBar: React.FC<SidebarProps> = ({ isOpen }) => {
     const chatRef = useRef<HTMLDivElement | null>(null);
     const [isSidebarOpen, setisSidebarOpen] = useState(false);
 
-    const toggleSidebar = () => {
+    const toggleSidebar = (value?: string) => {
         setisSidebarOpen(pre => !pre);
+        if (value == "로그아웃") {
+            logoutApi();
+        }
     };
 
     useEffect(() => {
@@ -37,12 +41,12 @@ const SideBar: React.FC<SidebarProps> = ({ isOpen }) => {
 
     return (
         <SidebarMenu isOpen={isSidebarOpen} ref={chatRef}>
-            <SideBarButton isOpen={isSidebarOpen} onClick={toggleSidebar}>
+            <SideBarButton isOpen={isSidebarOpen} onClick={() => toggleSidebar()}>
                 {isSidebarOpen ? <FaAnglesRight /> : <GiHamburgerMenu />}
             </SideBarButton>
             <h2>Menu</h2>
             {linkData.map((data) => (
-                <Link to={data.path} onClick={toggleSidebar}>{data.value}</Link>
+                <Link to={data.path} onClick={() => toggleSidebar(data.value)}>{data.value}</Link>
             ))}
         </SidebarMenu>
     )

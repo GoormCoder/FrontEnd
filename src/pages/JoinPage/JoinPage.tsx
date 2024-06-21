@@ -1,7 +1,7 @@
 import axiosInstance from '../axiosInstance';
 import React, { useState } from 'react';
 import { Container, Form, Title, Label, Input, Select, SubmitButton, LinksContainer, Link } from '../../components/PageStyle';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 
 function JoinPage() {

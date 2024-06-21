@@ -4,16 +4,22 @@ import styled from 'styled-components'
 import { DisplayProps, FriendData, SetPageProps, User, UserID } from '../types'
 import { getUser } from '../../../services/api/memberAPI'
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks'
-import { setFriend } from '../../../store/slices/friendSlice'
+import { findAllFriends, setFriend } from '../../../store/slices/friendSlice'
 
 const FriendList: React.FC<SetPageProps> = ({ setPage }) => {
     const dispatch = useAppDispatch();
-    const { friends, friend } = useAppSelector(state => state.friend);
+    const { loginedMember } = useAppSelector(state => state.member);
+    const { friends } = useAppSelector(state => state.friend);
     const [display, setDisplay] = useState<boolean>(false);
     const setFriendDetail = (friend: FriendData) => {
         setDisplay(true)
         dispatch(setFriend(friend))
     }
+
+    useEffect(() => {
+        dispatch(findAllFriends(loginedMember.loginId))
+    }, []);
+
     return (
         <FriendListContainer>
             <List>
@@ -25,9 +31,11 @@ const FriendList: React.FC<SetPageProps> = ({ setPage }) => {
                     </div>
                 ))}
             </List>
-            <FriendContainer display={display}>
-                <Friend friendID={friend} setDisplay={setDisplay} setPage={setPage} />
-            </FriendContainer>
+            {display ?
+                <FriendContainer display={display}>
+                    <Friend setDisplay={setDisplay} setPage={setPage} />
+                </FriendContainer> : null}
+
         </FriendListContainer>
     )
 }

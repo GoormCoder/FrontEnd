@@ -6,7 +6,11 @@ import styled from 'styled-components';
 import Chat from './Chat';
 import CheckModal from '../../../components/Modal/CheckModal';
 import { CheckModalContainer, ModalText } from '../../../components/Modal/types';
-const Friend: React.FC<FriendDataProps> = ({ friendID, setDisplay, setPage }) => {
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
+import { createChatRoom } from '../../../store/slices/chatSlice';
+const Friend: React.FC<FriendDataProps> = ({ setDisplay, setPage }) => {
+    const dispatch = useAppDispatch();
+    const { friend } = useAppSelector(state => state.friend);
     const [chatDisplay, setChatDisplay] = useState<boolean>(false);
     const [modalDisplay, setModalDisplay] = useState<boolean>(false);
     const [modalValue, setModalValue] = useState<boolean | null>()
@@ -22,17 +26,31 @@ const Friend: React.FC<FriendDataProps> = ({ friendID, setDisplay, setPage }) =>
         setModalDisplay(false)
     }, [modalValue])
 
+    const createChat = () => {
+        dispatch(createChatRoom(friend.loginId))
+        setChatDisplay(true);
+    }
+
     return (
         <FriendContainer>
             <Title>
                 <BsChevronLeft onClick={() => setDisplay(false)} />
-                {`${friendID.name}(${friendID.nickname})`}
+                {`${friend.name}(${friend.nickname})`}
             </Title>
             <DetailContent>
-                FriendDetail
+                <table id="friendTable">
+                    <tbody id="friendTableBody">
+                        {Object.keys((friend)).map((key) => (
+                            <tr>
+                                <th>{key.toUpperCase()}</th>
+                                <th>{key === "birth" ? (friend as any)[key].toString() : (friend as any)[key]}</th>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </DetailContent>
             <ButtonContainer>
-                <div className='chat friend-btn' onClick={() => setChatDisplay(pre => !pre)}>
+                <div className='chat friend-btn' onClick={() => createChat()}>
                     <BsChatDotsFill />
                     <div>1:1채팅</div>
                 </div>
@@ -41,9 +59,11 @@ const Friend: React.FC<FriendDataProps> = ({ friendID, setDisplay, setPage }) =>
                     <div>친구삭제</div>
                 </div>
             </ButtonContainer>
-            <ChatContainer display={chatDisplay}>
-                <Chat chatRoomData={{ loginId: friendID.loginId, name: friendID.name, nickname: friendID.nickname, chatRoomID: "" }} setDisplay={setAllClose} />
-            </ChatContainer>
+            {chatDisplay ?
+                <ChatContainer display={chatDisplay}>
+                    <Chat setDisplay={setAllClose} />
+                </ChatContainer> : null}
+
             <CheckModalContainer display={modalDisplay}>
                 <CheckModal textType={ModalText.DELETE} setValue={setModalValue} />
             </CheckModalContainer>
@@ -79,6 +99,28 @@ const DetailContent = styled.div`
     flex-direction: column;
     gap: 10px;
     height: 470px;
+
+    & table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    & th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+    }
+
+    & th {
+        font-weight: bold;
+    }
+
+    & th {
+        padding: 15px;
+    }
+
+    & tr:nth-child(5) {
+        height: 219px;
+    }
 `;
 
 const ButtonContainer = styled.div`

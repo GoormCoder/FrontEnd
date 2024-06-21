@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import axiosInstance from '../axiosInstance';
-import axios from 'axios'; 
+import React, { useEffect, useState } from 'react';
+import axiosInstance from '../../services/api/axios';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -15,8 +15,12 @@ import {
     ErrorMessage,
     LoadingSpinner
 } from '../../components/PageStyle';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { setLoginedMember } from '../../store/slices/memberSlice';
 
 function LoginPage() {
+    const dispatch = useAppDispatch();
+    // const {  } = useAppSelector(state => state.member);
     const navigate = useNavigate();
     const [UserId, setUserId] = useState("");
     const [Password, setPassword] = useState("");
@@ -53,11 +57,13 @@ function LoginPage() {
             if (response.status === 200) {
                 // 로그인 성공 로직
                 // JWT 토큰을 로컬 스토리지에 저장
-                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('accessToken', response.data.accessToken);
+                localStorage.setItem('refreshToken', response.data.refreshToken);
+                dispatch(setLoginedMember({ loginId: response.data.loginId, name: response.data.name, nickname: response.data.nickname }));
                 setShowSuccessAlert(true); // 로그인 성공 메시지 표시
                 setTimeout(() => {
                     setShowSuccessAlert(false); // 일정 시간 후 메시지 숨기기
-                    navigate('/dashboard'); // 로그인 성공 후 리다이렉트
+                    window.location.replace('/quest'); // 로그인 성공 후 리다이렉트
                 }, 2000); // 2초 후에 메시지 숨기기
             }
         } catch (error) {
@@ -76,6 +82,12 @@ function LoginPage() {
             }
         }
     }
+
+    useEffect(() => {
+        if (localStorage.getItem("accessToken")) {
+            navigate('/quest');
+        }
+    }, [])
 
     return (
         <Container>
@@ -113,6 +125,7 @@ function LoginPage() {
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     background: 'white',
+                    border: '1px solid lightgray',
                     padding: '20px',
                     boxShadow: '0 0 10px rgba(0,0,0,0.1)',
                     zIndex: '1000'

@@ -4,12 +4,18 @@ import { findAllMemberByKeywordApi } from '../../services/api/memberAPI';
 
 
 interface MemberState {
+    loginedMember: UserID;
     member: User[];
     memberId: UserID[];
     searchText: string;
 }
 
 const initialState: MemberState = {
+    loginedMember: {
+        loginId: localStorage.getItem('loginId') || "",
+        name: localStorage.getItem('name') || "",
+        nickname: localStorage.getItem('nickname') || ""
+    },
     member: [],
     memberId: [],
     searchText: '',
@@ -45,6 +51,12 @@ const memberSlice = createSlice({
     name: 'member',
     initialState,
     reducers: {
+        setLoginedMember(state, action: PayloadAction<UserID>) {
+            state.loginedMember = action.payload;
+            localStorage.setItem('loginId', action.payload.loginId);
+            localStorage.setItem('name', action.payload.name);
+            localStorage.setItem('nickname', action.payload.nickname);
+        },
         setSearchText(state, action: PayloadAction<string>) {
             state.searchText = action.payload;
         },
@@ -63,6 +75,6 @@ const memberSlice = createSlice({
     }
 });
 
-export const { setSearchText, setMemberIdEmpty } = memberSlice.actions;
+export const { setLoginedMember, setSearchText, setMemberIdEmpty } = memberSlice.actions;
 
 export default memberSlice.reducer;

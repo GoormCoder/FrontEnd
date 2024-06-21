@@ -1,31 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { ChatRoomID, DisplayProps, User } from '../types'
+import { ChatRoomData } from '../types'
 import Chat from './Chat'
-import { getChatRooms } from '../../../services/api/chatAPI'
-import { getUserID } from '../../../services/api/memberAPI'
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks'
+import { findAllChatRoom, setChatRoom } from '../../../store/slices/chatSlice'
+import Alert from '../../../components/Alert/Alert'
 
 const ChatList = () => {
-    const userID = getUserID("51");
-    const chatRooms = getChatRooms(userID.loginId);
-    const [roomData, setRoomData] = useState<ChatRoomID>(chatRooms[0]);
+    const dispatch = useAppDispatch();
+    const { chatRooms } = useAppSelector(state => state.chat);
+    const { chatdeleteIsOpen } = useAppSelector(state => state.alert);
     const [display, setDisplay] = useState<boolean>(false);
-    const setChatDetail = (room: ChatRoomID) => {
-        setRoomData(room);
+    const setChatDetail = (room: ChatRoomData) => {
+        dispatch(setChatRoom(room))
         setDisplay(true)
     }
+
+    useEffect(() => {
+        dispatch(findAllChatRoom())
+    }, [chatdeleteIsOpen])
+
     return (
         <ChatListContainer>
             <List>
                 {chatRooms.map((room, index) => (
                     <ChatContent key={index} onClick={() => setChatDetail(room)}>
-                        {room.name}
+                        {room.chatRoomName}
                     </ChatContent>
                 ))}
             </List>
-            <ChatContainer display={display}>
-                <Chat chatRoomData={roomData} setDisplay={setDisplay} />
-            </ChatContainer>
+            {display ? <ChatContainer >
+                <Chat setDisplay={setDisplay} />
+            </ChatContainer> : null}
+            <Alert isOpen={chatdeleteIsOpen} />
         </ChatListContainer>
     )
 }
@@ -48,8 +55,8 @@ const ChatContent = styled.div`
     cursor: pointer;
 `
 
-const ChatContainer = styled.div<DisplayProps>`
-    display: ${props => props.display ? "block" : "none"};
+const ChatContainer = styled.div`
+    display: block;
     position: absolute;
     top:0px;
     width: 100%;

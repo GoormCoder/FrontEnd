@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, RouteProps, Routes, useLocation } from 'react-router-dom';
 import MainPage from './pages/MainPage/MainPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import JoinPage from './pages/JoinPage/JoinPage';
@@ -20,10 +20,18 @@ import ResetPwPage from './pages/ResetPwPage/ResetPwPage';
 
 function App() {
   const location = useLocation();
+  const isAuthenticated = !!localStorage.getItem('accessToken');
+
   const hideHeaderRoutes = [/^\/ide$/, /^\/quest\/\d+$/, /^\/login$/, /^\/join$/];
   const shouldHideHeader = hideHeaderRoutes.some((routePattern) =>
     routePattern.test(location.pathname)
   );
+
+  useEffect(() => {
+    if (!isAuthenticated && location.pathname != '/login' && location.pathname != '/' && location.pathname != '/join') {
+      window.location.replace('/login');
+    }
+  }, [location.pathname]);
   return (
     <div>
       {!shouldHideHeader && <Header />}
@@ -44,7 +52,7 @@ function App() {
         <Route path="/resetPw/:UserId" element={<ResetPwPage />} />
         <Route path="*" element={<MainPage />} />
       </Routes>
-      <ChatIcon />
+      {!shouldHideHeader && <ChatIcon />}
     </div>
   );
 }

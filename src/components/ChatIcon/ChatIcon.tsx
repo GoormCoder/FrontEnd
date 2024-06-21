@@ -21,9 +21,13 @@ const ChatIcon = () => {
 
     return (
         <ChatContainer>
-            <ChatPageContainer display={display} opacity={opacity}>
-                <ChatFriendPage />
-            </ChatPageContainer>
+            {display ?
+                <ChatPageContainer display={display} opacity={opacity}>
+                    <ChatFriendPage isOpen={display} />
+                </ChatPageContainer> : null}
+            {/* <ChatPageContainer display={display} opacity={opacity}>
+                <ChatFriendPage isOpen={display} />
+            </ChatPageContainer> */}
             <ChatIconContainer onClick={() => { setOpenChat() }}>
                 <div>
                     {opacity ? <IoMdClose /> : <IoMdCloudOutline />}
