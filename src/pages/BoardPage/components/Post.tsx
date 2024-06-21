@@ -1,16 +1,24 @@
-// src/components/PostItem.tsx
 import React from 'react';
 import styled from 'styled-components';
-import { Post } from '../types';
+import { BoardDetails } from '../types';
 
 const PostItemContainer = styled.tr`
     border-bottom: 1px solid #eee;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f9f9f9;
+    }
 `;
 
 const PostTitle = styled.td`
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 const PostMeta = styled.td`
@@ -19,13 +27,21 @@ const PostMeta = styled.td`
     color: #777;
 `;
 
-const PostItem: React.FC<Post> = ({ Title, Author, Likes, Date }) => {
+interface PostItemProps {
+    post: BoardDetails;
+}
+
+const PostItem: React.FC<PostItemProps> = ({ post }) => {
+    const handleClick = () => {
+        window.location.href = `/board/${post.boardId}`;
+    };
+
     return (
-        <PostItemContainer>
-            <PostTitle>{Title}</PostTitle>
-            <PostMeta>{Author}</PostMeta>
-            <PostMeta>{Likes} Likes</PostMeta>
-            <PostMeta>{Date}</PostMeta>
+        <PostItemContainer onClick={handleClick}>
+            <PostTitle>{post.title}</PostTitle>
+            <PostMeta>{post.member.nickname}</PostMeta>
+            <PostMeta>{post.likeCount} Likes</PostMeta>
+            <PostMeta>{new Date(post.createdAt).toLocaleDateString()}</PostMeta>
         </PostItemContainer>
     );
 };

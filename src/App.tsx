@@ -14,6 +14,7 @@ import BoardPage from './pages/BoardPage/BoardPage';
 import PostDetail from './pages/BoardPage/DetailPost/PostDetail';
 import Header from './components/Header/Header';
 import ChatIcon from './components/ChatIcon/ChatIcon';
+import EachPost from './pages/BoardPage/DetailPost/EachPost';
 
 function App() {
   const location = useLocation();
@@ -33,6 +34,7 @@ function App() {
         <Route path="/changepw" element={<ChangePwPage />} />
         <Route path="/board" element={<BoardPage />} />
         <Route path="/postwrite" element={<PostDetail />} />
+        <Route path="/board/:id" element={<EachPost />} />
       </Routes>
       <ChatIcon />
     </div>
