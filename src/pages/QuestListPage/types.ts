@@ -1,18 +1,16 @@
 // Types
 export type Quest = {
-    state: string | null,
+    id: number,
+    state: string | null
     title: string,
-    level: string,
-    correctPeople: number,
-    accuracy: string
+    level: number,
+    solved: number | null,
+    accuracy: number
 };
 
 export type Tag = string;
 
 // Interface
-export interface QuestListProps {
-    searchResult: Quest[]
-}
 
 export interface TagBoxProps {
     tagList: string[];

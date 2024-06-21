@@ -1,93 +1,55 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useEffect } from 'react';
 import { IoSearch } from "react-icons/io5";
+import styled from 'styled-components';
 
-import { Quest, Tag } from './types';
-import { OptionBoxes } from '../../components/OptionBox/types';
-import { findAllQuest } from '../../services/api/questAPI';
 import OptionBox from '../../components/OptionBox/OptionBox';
 import QuestList from './components/QuestList';
 import TagBox from './components/TagBox';
-
-import styled from 'styled-components'
 import SideStatus from './components/SideStatus';
+
+import { setSearchText, setTag, removeTag, search, findAllQuest } from '../../store/slices/questSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { OptionBoxes } from '../../components/OptionBox/types';
 
 
 const QuestListPage = () => {
-    const questList: Quest[] = findAllQuest();
-    const searchOptionBoxes = Object.values(OptionBoxes);
 
-    const [searchText, setSearchText] = useState<string>("");
-    const [tagList, setTagList] = useState<Tag[]>([]);
-    const [levelList, setLevelList] = useState<string[]>([]);
-    const [stateList, setStateList] = useState<(string | null)[]>([]);
-    const [searchResult, setSearchResult] = useState<Quest[]>(questList);
+    const dispatch = useAppDispatch();
+    const { searchText, tagList } = useAppSelector(state => state.quest);
 
     useEffect(() => {
-        search(null, searchText, questList);
-    }, [tagList])
+        dispatch(findAllQuest());
+    }, [dispatch]);
 
-    function setTag(type: string, checked: boolean, tagValue: string): void {
-        if (checked) {
-            setTagList(pre => [...pre, tagValue]);
-            if (type == "난이도") setLevelList(pre => [...pre, tagValue]);
-            if (type == "상태") setStateList(pre => [...pre, tagValue]);
-        } else {
-            removeTag(tagValue);
-        }
-    }
+    useEffect(() => {
+        dispatch(search());
+    }, [tagList, dispatch]);
 
-    function removeTag(tagValue: string): void {
-        const checkBox = document.getElementById(tagValue)
-        if (checkBox instanceof HTMLInputElement) checkBox.checked = false;
+    const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        dispatch(search());
+    };
 
-        setTagList(pre => pre.filter(tag => tag !== tagValue));
-        setLevelList(pre => pre.filter(tag => tag !== tagValue));
-        setStateList(pre => pre.filter(tag => tag !== tagValue));
-    }
-
-    function search(e: React.FormEvent<HTMLFormElement> | null, searchText: string, questList: Quest[]): void {
-        if (e) e.preventDefault();
-
-        const searchResult: Quest[] = questList.filter(quest => {
-            let state: string = "";
-            if (quest.state == "T") state = "푼 문제";
-            if (quest.state == "F") state = "풀고 있는 문제";
-            if (quest.state == null) state = "안 푼 문제";
-            const nonBlankSearchText = removeBlank(searchText);
-            const nonBlankQuestTitle = removeBlank(quest.title);
-            if (!levelList.length && !stateList.length) return nonBlankQuestTitle.includes(nonBlankSearchText)
-            if (!levelList.length && stateList.length) return nonBlankQuestTitle.includes(nonBlankSearchText) && stateList.includes(state);
-            if (levelList.length && !stateList.length) return nonBlankQuestTitle.includes(nonBlankSearchText) && levelList.includes(quest.level);
-            return nonBlankQuestTitle.includes(nonBlankSearchText) && levelList.includes(quest.level) && stateList.includes(state);
-        });
-        setSearchResult(searchResult);
-    }
-
-    // 문장 띄어쓰기 제거
-    function removeBlank(text: string): string {
-        return text.replace(/\s+/g, '');
-    }
 
     return (
         <QuestListContainer >
             <SearchAndListContainer>
                 <SearchContainer>
-                    <SearchFrom onSubmit={(e) => { search(e, searchText, questList) }}>
+                    <SearchFrom onSubmit={handleSearch}>
                         <input type="search"
                             placeholder="풀고 싶은 문제 제목 검색"
-                            onChange={(e) => { setSearchText(e.target.value) }} />
+                            value={searchText}
+                            onChange={(e) => { dispatch(setSearchText(e.target.value)) }} />
                         <button type="submit"><IoSearch /></button>
                     </SearchFrom>
                     <div className="search-select">
-                        {searchOptionBoxes.map((type) => (
-                            <OptionBox boxType={type} setValue={setTag} />
+                        {Object.values(OptionBoxes).map((type) => (
+                            <OptionBox boxType={type} setValue={(type: string, checked: boolean, tagValue: string) => dispatch(setTag({ type, checked, tagValue }))} />
                         ))}
-
                     </div>
-
-                    <TagBox tagList={tagList} removeTag={removeTag} />
+                    <TagBox tagList={tagList} removeTag={(tagValue: string) => dispatch(removeTag(tagValue))} />
                 </SearchContainer>
-                <QuestList searchResult={searchResult} />
+                <QuestList />
             </SearchAndListContainer>
             <SideStatus />
         </QuestListContainer>

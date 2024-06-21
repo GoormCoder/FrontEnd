@@ -1,0 +1,72 @@
+/* RankPage.css */
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.top-three {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0px;
+  margin-bottom: 40px;
+}
+
+.top-user {
+  text-align: center;
+  padding: 20px;
+  margin: 0 10px;
+}
+
+.top-user .user-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.top-user p {
+  margin: 10px 0;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+}
+
+.ranking-table th,
+.ranking-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.ranking-table th {
+  background-color: #f2f2f2;
+}
+
+.ranking-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.toggle-button {
+  float: right;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.toggle-button:hover {
+  background-color: #0056b3;
+}

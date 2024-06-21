@@ -1,32 +1,56 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { FaUserFriends } from "react-icons/fa";
+import { FaUserFriends, FaUserPlus } from "react-icons/fa";
 import { BsChatDotsFill } from "react-icons/bs";
 import ChatList from './components/ChatList';
 import FriendList from './components/FriendList';
 import { CurrentPage, DisplayProps } from './types';
-const ChatFriendPage = () => {
-    const [currentPage, setCurrentPage] = useState<string>(CurrentPage.FRIEND_LIST)
-    const [display, setDisplay] = useState<boolean>(true);
+import FriendAdd from './components/FriendAdd';
+const ChatFriendPage: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
+
+    const [currentPage, setCurrentPage] = useState<string>(CurrentPage.CHAT_LIST)
+    const [chatDisplay, setChatDisplay] = useState<boolean>(true);
+    const [friendDisplay, setFriendDisplay] = useState<boolean>(false);
+    const [addDisplay, setAddDisplay] = useState<boolean>(false);
 
     const setPage = (page: string) => {
         setCurrentPage(page);
-        if (page === CurrentPage.FRIEND_LIST) setDisplay(true)
-        if (page === CurrentPage.CHAT_LIST) setDisplay(false)
+        if (page === CurrentPage.FRIEND_LIST) {
+            setFriendDisplay(true)
+            setChatDisplay(false)
+            setAddDisplay(false)
+        }
+        if (page === CurrentPage.CHAT_LIST) {
+            setChatDisplay(true)
+            setFriendDisplay(false)
+            setAddDisplay(false)
+        }
+        if (page === CurrentPage.FRIEND_ADD) {
+            setAddDisplay(true)
+            setChatDisplay(false)
+            setFriendDisplay(false)
+        }
     }
 
     return (
         <ChatFriendContainer>
             <Title>{currentPage}</Title>
-            <FriendListContainer display={display}>
-                <FriendList />
-            </FriendListContainer>
-            <ChatListContainer display={!display}>
-                <ChatList />
-            </ChatListContainer>
+            {chatDisplay ?
+                <ChatListContainer display={chatDisplay}>
+                    <ChatList />
+                </ChatListContainer> : null}
+            {friendDisplay ?
+                <FriendListContainer display={friendDisplay}>
+                    <FriendList setPage={setPage} />
+                </FriendListContainer> : null}
+            {addDisplay ?
+                <FriendAddContainer display={addDisplay}>
+                    <FriendAdd setPage={setPage} />
+                </FriendAddContainer> : null}
             <NavigationBar>
-                <FaUserFriends onClick={() => { setPage(CurrentPage.FRIEND_LIST) }} />
                 <BsChatDotsFill onClick={() => { setPage(CurrentPage.CHAT_LIST) }} />
+                <FaUserFriends onClick={() => { setPage(CurrentPage.FRIEND_LIST) }} />
+                <FaUserPlus onClick={() => { setPage(CurrentPage.FRIEND_ADD) }} />
             </NavigationBar>
         </ChatFriendContainer>
     )
@@ -38,7 +62,7 @@ const ChatFriendContainer = styled.div`
     display: flex;
     position: relative;
     flex-direction: column;
-    border: 1px solid black;
+    border: 1px solid lightgray;
     border-radius: 20px;
     width: 330px;
     height: 570px;
@@ -55,6 +79,12 @@ const Title = styled.div`
 `
 
 const FriendListContainer = styled.div<DisplayProps>`
+    display: ${props => props.display ? "block" : "none"};
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 470px;
+`
+const FriendAddContainer = styled.div<DisplayProps>`
     display: ${props => props.display ? "block" : "none"};
     border-top: 1px solid black;
     border-bottom: 1px solid black;

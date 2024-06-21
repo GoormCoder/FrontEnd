@@ -1,21 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { getRecentSolveQuest } from '../../../services/api/questAPI';
-import { getUser } from '../../../services/api/userAPI';
+import { getUser } from '../../../services/api/memberAPI';
 import { BsCheckLg, BsThreeDots } from "react-icons/bs";
 import { FaCircleQuestion } from "react-icons/fa6";
 import RankInfo from './RankInfo';
 import { User } from '../../ChatFriendPage/types';
+import { useAppSelector } from '../../../hooks/reduxHooks';
 
 const SideStatus = () => {
-    const user: User = getUser("51");
-    const recentSolveQuest = getRecentSolveQuest(user.id);
+    const { loginedMember } = useAppSelector(state => state.member);
     const [rankInfoDisplay, setRankInfoDisplay] = useState<boolean>(false);
     return (
         <SideStatusContainer>
             <div className='user-status'>
                 <div>
-                    {user.name + `(${user.nick})`}
+                    {loginedMember.name + `(${loginedMember.nickname})`}
                 </div>
                 <FaCircleQuestion onClick={() => setRankInfoDisplay(pre => !pre)} />
                 <RankInfo rankInfoDisplay={rankInfoDisplay} setRankInfoDisplay={setRankInfoDisplay} />
@@ -31,8 +30,8 @@ const SideStatus = () => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{user.overallRank}위</td>
-                            <td>{user.overallScore}점</td>
+                            <td>11위</td>
+                            <td>100점</td>
                             <td>140개</td>
                         </tr>
                     </tbody>
@@ -48,7 +47,7 @@ const SideStatus = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {recentSolveQuest.map((row, index) => (
+                        {/* {recentSolveQuest.map((row, index) => (
                             <tr key={index}>
                                 <td>
                                     {row.state ?
@@ -59,7 +58,7 @@ const SideStatus = () => {
                                 </td>
                                 <td style={{ textAlign: "left", cursor: "pointer" }}>{row.title}</td>
                             </tr>
-                        ))}
+                        ))} */}
                     </tbody>
                 </table>
             </div>

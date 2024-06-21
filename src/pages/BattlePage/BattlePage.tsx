@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import OptionBox from '../../components/OptionBox/OptionBox'
 import { OptionBoxes } from '../../components/OptionBox/types'
 import { testLog } from '../../utils/testLog'
-import { getUserID } from '../../services/api/userAPI'
+import { getUserID } from '../../services/api/memberAPI'
 import { getUserBattleData } from '../../services/api/battleAPI'
 
 const BattlePage = () => {
 
     const userID = getUserID("51");
-    const userBattleData = getUserBattleData(userID.id);
+    const userBattleData = getUserBattleData("userID"); // 수정필요
     const tierImagePath = require(`../../assets/tier/${userBattleData.tier}_tier.png`);
     const searchOptionBoxes = Object.values(OptionBoxes).slice(1, 3);
     const setValue = (type: string, checked: boolean, value: string) => {
@@ -24,7 +24,7 @@ const BattlePage = () => {
                         <img src={tierImagePath} alt="Tier" />
                     </BattleTierImage>
                     <BattleTierInfo>
-                        <div>{userID.userName}</div>
+                        <div>{userID.name}</div>
                         <div>{userBattleData.tier} {userBattleData.score} {`(${userBattleData.rank}위)`}</div>
                         <div>{userBattleData.win}승 {userBattleData.lose}패 {`(승률 ${userBattleData.winRatio}%)`}</div>
                     </BattleTierInfo>

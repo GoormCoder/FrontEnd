@@ -1,4 +1,42 @@
+import axios from "./axios";
 import { User, UserID } from "../../pages/ChatFriendPage/types";
+
+
+// export function loginApi(loginId: string, password: string): Promise<UserID[]>{
+//     return axios.get(`/members/login`)
+//         .then(res => {
+//             const data: UserID[] = res.data
+//             return data;
+//         })
+//         .catch(err => {
+//             console.error("Error fetching data:", err);
+//             return [];
+//         });
+// }
+
+export function logoutApi(): void {
+    axios.post("/members/logout", { token: localStorage.getItem('refreshToken') })
+        .then(res => {
+            alert("로그아웃이 완료되었습니다.")
+            localStorage.clear();
+        })
+        .catch(err => {
+            console.error("Error fetching data:", err);
+            alert("[ERROR] 로그아웃 실패. 다시 시도해주세요.")
+        });
+}
+
+export function findAllMemberByKeywordApi(keyword: string): Promise<UserID[]> {
+    return axios.get(`/members/${keyword}`)
+        .then(res => {
+            const data: UserID[] = res.data
+            return data;
+        })
+        .catch(err => {
+            console.error("Error fetching data:", err);
+            return [];
+        });
+}
 
 // 임시 유저 정보
 export function getUser(userId: string): User {
@@ -12,7 +50,7 @@ export function getUserID(userId: string): UserID {
     const userData: User = dummyUsers.filter(user => {
         return user.id === userId;
     })[0]
-    return ({ id: userData.id, userName: userData.name + `(${userData.nick})` })
+    return ({ loginId: userData.id, name: userData.name + `(${userData.nick})`, nickname: userData.nick })
 }
 
 export const dummyUsers: User[] = [
