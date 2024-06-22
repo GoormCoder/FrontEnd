@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import CodeEditor from '../../components/Editor/Editor'
+// import CodeEditor from '../../components/Editor/Editor'
 import { Editor } from '@monaco-editor/react'
 import Timer from '../../components/Timer/Timer'
 import dummy from './dummy.json'
@@ -9,10 +9,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks'
 import { findQuestion } from '../../store/slices/questSlice'
 import { BottomButtonProps, QuestionSummaryDto } from './types';
 import { createSolve } from '../../services/api/solveAPI';
-
-interface BottomButtonProps {
-    isSubmit?: boolean;
-}
 
 const MainContainer = styled.div`
     display: flex;
@@ -82,7 +78,7 @@ const IDEPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const pathParts = location.pathname.split('/');
-    const questionId = parseInt(pathParts[pathParts.length - 1]);
+    const questionId1 = parseInt(pathParts[pathParts.length - 1]);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [initialCode, setInitialCode] = useState(
         `public class HelloWorld {
@@ -90,8 +86,8 @@ const IDEPage: React.FC = () => {
         System.out.println("Hello, World!");
     }
 }`);
-    const [language, setLanguage] = useState('JAVA'); 
-    const [questionId, setQuestionId] = useState(1); 
+    const [language, setLanguage] = useState('JAVA');
+    const [questionId, setQuestionId] = useState(1);
 
     const handleTimeUp = () => {
         if (buttonRef.current) {
@@ -115,9 +111,9 @@ const IDEPage: React.FC = () => {
             alert('풀이 제출 중 오류가 발생했습니다.');
         }
     };
-  
+
     useEffect(() => {
-        dispatch(findQuestion(questionId))
+        dispatch(findQuestion(questionId1))
     }, [])
 
     // const preventGoBack = () => {
@@ -173,7 +169,7 @@ const IDEPage: React.FC = () => {
                         options={{
                             padding: { top: 20, bottom: 20 },
                         }}
-                        onChange={(value) => setInitialCode(value || '')} 
+                        onChange={(value) => setInitialCode(value || '')}
                     ></Editor>
                 </EditSection>
             </TopSection>
