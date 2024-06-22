@@ -92,7 +92,7 @@ const IDEPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const pathParts = location.pathname.split('/');
-    const questionId1 = parseInt(pathParts[pathParts.length - 1]);
+    const questionId = parseInt(pathParts[pathParts.length - 1]);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [initialCode, setInitialCode] = useState(
         `public class HelloWorld {
