@@ -1,12 +1,22 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { Editor } from '@monaco-editor/react';
-import Timer from '../../components/Timer/Timer';
+
 import ReactMarkdown from 'react-markdown';
 import { BottomButtonProps, Solve } from './types';
 import { createSolve, getQuestionSolves, getSolve } from '../../services/api/solveAPI';
 import { getQuestion } from '../../services/api/questAPI';
+import React, { useEffect, useRef, useState } from 'react'
+import styled from 'styled-components'
+import CodeEditor from '../../components/Editor/Editor'
+import { Editor } from '@monaco-editor/react'
+import Timer from '../../components/Timer/Timer'
+import dummy from './dummy.json'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks'
+import { findQuestion } from '../../store/slices/questSlice'
+import { BottomButtonProps, QuestionSummaryDto } from './types';
+
+interface BottomButtonProps {
+    isSubmit?: boolean;
+}
 
 const MainContainer = styled.div`
     display: flex;
@@ -81,6 +91,13 @@ const ResultSection = styled.div`
 
 const IDEPage: React.FC = () => {
     const navigate = useNavigate();
+
+    const { questDetaile } = useAppSelector(state => state.quest);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const pathParts = location.pathname.split('/');
+    const questionId = parseInt(pathParts[pathParts.length - 1]);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [initialCode, setInitialCode] = useState(
         `public class HelloWorld {
@@ -134,6 +151,44 @@ const IDEPage: React.FC = () => {
             alert('풀이 제출 중 오류가 발생했습니다.');
         }
     };
+  
+    useEffect(() => {
+        dispatch(findQuestion(questionId))
+    }, [])
+
+    // const preventGoBack = () => {
+    //     // window.history.pushState(null, '', window.location.href); // 이거 유무에 따라 뒤로 못감
+    //     alert('뒤로 갈 수 없닭! 🐓');
+    // };
+
+    // useEffect(() => {
+    //     const handlePopState = () => {
+    //         preventGoBack();
+    //     };
+    //     console.log(window.location.href)
+    //     window.history.pushState(null, '', window.location.href);
+    //     window.addEventListener('popstate', handlePopState);
+
+    //     return () => {
+    //         window.removeEventListener('popstate', handlePopState);
+    //     };
+    // }, []);
+
+    // window.addEventListener('beforeunload', (event) => {
+    //     // 제출버튼을 누른 상황에서는 작동안하게
+    //     const checkBattle = sessionStorage.getItem("battleData")
+    //     const normalMessage = "변경 사항이 저장되지 않을 수 있습니다. 정말로 떠나시겠습니까?";
+    //     const battleMessage = "페이지를 떠날시 패배처리됩니다. 정말로 떠나시겠습니까?";
+    //     event.returnValue = checkBattle ? battleMessage : normalMessage
+    //     alert(checkBattle ? battleMessage : normalMessage);
+    // });
+
+    // window.addEventListener('unload', (event) => {
+    //     // 제출버튼을 누른 상황에서는 작동안하게
+    //     sessionStorage.removeItem("battleData")
+    //     sessionStorage.removeItem("battleMember")
+    //     window.location.reload();
+    // });
 
     const handleReset = () => {
         setCurrentCode(initialCode);
@@ -165,13 +220,9 @@ const IDEPage: React.FC = () => {
             <TopSection>
                 <ProblemSection>
                     <ProblemTitle>문제 설명</ProblemTitle>
-                    <ProblemDetail>
-                        <ReactMarkdown>{questionTitle}</ReactMarkdown>
-                    </ProblemDetail>
+                    <ProblemDetail><ReactMarkdown>{questDetaile.title}</ReactMarkdown></ProblemDetail>
                     <ProblemTitle>입출력 예</ProblemTitle>
-                    <ProblemDetail>
-                        <ReactMarkdown>{questionContent}</ReactMarkdown>
-                    </ProblemDetail>
+                    <ProblemDetail><ReactMarkdown>{questDetaile.content}</ReactMarkdown></ProblemDetail>
                 </ProblemSection>
                 <EditSection>
                     <Timer onTimeUp={handleTimeUp}></Timer>

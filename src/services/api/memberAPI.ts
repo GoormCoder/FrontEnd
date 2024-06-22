@@ -26,8 +26,8 @@ export function logoutApi(): void {
         });
 }
 
-export function findAllMemberByKeywordApi(keyword: string): Promise<UserID[]> {
-    return axios.get(`/members/${keyword}`)
+export function findAllMemberByKeywordApi(keyword: string, loginId: string): Promise<UserID[]> {
+    return axios.get(`/members/${keyword}/${loginId}`)
         .then(res => {
             const data: UserID[] = res.data
             return data;
