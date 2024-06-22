@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { getUser } from '../../../services/api/memberAPI';
 import { BsCheckLg, BsThreeDots } from "react-icons/bs";
 import { FaCircleQuestion } from "react-icons/fa6";
 import RankInfo from './RankInfo';

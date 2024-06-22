@@ -1,5 +1,4 @@
 import { FriendData, FriendWrapper, Requester, UserID } from "../../pages/ChatFriendPage/types";
-import { dummyUsers } from "./memberAPI";
 import axios from "./axios";
 
 export function friendRequestApi(loginId: string, receiver: string): Promise<string> {
@@ -50,11 +49,4 @@ export function findAllFriendsApi(loginId: string): Promise<FriendData[]> {
             console.error("Error fetching data:", err);
             return [];
         });
-}
-
-export function getFriendsID(id: string): UserID[] {
-    const friendsID: UserID[] = dummyUsers.map((user) => {
-        return ({ loginId: user.id, name: user.name + `(${user.nick})`, nickname: user.nick })
-    })
-    return friendsID.slice(0, 10);
 }

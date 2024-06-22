@@ -92,7 +92,7 @@ const IDEPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const pathParts = location.pathname.split('/');
-    const questionId = parseInt(pathParts[pathParts.length - 1]);
+    const questionId1 = parseInt(pathParts[pathParts.length - 1]);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [initialCode, setInitialCode] = useState(
         `public class HelloWorld {
@@ -100,6 +100,7 @@ const IDEPage: React.FC = () => {
         System.out.println("Hello, World!");
     }
 }`);
+
     const [currentCode, setCurrentCode] = useState(initialCode);
     const [language, setLanguage] = useState('JAVA'); 
     const [gradingResult, setGradingResult] = useState<string | null>(null); 

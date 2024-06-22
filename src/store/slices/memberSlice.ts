@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User, UserID } from '../../pages/ChatFriendPage/types';
-import { findAllMemberByKeywordApi } from '../../services/api/memberAPI';
+import { findAllBattleRankApi, findAllMemberByKeywordApi, findAllPraiseRankApi } from '../../services/api/memberAPI';
+import { RankData } from '../../pages/RankPage/types';
 
 
 interface MemberState {
@@ -8,6 +9,7 @@ interface MemberState {
     member: User[];
     memberId: UserID[];
     searchText: string;
+    RankData: RankData[];
 }
 
 const initialState: MemberState = {
@@ -19,7 +21,34 @@ const initialState: MemberState = {
     member: [],
     memberId: [],
     searchText: '',
+    RankData: []
 };
+
+export const findAllBattleRank = createAsyncThunk(
+    'member/findAllBattleRank',
+    async () => {
+        try {
+            const response = await findAllBattleRankApi();
+            return response;
+        } catch (error) {
+            console.error('Error fetching quests:', error);
+            throw error;
+        }
+    }
+);
+
+export const findAllPraiseRank = createAsyncThunk(
+    'member/findAllPraiseRank',
+    async () => {
+        try {
+            const response = await findAllPraiseRankApi();
+            return response;
+        } catch (error) {
+            console.error('Error fetching quests:', error);
+            throw error;
+        }
+    }
+);
 
 export const findAllMemberByKeyword = createAsyncThunk(
     'member/findAllByKeyword',
@@ -68,6 +97,12 @@ const memberSlice = createSlice({
         builder
             .addCase(findAllMemberByKeyword.fulfilled, (state, action) => {
                 state.memberId = action.payload;
+            })
+            .addCase(findAllBattleRank.fulfilled, (state, action) => {
+                state.RankData = action.payload;
+            })
+            .addCase(findAllPraiseRank.fulfilled, (state, action) => {
+                state.RankData = action.payload;
             })
             .addCase(login.fulfilled, (state, action) => {
                 // state.member = action.payload;
