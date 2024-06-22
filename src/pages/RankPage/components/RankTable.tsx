@@ -65,10 +65,6 @@ const RankTableContainer = styled.div`
         background-color: #75bfffe3;
     }
 
-    & thead tr {
-        border-bottom: 1px solid ;
-    }
-
     & tbody {
         background-color: whitesmoke;
     }

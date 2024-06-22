@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import main_logo from '../../assets/goorm_coder_logo.gif'
 import styled from 'styled-components'
-import { GiHamburgerMenu } from "react-icons/gi";
 import SideBar from '../SideBar/SideBar';
 import { Link } from 'react-router-dom';
 
@@ -26,6 +25,9 @@ const LeftSection = styled(Link)`
     gap: 10px;
     text-decoration: none;
     cursor: pointer;
+    @media only screen and (max-width: 430px) {
+        margin-left: 10px;
+    }
 `;
 
 const RightSection = styled.div`
@@ -47,33 +49,9 @@ const LogoText = styled.p`
     margin: 0;
     text-decoration: none;
 `;
-const LoginText = styled.p`
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;    
-    margin: 0;  
-    margin-right: 20px;
-    cursor: pointer;
-`;
-const SideBarButton = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-    height: 50px;
-    width: 50px;
-    margin-right: 80px;
-    font-size: 30px;
-    cursor: pointer;
-`;
-
 
 const Header = () => {
     const [isSidebarOpen, setisSidebarOpen] = useState(false);
-
-    const toggleSidebar = () => {
-        setisSidebarOpen(!isSidebarOpen);
-    };
 
     return (
         <>
@@ -83,10 +61,6 @@ const Header = () => {
                     <LogoText>Goorm Coder</LogoText>
                 </LeftSection>
                 <RightSection>
-                    {/* <LoginText>로그아웃</LoginText> */}
-                    {/* <SideBarButton onClick={toggleSidebar}>
-                        <GiHamburgerMenu />
-                    </SideBarButton> */}
                 </RightSection>
             </HeaderContainer>
             <SideBar isOpen={isSidebarOpen} />

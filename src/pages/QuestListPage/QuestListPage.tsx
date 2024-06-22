@@ -112,7 +112,7 @@ const SearchFrom = styled.form`
     & button {
         position: absolute;
         right: 2px;
-        width: 5%;
+        width: 40px;
         height: 40px;
         font-size: 25px;
         background-color: white;

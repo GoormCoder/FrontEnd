@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
-import { BattleData, BattleRoomData } from '../../pages/BattlePage/types';
-import { createBattleRoomApi, deleteBattleRoomApi, findBattleRoomApi, startBattleApi } from '../../services/api/battleAPI';
+import { BattleData, BattleInfo, BattleRoomData } from '../../pages/BattlePage/types';
+import { createBattleRoomApi, deleteBattleRoomApi, findAllBattleResultApi, findBattleRoomApi, startBattleApi } from '../../services/api/battleAPI';
 
 
 interface BattleState {
@@ -11,6 +11,7 @@ interface BattleState {
         loginId: string,
         nickname: string
     }
+    battleInfo: BattleInfo;
 }
 const roomId = sessionStorage.getItem("battleRoomId")
 const battle = sessionStorage.getItem("battleData")
@@ -52,7 +53,20 @@ const initialState: BattleState = {
         } : {
             loginId: "",
             nickname: ""
-        }
+        },
+    battleInfo: {
+        nickname: "",
+        battleScore: 0,
+        totalResult: "",
+        winRate: "",
+        battleRecords: [
+            {
+                givenUser: "",
+                receivedUser: "",
+                result: ""
+            }
+        ]
+    }
 };
 
 
@@ -102,6 +116,19 @@ export const deleteBattleRoom = createAsyncThunk(
     async (battleRoomId: number) => {
         try {
             const response = await deleteBattleRoomApi(battleRoomId);
+            return response;
+        } catch (error) {
+            console.error('Error fetching quests:', error);
+            throw error;
+        }
+    }
+);
+
+export const findAllBattleResult = createAsyncThunk(
+    'battle/findAllBattleResult',
+    async () => {
+        try {
+            const response = await findAllBattleResultApi();
             return response;
         } catch (error) {
             console.error('Error fetching quests:', error);
@@ -164,6 +191,9 @@ const battleSlice = createSlice({
                 sessionStorage.removeItem("battleMember")
                 state.battleRoom = emptyState.battleRoom
             })
+            .addCase(findAllBattleResult.fulfilled, (state, action) => {
+                state.battleInfo = action.payload
+            })
     }
 });
 
@@ -204,5 +234,18 @@ const emptyState: BattleState = {
     battleMember: {
         loginId: "",
         nickname: ""
+    },
+    battleInfo: {
+        nickname: "",
+        battleScore: 0,
+        totalResult: "",
+        winRate: "",
+        battleRecords: [
+            {
+                givenUser: "",
+                receivedUser: "",
+                result: ""
+            }
+        ]
     }
 }
