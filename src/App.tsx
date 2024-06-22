@@ -21,12 +21,6 @@ import ResetPwPage from './pages/ResetPwPage/ResetPwPage';
 import SolvePage from './pages/solvePage/SolvePage';
 import EditPost from './pages/BoardPage/DetailPost/EditPost';
 
-// if (window.ResizeObserver) {
-//   const ro = new ResizeObserver(() => {
-//       // 빈 함수로 에러 무시
-//   });
-//   ro.observe(document.body);
-// }
 function App() {
   const location = useLocation();
   const isAuthenticated = !!localStorage.getItem('accessToken');
