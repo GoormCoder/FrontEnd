@@ -1,0 +1,65 @@
+[
+    {
+        "id": 1,
+        "code": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}",
+        "solveResult": "success",
+        "language": "java",
+        "createdAt": "2023-06-22T10:20:30Z",
+        "questionSummaryDto": {
+            "id": 1,
+            "title": "Hello World 문제",
+            "level": 1,
+            "tags": [
+                {"id": 1, "name": "intro"},
+                {"id": 2, "name": "basic"}
+            ]
+        },
+        "memberSummaryDto": {
+            "id": 1,
+            "loginId": "user1",
+            "nick": "User One"
+        }
+    },
+    {
+        "id": 2,
+        "code": "#include <iostream>\nusing namespace std;\nint main() {\n    cout << \"Hello, World!\" << endl;\n    return 0;\n}",
+        "solveResult": "success",
+        "language": "cpp",
+        "createdAt": "2023-06-23T11:25:30Z",
+        "questionSummaryDto": {
+            "id": 1,
+            "title": "Hello World 문제",
+            "level": 1,
+            "tags": [
+                {"id": 1, "name": "intro"},
+                {"id": 2, "name": "basic"}
+            ]
+        },
+        "memberSummaryDto": {
+            "id": 2,
+            "loginId": "user2",
+            "nick": "User Two"
+        }
+    },
+    {
+        "id": 3,
+        "code": "print(\"Hello, World!\")",
+        "solveResult": "success",
+        "language": "python",
+        "createdAt": "2023-06-24T12:30:30Z",
+        "questionSummaryDto": {
+            "id": 1,
+            "title": "Hello World 문제",
+            "level": 1,
+            "tags": [
+                {"id": 1, "name": "intro"},
+                {"id": 2, "name": "basic"}
+            ]
+        },
+        "memberSummaryDto": {
+            "id": 3,
+            "loginId": "user3",
+            "nick": "User Three"
+        }
+    }
+]

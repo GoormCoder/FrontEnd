@@ -18,6 +18,8 @@ import EachPost from './pages/BoardPage/DetailPost/EachPost';
 import FindIdPage from './pages/FindIdPage/FindIdPage';
 import FindPwPage from './pages/FindPwPage/FindPwPage';
 import ResetPwPage from './pages/ResetPwPage/ResetPwPage';
+import SolvePage from './pages/solvePage/SolvePage';
+import EditPost from './pages/BoardPage/DetailPost/EditPost';
 
 function App() {
   const location = useLocation();
@@ -44,12 +46,14 @@ function App() {
         <Route path="/ide" element={<IDEPage />} />
         <Route path="/quest" element={<QuestListPage />} />
         <Route path="/quest/:num" element={<IDEPage />} />
+        <Route path="/questions/:questionId/solves" element={<SolvePage />} />
         <Route path="/rank" element={<RankPage />} />
         <Route path="/battle" element={<BattlePage />} />
         <Route path="/changepw" element={<ChangePwPage />} />
         <Route path="/board" element={<BoardPage />} />
         <Route path="/postwrite" element={<PostDetail />} />
-        <Route path="/board/:id" element={<EachPost />} />
+        <Route path="/board/:boardId" element={<EachPost />} />
+        <Route path="/boards/:boardId/edit" element={<EditPost />} />
         <Route path="/findId" element={<FindIdPage />} />
         <Route path="/findPw" element={<FindPwPage />} />
         <Route path="/resetPw/:UserId" element={<ResetPwPage />} />

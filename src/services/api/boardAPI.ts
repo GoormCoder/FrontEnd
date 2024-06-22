@@ -1,6 +1,19 @@
 import axios from './axios';
 import { BoardPost, BoardDetails } from '../../pages/BoardPage/types';
 
+// 게시글 타입별 조회
+export function getBoardPostsByType(boardType: string): Promise<BoardDetails[]> {
+    return axios.get('/boards', {
+        params: { boardType }
+    })
+    .then(response => {
+        return response.data as BoardDetails[];
+    })
+    .catch(error => {
+        console.error("게시글을 불러오는 중 오류가 발생했습니다:", error);
+        throw error;
+    });
+}
 // 게시글 등록
 export function createBoardPost(boardPost: BoardPost): Promise<void> {
     return axios.post('/boards', boardPost)
@@ -48,6 +61,30 @@ export function getAllBoardPosts(): Promise<BoardDetails[]> {
         })
         .catch(error => {
             console.error("전체 게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
+            throw error;
+        });
+}
+
+// 게시글 좋아요 생성
+export function likeBoardPost(boardId: number): Promise<void> {
+    return axios.post(`/boards/${boardId}/like`)
+        .then(response => {
+            console.log("게시글 좋아요가 성공적으로 생성되었습니다.");
+        })
+        .catch(error => {
+            console.error("게시글 좋아요 생성 중 오류가 발생했습니다:", error);
+            throw error;
+        });
+}
+
+// 게시글 좋아요 취소
+export function unlikeBoardPost(boardId: number): Promise<void> {
+    return axios.post(`/boards/${boardId}/unlike`)
+        .then(response => {
+            console.log("게시글 좋아요가 성공적으로 취소되었습니다.");
+        })
+        .catch(error => {
+            console.error("게시글 좋아요 취소 중 오류가 발생했습니다:", error);
             throw error;
         });
 }

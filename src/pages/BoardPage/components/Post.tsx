@@ -33,7 +33,7 @@ interface PostItemProps {
 
 const PostItem: React.FC<PostItemProps> = ({ post }) => {
     const handleClick = () => {
-        window.location.href = `/board/${post.boardId}`;
+        window.location.href = `/boards/${post.boardId}`;
     };
 
     return (
