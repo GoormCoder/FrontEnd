@@ -14,6 +14,7 @@ import BoardPage from './pages/BoardPage/BoardPage';
 import PostDetail from './pages/BoardPage/DetailPost/PostDetail';
 import Header from './components/Header/Header';
 import ChatIcon from './components/ChatIcon/ChatIcon';
+import EachPost from './pages/BoardPage/DetailPost/EachPost';
 import FindIdPage from './pages/FindIdPage/FindIdPage';
 import FindPwPage from './pages/FindPwPage/FindPwPage';
 import ResetPwPage from './pages/ResetPwPage/ResetPwPage';
@@ -55,6 +56,8 @@ function App() {
         <Route path="/battle" element={<BattlePage />} />
         <Route path="/changepw" element={<ChangePwPage />} />
         <Route path="/board" element={<BoardPage />} />
+        <Route path="/postwrite" element={<PostDetail />} />
+        <Route path="/board/:id" element={<EachPost />} />
         <Route path="/findId" element={<FindIdPage />} />
         <Route path="/findPw" element={<FindPwPage />} />
         <Route path="/resetPw/:UserId" element={<ResetPwPage />} />

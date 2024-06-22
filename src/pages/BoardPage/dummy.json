@@ -1,122 +1,272 @@
 {
     "Post1": {
-        "Title": "이진 탐색 알고리즘 질문",
-        "Author": "코드마스터",
-        "Likes": 25,
-        "Date": "2024-06-17"
+        "boardId": 1,
+        "boardType": "FREE_BOARD",
+        "title": "이진 탐색 알고리즘 질문",
+        "content": "",
+        "createdAt": "2024-06-17",
+        "likeCount": 25,
+        "member": {
+            "id": 1,
+            "loginId": "loginId1",
+            "nickname": "코드마스터"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post2": {
-        "Title": "다익스트라 알고리즘 관련 질문입니다",
-        "Author": "알고리즘마스터",
-        "Likes": 18,
-        "Date": "2024-06-16"
+        "boardId": 2,
+        "boardType": "FREE_BOARD",
+        "title": "다익스트라 알고리즘 관련 질문입니다",
+        "content": "",
+        "createdAt": "2024-06-16",
+        "likeCount": 18,
+        "member": {
+            "id": 2,
+            "loginId": "loginId2",
+            "nickname": "알고리즘마스터"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post3": {
-        "Title": "동적 계획법 질문드립니다",
-        "Author": "알고리즘초보",
-        "Likes": 10,
-        "Date": "2024-06-15"
+        "boardId": 3,
+        "boardType": "FREE_BOARD",
+        "title": "동적 계획법 질문드립니다",
+        "content": "",
+        "createdAt": "2024-06-15",
+        "likeCount": 10,
+        "member": {
+            "id": 3,
+            "loginId": "loginId3",
+            "nickname": "알고리즘초보"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post4": {
-        "Title": "퀵 정렬 관련 질문입니다",
-        "Author": "코딩닌자",
-        "Likes": 30,
-        "Date": "2024-06-14"
+        "boardId": 4,
+        "boardType": "FREE_BOARD",
+        "title": "퀵 정렬 관련 질문입니다",
+        "content": "",
+        "createdAt": "2024-06-14",
+        "likeCount": 30,
+        "member": {
+            "id": 4,
+            "loginId": "loginId4",
+            "nickname": "코딩닌자"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post5": {
-        "Title": "그래프 알고리즘 질문합니다",
-        "Author": "알고리즘사랑",
-        "Likes": 15,
-        "Date": "2024-06-13"
+        "boardId": 5,
+        "boardType": "FREE_BOARD",
+        "title": "그래프 알고리즘 질문합니다",
+        "content": "",
+        "createdAt": "2024-06-13",
+        "likeCount": 15,
+        "member": {
+            "id": 5,
+            "loginId": "loginId5",
+            "nickname": "알고리즘사랑"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post6": {
-        "Title": "너비 우선 탐색 질문드립니다",
-        "Author": "탐색전문가",
-        "Likes": 12,
-        "Date": "2024-06-12"
+        "boardId": 6,
+        "boardType": "FREE_BOARD",
+        "title": "너비 우선 탐색 질문드립니다",
+        "content": "",
+        "createdAt": "2024-06-12",
+        "likeCount": 12,
+        "member": {
+            "id": 6,
+            "loginId": "loginId6",
+            "nickname": "탐색전문가"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post7": {
-        "Title": "재귀 함수의 활용에 대한 질문입니다",
-        "Author": "재귀마스터",
-        "Likes": 20,
-        "Date": "2024-06-11"
+        "boardId": 7,
+        "boardType": "FREE_BOARD",
+        "title": "재귀 함수의 활용에 대한 질문입니다",
+        "content": "",
+        "createdAt": "2024-06-11",
+        "likeCount": 20,
+        "member": {
+            "id": 7,
+            "loginId": "loginId7",
+            "nickname": "재귀마스터"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post8": {
-        "Title": "이분 탐색 알고리즘 최적화 방법 질문",
-        "Author": "탐색연구가",
-        "Likes": 28,
-        "Date": "2024-06-10"
+        "boardId": 8,
+        "boardType": "FREE_BOARD",
+        "title": "이분 탐색 알고리즘 최적화 방법 질문",
+        "content": "",
+        "createdAt": "2024-06-10",
+        "likeCount": 28,
+        "member": {
+            "id": 8,
+            "loginId": "loginId8",
+            "nickname": "탐색연구가"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post9": {
-        "Title": "다익스트라 알고리즘의 시간 복잡도 질문",
-        "Author": "알고리즘전문가",
-        "Likes": 15,
-        "Date": "2024-06-09"
+        "boardId": 9,
+        "boardType": "FREE_BOARD",
+        "title": "다익스트라 알고리즘의 시간 복잡도 질문",
+        "content": "",
+        "createdAt": "2024-06-09",
+        "likeCount": 15,
+        "member": {
+            "id": 9,
+            "loginId": "loginId9",
+            "nickname": "알고리즘전문가"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post10": {
-        "Title": "동적 프로그래밍 기초 질문입니다",
-        "Author": "프로그래밍초보",
-        "Likes": 8,
-        "Date": "2024-06-08"
+        "boardId": 10,
+        "boardType": "FREE_BOARD",
+        "title": "동적 프로그래밍 기초 질문입니다",
+        "content": "",
+        "createdAt": "2024-06-08",
+        "likeCount": 8,
+        "member": {
+            "id": 10,
+            "loginId": "loginId10",
+            "nickname": "프로그래밍초보"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post11": {
-        "Title": "퀵 정렬 과정에 대해 궁금합니다",
-        "Author": "코딩고수",
-        "Likes": 32,
-        "Date": "2024-06-07"
+        "boardId": 11,
+        "boardType": "FREE_BOARD",
+        "title": "퀵 정렬 과정에 대해 궁금합니다",
+        "content": "",
+        "createdAt": "2024-06-07",
+        "likeCount": 32,
+        "member": {
+            "id": 11,
+            "loginId": "loginId11",
+            "nickname": "코딩고수"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post12": {
-        "Title": "그래프 알고리즘 구현 질문",
-        "Author": "알고리즘초중급",
-        "Likes": 22,
-        "Date": "2024-06-06"
+        "boardId": 12,
+        "boardType": "FREE_BOARD",
+        "title": "그래프 알고리즘 구현 질문",
+        "content": "",
+        "createdAt": "2024-06-06",
+        "likeCount": 22,
+        "member": {
+            "id": 12,
+            "loginId": "loginId12",
+            "nickname": "알고리즘초중급"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post13": {
-        "Title": "스택 자료구조의 활용에 대한 질문입니다",
-        "Author": "스택마스터",
-        "Likes": 14,
-        "Date": "2024-06-05"
+        "boardId": 13,
+        "boardType": "FREE_BOARD",
+        "title": "스택 자료구조의 활용에 대한 질문입니다",
+        "content": "",
+        "createdAt": "2024-06-05",
+        "likeCount": 14,
+        "member": {
+            "id": 13,
+            "loginId": "loginId13",
+            "nickname": "스택마스터"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post14": {
-        "Title": "이진 탐색 트리 질문합니다",
-        "Author": "트리연구자",
-        "Likes": 19,
-        "Date": "2024-06-04"
+        "boardId": 14,
+        "boardType": "FREE_BOARD",
+        "title": "이진 탐색 트리 질문합니다",
+        "content": "",
+        "createdAt": "2024-06-04",
+        "likeCount": 19,
+        "member": {
+            "id": 14,
+            "loginId": "loginId14",
+            "nickname": "트리연구자"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     },
     "Post15": {
-        "Title": "동적 계획법의 적용 예제 질문",
-        "Author": "알고리즘응용",
-        "Likes": 16,
-        "Date": "2024-06-03"
-    },
-    "Post16": {
-        "Title": "네트워크 플로우 알고리즘 질문",
-        "Author": "알고리즘네트워크",
-        "Likes": 25,
-        "Date": "2024-06-02"
-    },
-    "Post17": {
-        "Title": "해시 테이블 구현 방법 질문",
-        "Author": "해시마스터",
-        "Likes": 21,
-        "Date": "2024-06-01"
-    },
-    "Post18": {
-        "Title": "백트래킹 알고리즘 관련 질문입니다",
-        "Author": "백트래킹연구자",
-        "Likes": 17,
-        "Date": "2024-05-31"
-    },
-    "Post19": {
-        "Title": "최소 신장 트리 알고리즘 질문",
-        "Author": "트리마스터",
-        "Likes": 23,
-        "Date": "2024-05-30"
-    },
-    "Post20": {
-        "Title": "분할 정복 알고리즘 질문합니다",
-        "Author": "알고리즘분할정복",
-        "Likes": 13,
-        "Date": "2024-05-29"
+        "boardId": 15,
+        "boardType": "FREE_BOARD",
+        "title": "동적 계획법의 적용 예제 질문",
+        "content": "",
+        "createdAt": "2024-06-03",
+        "likeCount": 16,
+        "member": {
+            "id": 15,
+            "loginId": "loginId15",
+            "nickname": "알고리즘응용"
+        },
+        "question": {
+            "id": 0,
+            "level": 0,
+            "title": ""
+        }
     }
 }

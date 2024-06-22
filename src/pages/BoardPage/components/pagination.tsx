@@ -11,6 +11,7 @@ const PageButton = styled.button<{ isActive: boolean }>`
     background-color: ${({ isActive }) => (isActive ? '#007bff' : '#fff')};
     color: ${({ isActive }) => (isActive ? '#fff' : '#007bff')};
     border: 1px solid #007bff;
+    border-radius: 5px;
     margin: 0 5px;
     padding: 5px 10px;
     cursor: pointer;
