@@ -29,7 +29,15 @@ function App() {
   );
 
   useEffect(() => {
-    if (!isAuthenticated && location.pathname != '/login' && location.pathname != '/' && location.pathname != '/join') {
+    if (
+      !isAuthenticated &&
+      location.pathname != '/login' &&
+      location.pathname != '/' &&
+      location.pathname != '/join' &&
+      location.pathname != '/findId' &&
+      location.pathname != '/findPw' &&
+      !location.pathname.startsWith('/resetPw/')
+    ) {
       window.location.replace('/login');
     }
   }, [location.pathname]);

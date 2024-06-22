@@ -4,6 +4,7 @@ import memberSlice from './slices/memberSlice';
 import friendSlice from './slices/friendSlice';
 import chatSlice from './slices/chatSlice';
 import alertSlice from './slices/alertSlice';
+import battleSlice from './slices/battleSlice';
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         member: memberSlice,
         friend: friendSlice,
         chat: chatSlice,
-        alert: alertSlice
+        alert: alertSlice,
+        battle: battleSlice
     },
 });
 

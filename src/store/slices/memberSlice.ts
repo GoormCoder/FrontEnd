@@ -23,9 +23,9 @@ const initialState: MemberState = {
 
 export const findAllMemberByKeyword = createAsyncThunk(
     'member/findAllByKeyword',
-    async (keyword: string,) => {
+    async ({ keyword, loginId }: { keyword: string, loginId: string }) => {
         try {
-            const response = await findAllMemberByKeywordApi(keyword);
+            const response = await findAllMemberByKeywordApi(keyword, loginId);
             return response;
         } catch (error) {
             console.error('Error fetching quests:', error);

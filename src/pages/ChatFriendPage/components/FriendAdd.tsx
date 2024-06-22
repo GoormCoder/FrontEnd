@@ -1,15 +1,13 @@
 import React, { FormEvent, useEffect, useState } from 'react'
-import { SetPageProps } from '../types'
+import { SetPageProps, UserID } from '../types'
 import styled from 'styled-components'
 import { IoSearch } from "react-icons/io5";
 import { FaPlusCircle } from "react-icons/fa";
-import { testLog } from '../../../utils/testLog';
 import { CheckModalContainer, ModalText } from '../../../components/Modal/types';
 import CheckModal from '../../../components/Modal/CheckModal';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
 import { findAllMemberByKeyword, setMemberIdEmpty, setSearchText } from '../../../store/slices/memberSlice';
 import { acceptFriendRequest, findAllFriendRequest, friendRequest, setRequestersEmpty } from '../../../store/slices/friendSlice';
-// import { ToastContainer, toast } from 'react-toastify';
 
 const FriendAdd: React.FC<SetPageProps> = ({ setPage }) => {
     const dispatch = useAppDispatch();
@@ -18,7 +16,7 @@ const FriendAdd: React.FC<SetPageProps> = ({ setPage }) => {
 
     const [modalDisplay, setModalDisplay] = useState<boolean>(false);
     const [modalValue, setModalValue] = useState<boolean | null>()
-
+    const [searchData, setSearhData] = useState<UserID | null>()
     useEffect(() => {
         dispatch(setSearchText(''))
         dispatch(setMemberIdEmpty());
@@ -34,7 +32,7 @@ const FriendAdd: React.FC<SetPageProps> = ({ setPage }) => {
     const handleSearch = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (searchText != "") {
-            dispatch(findAllMemberByKeyword(searchText));
+            dispatch(findAllMemberByKeyword({ keyword: searchText, loginId: loginedMember.loginId }));
         } else {
             dispatch(setMemberIdEmpty());
         }
@@ -62,17 +60,17 @@ const FriendAdd: React.FC<SetPageProps> = ({ setPage }) => {
                 {memberId.map((member) => {
                     modalValue && handleRequest(member.loginId)
                     return (
-                        <>
-                            <ResultContent key={member.loginId} >
-                                {`${member.name}(${member.nickname})`} <FaPlusCircle onClick={() => setModalDisplay(true)} />
+                        <ResultContent key={member.loginId} >
+                            {`${member.name}(${member.nickname})`} <FaPlusCircle onClick={() => { setModalDisplay(true); setSearhData(member) }} />
 
-                            </ResultContent>
-                            <CheckModalContainer display={modalDisplay}>
-                                <CheckModal text={`${member.name}(${member.nickname})님을`} textType={ModalText.ADD} setValue={setModalValue} />
-                            </CheckModalContainer>
-                        </>
+                        </ResultContent>
+
                     )
                 })}
+                {modalDisplay ?
+                    <CheckModalContainer display={modalDisplay}>
+                        <CheckModal text={`${searchData?.name}(${searchData?.nickname})님을`} textType={ModalText.ADD} setValue={setModalValue} />
+                    </CheckModalContainer> : null}
             </SearchResultList>
             <Title>친구요청 내역</Title>
             <RequestList>
