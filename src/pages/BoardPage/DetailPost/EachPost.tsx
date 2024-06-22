@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import dummy from '../dummy.json';
-import dummy2 from '../dummy2.json';
 import { BoardDetails } from '../types';
+import { getBoardPost, likeBoardPost, unlikeBoardPost } from '../../../services/api/boardAPI';
 
 const DetailContainer = styled.div`
     display: flex;
@@ -43,48 +42,97 @@ const PostContent = styled.div`
     line-height: 1.6;
 `;
 
-const LikeButton = styled.button`
+const ButtonContainer = styled.div`
     margin-top: 20px;
+    display: flex;
+    gap: 10px;
+`;
+
+const LikeButton = styled.button<{ liked: boolean }>`
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
-    background-color: #007bff;
+    background-color: ${props => (props.liked ? '#007bff' : '#ff0000')};
     border: none;
     border-radius: 5px;
     cursor: pointer;
 
     &:hover {
-        background-color: #0056b3;
+        background-color: ${props => (props.liked ? '#0056b3' : '#cc0000')};
+    }
+`;
+
+const EditButton = styled.button`
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #218838;
     }
 `;
 
 const EachPost: React.FC = () => {
-    const { id } = useParams<{ id?: string }>();
+    const { boardId } = useParams<{ boardId?: string }>();
     const navigate = useNavigate();
-    const [likes, setLikes] = useState<number>(0); // 좋아요 수 상태 추가
+    const [post, setPost] = useState<BoardDetails | null>(null);
+    const [isLiked, setIsLiked] = useState(false);
+    const [isEditable, setIsEditable] = useState(false);
 
-    if (!id) {
-        navigate('/board');
-        return null;
-    }
+    useEffect(() => {
+        if (!boardId) {
+            navigate('/board');
+            return;
+        }
 
-    const postId = parseInt(id);
+        const fetchPost = async () => {
+            try {
+                const data = await getBoardPost(parseInt(boardId));
+                setPost(data);
+                setIsLiked(data.likeCount > 0); 
+                const currentUserId = localStorage.getItem('userId'); 
+                if (currentUserId && data.member.id.toString() === currentUserId) {
+                    setIsEditable(true);
+                }
+            } catch (error) {
+                console.error('게시글을 불러오는 중 오류가 발생했습니다:', error);
+                navigate('/board');
+            }
+        };
 
-    const boards: { [key: string]: BoardDetails[] } = {
-        dummy: Object.values(dummy),
-        dummy2: Object.values(dummy2)
+        fetchPost();
+    }, [boardId, navigate]);
+
+    const handleLikeToggle = async () => {
+        if (!post) return;
+
+        try {
+            if (isLiked) {
+                await likeBoardPost(post.boardId);
+                setPost({ ...post, likeCount: post.likeCount + 1 });
+            } else {
+                await unlikeBoardPost(post.boardId);
+                setPost({ ...post, likeCount: post.likeCount - 1 });
+            }
+            setIsLiked(!isLiked);
+        } catch (error) {
+            console.error('좋아요 상태 변경 중 오류가 발생했습니다:', error);
+        }
     };
 
-    const allPosts = [...boards.dummy, ...boards.dummy2];
-    const post = allPosts.find(post => post.boardId === postId);
+    const handleEdit = () => {
+        if (boardId) {
+            navigate(`/boards/${boardId}/edit`);
+        }
+    };
 
     if (!post) {
-        return <div>Post not found</div>;
+        return <div>Loading...</div>;
     }
-
-    const handleLike = () => {
-        setLikes(likes + 1);
-    };
 
     return (
         <DetailContainer>
@@ -93,13 +141,20 @@ const EachPost: React.FC = () => {
                 <PostMeta>
                     <span>작성자: {post.member.nickname}</span>
                     <span>작성일: {new Date(post.createdAt).toLocaleDateString()}</span>
-                    <span>좋아요: {post.likeCount + likes}</span>
+                    <span>좋아요: {post.likeCount}</span>
                 </PostMeta>
             </PostHeader>
             <PostContent>
                 {post.content || '내용이 없습니다.'}
             </PostContent>
-            <LikeButton onClick={handleLike}>좋아요</LikeButton>
+            <ButtonContainer>
+                <LikeButton liked={isLiked} onClick={handleLikeToggle}>
+                    {isLiked ? '좋아요' : '좋아요 취소'}
+                </LikeButton>
+                {isEditable && (
+                    <EditButton onClick={handleEdit}>게시글 수정</EditButton>
+                )}
+            </ButtonContainer>
         </DetailContainer>
     );
 };
