@@ -71,7 +71,6 @@ const ChatFriendContainer = styled.div`
 `
 
 const Title = styled.div`
-    /* border: 1px solid black; */
     height: 40px;
     font-size: 25px;
     font-weight: bold;

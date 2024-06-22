@@ -56,6 +56,17 @@ export function findAllBattleResultApi(): Promise<BattleInfo> {
         });
 }
 
+export function submitBattleApi(battleId: number, questionId: number): Promise<BattleData> {
+    return axios.post(`/battles/submit/${battleId}/${questionId}`)
+        .then(res => {
+            return res.data;
+        })
+        .catch(err => {
+            console.error("Error fetching data:", err);
+            return err.response.data;
+        });
+}
+
 export function getUserBattleData(userID: string): BattleMemberData {
     // 추후 백엔드에서 userID 사용하여 데이터 조회
     return dummyBattleData

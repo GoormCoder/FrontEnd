@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
 import { BattleData, BattleInfo, BattleRoomData } from '../../pages/BattlePage/types';
-import { createBattleRoomApi, deleteBattleRoomApi, findAllBattleResultApi, findBattleRoomApi, startBattleApi } from '../../services/api/battleAPI';
+import { createBattleRoomApi, deleteBattleRoomApi, findAllBattleResultApi, findBattleRoomApi, startBattleApi, submitBattleApi } from '../../services/api/battleAPI';
 
 
 interface BattleState {
@@ -137,6 +137,20 @@ export const findAllBattleResult = createAsyncThunk(
     }
 );
 
+export const submitBattle = createAsyncThunk(
+    'battle/submitBattle',
+    async ({ battleId, questionId }: { battleId: number, questionId: number }) => {
+        try {
+            const response = await submitBattleApi(battleId, questionId);
+            return response;
+        } catch (error) {
+            console.error('Error fetching quests:', error);
+            throw error;
+        }
+    }
+);
+
+
 const battleSlice = createSlice({
     name: 'battle',
     initialState,
@@ -193,6 +207,9 @@ const battleSlice = createSlice({
             })
             .addCase(findAllBattleResult.fulfilled, (state, action) => {
                 state.battleInfo = action.payload
+            })
+            .addCase(submitBattle.fulfilled, (state, action) => {
+
             })
     }
 });
