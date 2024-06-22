@@ -124,11 +124,9 @@ const IDEPage: React.FC = () => {
 
         fetchQuestion();
 
-        // ResizeObserver 오류를 무시하는 코드
+        // ResizeObserver 오류 코드 
         if (window.ResizeObserver) {
-            const ro = new ResizeObserver(() => {
-                // 빈 함수로 에러 무시
-            });
+            const ro = new ResizeObserver(() => {});
             ro.observe(document.body);
         }
     }, [questionId]);
