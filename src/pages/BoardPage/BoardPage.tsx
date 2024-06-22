@@ -6,7 +6,7 @@ import PostList from './components/PostList';
 import Pagination from './components/pagination';
 import BoardTabs from './components/BoardTab';
 import { BoardDetails } from './types';
-import { getAllBoardPosts } from '../../services/api/boardAPI';
+import { getAllBoardPosts, getBoardPostsByType } from '../../services/api/boardAPI';
 
 const PageContainer = styled.div`
     display: flex;
@@ -68,7 +68,7 @@ const BoardPage: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getAllBoardPosts()
+        getBoardPostsByType(selectedTab)
             .then(data => {
                 setPosts(data);
             })
