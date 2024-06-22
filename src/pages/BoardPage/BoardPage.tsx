@@ -71,11 +71,23 @@ const BoardPage: React.FC = () => {
         getBoardPostsByType(selectedTab)
             .then(data => {
                 setPosts(data);
+                console.log(data);
             })
             .catch(error => {
                 console.error('게시글을 불러오는 중 오류가 발생했습니다:', error);
             });
     }, [selectedTab]);
+
+    useEffect(() => {
+        getAllBoardPosts()
+            .then(data => {
+                setPosts(data);
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('전체 게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
+            });
+    }, []);
     
     const filteredPosts = posts.filter(post =>
         (post.title && post.title.toLowerCase().includes(searchTerm.toLowerCase())) ||

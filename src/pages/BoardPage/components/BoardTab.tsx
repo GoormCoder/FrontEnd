@@ -29,12 +29,12 @@ interface BoardTabsProps {
 const BoardTabs: React.FC<BoardTabsProps> = ({ selectedTab, setSelectedTab }) => {
     return (
         <TabsContainer>
-        <Tab isActive={selectedTab === 'dummy'} onClick={() => setSelectedTab('dummy')}>
-            공지
-        </Tab>
-        <Tab isActive={selectedTab === 'dummy2'} onClick={() => setSelectedTab('dummy2')}>
-            자유
-        </Tab>
+            <Tab isActive={selectedTab === 'NOTICE_BOARD'} onClick={() => setSelectedTab('NOTICE_BOARD')}>
+                공지
+            </Tab>
+            <Tab isActive={selectedTab === 'FREE_BOARD'} onClick={() => setSelectedTab('FREE_BOARD')}>
+                자유
+            </Tab>
         </TabsContainer>
     );
 };

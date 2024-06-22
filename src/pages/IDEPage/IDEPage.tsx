@@ -145,7 +145,7 @@ const IDEPage: React.FC = () => {
                 alert('정답입니다!');
                 navigate(`/questions/${questionId}/solves`);
             } else {
-                alert(`틀렸습니다. `); // 오류: ${result.errorMessage}
+                alert(`틀렸습니다.`); // 오류: ${result.errorMessage}
                 // setErrorMessage(result.errorMessage || ''); 
             }
         } catch (error) {
@@ -162,7 +162,7 @@ const IDEPage: React.FC = () => {
         setCurrentCode(initialCode);
         setGradingResult(null);
         setIsCorrect(null);
-        setErrorMessage(null); // 오류 메시지 초기화
+        setErrorMessage(null);
     };
 
     const handleQuestionClick = () => {
