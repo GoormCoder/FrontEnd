@@ -43,8 +43,26 @@ export type BattleRoomId = {
     isFull: boolean
 }
 
+export type BattleInfo = {
+    nickname: string,
+    battleScore: number,
+    totalResult: string,
+    winRate: string,
+    battleRecords: [
+        {
+            givenUser: string,
+            receivedUser: string,
+            result: string
+        }
+    ]
+}
+
 // Interface
 
 
 // enum
-export { }
+export enum Tier {
+    BRONZE = "Bronze",
+    SILVER = "Silver",
+    GOLD = "Gold"
+}

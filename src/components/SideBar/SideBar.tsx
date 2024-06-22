@@ -99,4 +99,7 @@ const SideBarButton = styled.div<SidebarProps>`
     & svg{
         font-size: 30px;
     }
+    @media only screen and (max-width: 430px) {
+        left:${props => (props.isOpen ? '15px' : '-55px')};
+    }
 `;

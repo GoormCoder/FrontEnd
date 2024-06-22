@@ -6,6 +6,7 @@ import RankInfo from './RankInfo';
 import { User } from '../../ChatFriendPage/types';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
 import { findMemberSolve } from '../../../store/slices/questSlice';
+import { SolvedState } from '../types';
 
 const SideStatus = () => {
     const dispatch = useAppDispatch();
@@ -59,7 +60,7 @@ const SideStatus = () => {
                                 <td>
                                     {row.solveResult ?
                                         <>
-                                            {row.solveResult == "T" ? <BsCheckLg /> : <BsThreeDots />}
+                                            {row.solveResult == SolvedState.CORRECT ? <BsCheckLg /> : <BsThreeDots />}
                                         </>
                                         : ''}
                                 </td>

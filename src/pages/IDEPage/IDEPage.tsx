@@ -102,8 +102,8 @@ const IDEPage: React.FC = () => {
 }`);
 
     const [currentCode, setCurrentCode] = useState(initialCode);
-    const [language, setLanguage] = useState('JAVA'); 
-    const [gradingResult, setGradingResult] = useState<string | null>(null); 
+    const [language, setLanguage] = useState('JAVA');
+    const [gradingResult, setGradingResult] = useState<string | null>(null);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [questionTitle, setQuestionTitle] = useState<string>('');
@@ -140,7 +140,7 @@ const IDEPage: React.FC = () => {
             const solveResponse = await createSolve(questionId, solveRequest);
             const result = await getSolve(solveResponse.id);
             setGradingResult(result.solveResult);
-            setIsCorrect(result.solveResult === 'Correct'); 
+            setIsCorrect(result.solveResult === 'Correct');
 
             if (result.solveResult === 'Correct') {
                 alert('정답입니다!');
@@ -203,7 +203,7 @@ const IDEPage: React.FC = () => {
                         options={{
                             padding: { top: 20, bottom: 20 },
                         }}
-                        onChange={(value) => setCurrentCode(value || '')} 
+                        onChange={(value) => setCurrentCode(value || '')}
                     ></Editor>
                     {gradingResult && (
                         <ResultSection>
