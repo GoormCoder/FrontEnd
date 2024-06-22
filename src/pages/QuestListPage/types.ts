@@ -8,6 +8,32 @@ export type Quest = {
     accuracy: number
 };
 
+export type QuestDetail = {
+    id: number,
+    level: number,
+    title: string,
+    content: string
+}
+export type SolveData = {
+    questionSummaryDto: {
+        id: number,
+        level: number,
+        title: string,
+        tags: [
+            {
+                id: number,
+                name: string
+            }
+        ]
+    },
+    memberSummaryDto: {
+        id: number,
+        loginId: string,
+        nick: string
+    },
+    solveResult: string
+}
+
 export type Tag = string;
 
 // Interface

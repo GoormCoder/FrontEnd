@@ -5,11 +5,19 @@ import { BsCheckLg, BsThreeDots } from "react-icons/bs";
 import { FaCircleQuestion } from "react-icons/fa6";
 import RankInfo from './RankInfo';
 import { User } from '../../ChatFriendPage/types';
-import { useAppSelector } from '../../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
+import { findMemberSolve } from '../../../store/slices/questSlice';
 
 const SideStatus = () => {
+    const dispatch = useAppDispatch();
     const { loginedMember } = useAppSelector(state => state.member);
+    const { solveList } = useAppSelector(state => state.quest);
     const [rankInfoDisplay, setRankInfoDisplay] = useState<boolean>(false);
+
+    useEffect(() => {
+        dispatch(findMemberSolve(loginedMember.loginId))
+    }, [])
+
     return (
         <SideStatusContainer>
             <div className='user-status'>
@@ -47,18 +55,18 @@ const SideStatus = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {recentSolveQuest.map((row, index) => (
+                        {solveList.map((row, index) => (
                             <tr key={index}>
                                 <td>
-                                    {row.state ?
+                                    {row.solveResult ?
                                         <>
-                                            {row.state == "T" ? <BsCheckLg /> : <BsThreeDots />}
+                                            {row.solveResult == "T" ? <BsCheckLg /> : <BsThreeDots />}
                                         </>
                                         : ''}
                                 </td>
-                                <td style={{ textAlign: "left", cursor: "pointer" }}>{row.title}</td>
+                                <td style={{ textAlign: "left", cursor: "pointer" }}>{row.questionSummaryDto.title}</td>
                             </tr>
-                        ))} */}
+                        ))}
                     </tbody>
                 </table>
             </div>

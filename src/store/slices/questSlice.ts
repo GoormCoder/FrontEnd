@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { findAll } from '../../services/api/questAPI';
-import { Quest, Tag } from '../../pages/QuestListPage/types';
+import { findAll, findMemberSolveApi, findQuestionApi } from '../../services/api/questAPI';
+import { Quest, QuestDetail, SolveData, Tag } from '../../pages/QuestListPage/types';
 
 interface QuestState {
   questList: Quest[];
@@ -9,6 +9,9 @@ interface QuestState {
   levelList: number[];
   stateList: (string | null)[];
   searchResult: Quest[];
+  quest: Quest;
+  questDetaile: QuestDetail;
+  solveList: SolveData[];
 }
 
 const initialState: QuestState = {
@@ -17,7 +20,22 @@ const initialState: QuestState = {
   tagList: [],
   levelList: [],
   stateList: [],
-  searchResult: []
+  searchResult: [],
+  quest: {
+    id: 0,
+    state: null,
+    title: "",
+    level: 0,
+    solved: null,
+    accuracy: 0
+  },
+  questDetaile: {
+    id: 0,
+    level: 0,
+    title: "",
+    content: ""
+  },
+  solveList: []
 };
 
 
@@ -27,6 +45,32 @@ export const findAllQuest = createAsyncThunk(
   async () => {
     try {
       const response = await findAll();
+      return response;
+    } catch (error) {
+      console.error('Error fetching quests:', error);
+      throw error;
+    }
+  }
+);
+
+export const findQuestion = createAsyncThunk(
+  'quest/findQuestion',
+  async (questionId: number) => {
+    try {
+      const response = await findQuestionApi(questionId);
+      return response;
+    } catch (error) {
+      console.error('Error fetching quests:', error);
+      throw error;
+    }
+  }
+);
+
+export const findMemberSolve = createAsyncThunk(
+  'quest/findMemberSolve',
+  async (loginId: string) => {
+    try {
+      const response = await findMemberSolveApi(loginId);
       return response;
     } catch (error) {
       console.error('Error fetching quests:', error);
@@ -84,7 +128,13 @@ const questSlice = createSlice({
       .addCase(findAllQuest.fulfilled, (state, action) => {
         state.questList = action.payload;
         state.searchResult = action.payload;
-      });
+      })
+      .addCase(findQuestion.fulfilled, (state, action) => {
+        state.questDetaile = action.payload;
+      })
+      .addCase(findMemberSolve.fulfilled, (state, action) => {
+        state.solveList = action.payload;
+      })
   }
 });
 
