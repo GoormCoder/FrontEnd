@@ -14,6 +14,7 @@ export function getBoardPostsByType(boardType: string): Promise<BoardDetails[]> 
         throw error;
     });
 }
+
 // 게시글 등록
 export function createBoardPost(boardPost: BoardPost): Promise<void> {
     return axios.post('/boards', boardPost)
@@ -21,7 +22,8 @@ export function createBoardPost(boardPost: BoardPost): Promise<void> {
             console.log("게시글이 성공적으로 등록되었습니다.");
         })
         .catch(error => {
-            console.error("게시글 등록 중 오류가 발생했습니다:", error);
+            console.error("게시글 등록 중 오류가 발생했습니다:", error.response.data);
+            throw error;
         });
 }
 
@@ -50,17 +52,41 @@ export function updateBoardPost(boardId: number, title: string, content: string)
         })
         .catch(error => {
             console.error("게시글 수정 중 오류가 발생했습니다:", error);
+            throw error;
         });
 }
 
 // 게시글 조회
+// export function getAllBoardPosts(): Promise<BoardDetails[]> {
+//     return axios.get('/boards/all')
+//         .then(response => {
+//             return response.data as BoardDetails[];
+//         })
+//         .catch(error => {
+//             console.error("전체 게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
+//             throw error;
+//         });
+// }
+
 export function getAllBoardPosts(): Promise<BoardDetails[]> {
     return axios.get('/boards/all')
         .then(response => {
             return response.data as BoardDetails[];
         })
         .catch(error => {
-            console.error("전체 게시글 데이터를 불러오는 중 오류가 발생했습니다:", error);
+            if (error.response) {
+                // 서버 응답이 2xx 범위를 벗어날 때
+                console.error("전체 게시글 데이터를 불러오는 중 오류가 발생했습니다:", error.response.data);
+                console.error("상태 코드:", error.response.status);
+                console.error("헤더:", error.response.headers);
+            } else if (error.request) {
+                // 요청이 이루어졌으나 응답을 받지 못함
+                console.error("요청이 이루어졌으나 응답을 받지 못했습니다:", error.request);
+            } else {
+                // 오류를 발생시킨 요청 설정
+                console.error('요청 설정 중 오류가 발생했습니다:', error.message);
+            }
+            console.error("Axios 설정:", error.config);
             throw error;
         });
 }
