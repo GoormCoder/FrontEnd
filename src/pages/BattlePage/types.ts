@@ -23,6 +23,28 @@ export type BattleData = {
     }
 }
 
+export type BattleResult = {
+    questionSummryDto: {
+        id: number,
+        level: number,
+        title: string,
+        tags: [
+            {
+                id: number,
+                name: string
+            }
+        ]
+    },
+    memberSummryDto: {
+        id: number,
+        loginId: string,
+        nick: string
+    },
+    solveResult: string,
+    solveResultMessage: string,
+    battleResult: string
+}
+
 export type BattleRoomData = {
     roomId: number,
     givenMember: {

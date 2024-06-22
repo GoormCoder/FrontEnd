@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import { Editor } from '@monaco-editor/react';
 import Timer from '../../components/Timer/Timer';
 import ReactMarkdown from 'react-markdown';
-import { createSolve, getQuestionSolves, getSolve } from '../../services/api/solveAPI';
+import { createSolve, getSolve } from '../../services/api/solveAPI';
 import { findQuestionApi } from '../../services/api/questAPI';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { findQuestion } from '../../store/slices/questSlice';
 import { BottomButtonProps } from './types';
+import { SolvedState } from '../QuestListPage/types';
 
 const MainContainer = styled.div`
     display: flex;
@@ -134,15 +135,17 @@ const IDEPage: React.FC = () => {
     const handleButtonClick = async () => {
         try {
             const solveRequest = {
-                code: currentCode,
+                code: currentCode.trim(),
                 language: language
             };
+            console.log(solveRequest);
+
             const solveResponse = await createSolve(questionId, solveRequest);
             const result = await getSolve(solveResponse.id);
             setGradingResult(result.solveResult);
-            setIsCorrect(result.solveResult === 'Correct');
+            setIsCorrect(result.solveResult === SolvedState.CORRECT);
 
-            if (result.solveResult === 'Correct') {
+            if (result.solveResult === SolvedState.CORRECT) {
                 alert('정답입니다!');
                 navigate(`/questions/${questionId}/solves`);
             } else {
@@ -176,8 +179,6 @@ const IDEPage: React.FC = () => {
 
     const handleOtherSolvesClick = async () => {
         try {
-            const solves = await getQuestionSolves(questionId);
-            console.log('다른 사람의 풀이:', solves);
             navigate(`/questions/${questionId}/solves`);
         } catch (error) {
             console.error('다른 사람의 풀이를 불러오는 중 오류가 발생했습니다:', error);

@@ -44,6 +44,7 @@ const ChatContainer = styled.div`
     position: fixed;
     bottom: 40px;
     right: 60px;
+    z-index: 100;
 `
 
 const ChatPageContainer = styled.div<DisplayAndOpacityProps>`
