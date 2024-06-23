@@ -10,12 +10,20 @@ const PostContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-top: 100px;
+
+    @media (max-width: 768px) {
+        margin-top: 50px;
+    }
     
     & form {
         display: flex;
         flex-direction: column;
         gap: 20px;
         width: 600px;
+        
+        @media (max-width: 768px) {
+            width: 100%;
+        }
         
         & input, & select {
             width: 100%;
@@ -49,6 +57,11 @@ const PostContainer = styled.div`
                 border-radius: 5px;
                 cursor: pointer;
                 font-weight: bold;
+
+                @media (max-width: 768px) {
+                    height: 36px;
+                    font-size: 14px;
+                }
             }
             & .back-button {
                 background-color: gray;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Editor } from '@monaco-editor/react';
@@ -16,11 +16,15 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     height: 100vh;
+    overflow: hidden;
 `;
 
 const TopSection = styled.div`
     display: flex;
     flex: 1;
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 `;
 
 const BottomSection = styled.div`
@@ -45,6 +49,11 @@ const ProblemSection = styled.div`
     width: 30%;
     background-color: #222222;
     border-right: 1px solid #ffffff;
+    overflow: hidden;
+    @media (max-width: 768px) {
+        width: 100%;
+        border-bottom: 1px solid #ffffff;
+    }
 `;
 
 const EditSection = styled.div`
@@ -52,6 +61,10 @@ const EditSection = styled.div`
     flex-direction: column;
     width: 70%;
     background-color: #222222;
+    overflow: hidden;
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const ProblemTitle = styled.div`
@@ -113,7 +126,7 @@ const IDEPage: React.FC = () => {
     const [questionTitle, setQuestionTitle] = useState<string>('');
     const [questionContent, setQuestionContent] = useState<string>('');
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const fetchQuestion = async () => {
             try {
                 const questionData = await findQuestionApi(questionId);
@@ -125,7 +138,14 @@ const IDEPage: React.FC = () => {
         };
 
         fetchQuestion();
+
+        // ResizeObserver 오류 코드 
+        if (window.ResizeObserver) {
+            const ro = new ResizeObserver(() => {});
+            ro.observe(document.body);
+        }
     }, [questionId]);
+    
 
     const handleTimeUp = () => {
         if (buttonRef.current) {
@@ -163,17 +183,18 @@ const IDEPage: React.FC = () => {
             alert('풀이 제출 중 오류가 발생했습니다.');
         }
     };
-
-    useEffect(() => {
-        dispatch(findQuestion(questionId));
-    }, [dispatch, questionId]);
-
     const handleReset = () => {
         setCurrentCode(initialCode);
         setGradingResult(null);
         setIsCorrect(null);
         setErrorMessage(null);
     };
+
+    useLayoutEffect(() => {
+        dispatch(findQuestion(questionId));
+    }, [dispatch, questionId]);
+
+    
 
     const handleQuestionClick = () => {
         if (battleData.battleId) {

@@ -5,6 +5,14 @@ const PaginationContainer = styled.div`
     display: flex;
     justify-content: center;
     margin: 20px 0;
+
+    @media (max-width: 768px) {
+        margin: 15px 0;
+    }
+
+    @media (max-width: 480px) {
+        margin: 10px 0;
+    }
 `;
 
 const PageButton = styled.button<{ isActive: boolean }>`
@@ -19,6 +27,16 @@ const PageButton = styled.button<{ isActive: boolean }>`
     &:hover {
         background-color: ${({ isActive }) => (isActive ? '#0056b3' : '#e9ecef')};
     } 
+
+    @media (max-width: 768px) {
+        padding: 4px 8px;
+        margin: 0 4px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 3px 6px;
+        margin: 0 3px;
+    }
 `;
 
 interface PaginationProps {
