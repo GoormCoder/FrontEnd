@@ -20,6 +20,9 @@ const MainContainer = styled.div`
 const TopSection = styled.div`
     display: flex;
     flex: 1;
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 `;
 
 const BottomSection = styled.div`
@@ -45,6 +48,10 @@ const ProblemSection = styled.div`
     background-color: #222222;
     border-right: 1px solid #ffffff;
     overflow: hidden;
+    @media (max-width: 768px) {
+        width: 100%;
+        border-bottom: 1px solid #ffffff;
+    }
 `;
 
 const EditSection = styled.div`
@@ -53,6 +60,9 @@ const EditSection = styled.div`
     width: 70%;
     background-color: #222222;
     overflow: hidden;
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const ProblemTitle = styled.div`

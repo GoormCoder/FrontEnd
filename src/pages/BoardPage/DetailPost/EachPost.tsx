@@ -16,17 +16,37 @@ const DetailContainer = styled.div`
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
+
+    @media (max-width: 768px) {
+        width: 90vw;
+        margin: 50px auto;
+    }
+
+    @media (max-width: 480px) {
+        width: 95vw;
+        padding: 15px;
+        margin: 20px auto;
+    }
 `;
 
 const PostHeader = styled.div`
     width: 100%;
     padding: 10px;
     border-bottom: 1px solid #eee;
+
+    @media (max-width: 480px) {
+        padding: 5px;
+    }
 `;
 
 const PostTitle = styled.h1`
     font-size: 24px;
     margin-bottom: 10px;
+
+    @media (max-width: 480px) {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
 `;
 
 const PostMeta = styled.div`
@@ -34,18 +54,32 @@ const PostMeta = styled.div`
     color: #777;
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 5px;
+    }
 `;
 
 const PostContent = styled.div`
     padding: 20px;
     width: 100%;
     line-height: 1.6;
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
 `;
 
 const ButtonContainer = styled.div`
     margin-top: 20px;
     display: flex;
     gap: 10px;
+    
+    @media (max-width: 480px) {
+        flex-direction: column;
+        width: 100%;
+    }
 `;
 
 const LikeButton = styled.button<{ liked: boolean }>`
@@ -60,6 +94,11 @@ const LikeButton = styled.button<{ liked: boolean }>`
     &:hover {
         background-color: ${props => (props.liked ? '#0056b3' : '#cc0000')};
     }
+
+    @media (max-width: 480px) {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
 `;
 
 const EditButton = styled.button`
@@ -73,6 +112,11 @@ const EditButton = styled.button`
 
     &:hover {
         background-color: #218838;
+    }
+
+    @media (max-width: 480px) {
+        padding: 8px 16px;
+        font-size: 14px;
     }
 `;
 

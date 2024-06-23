@@ -11,11 +11,19 @@ const PostContainer = styled.div`
     align-items: center;
     margin-top: 100px;
 
+    @media (max-width: 768px) {
+        margin-top: 50px;
+    }
+
     & form {
         display: flex;
         flex-direction: column;
         gap: 20px;
         width: 600px;
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
 
         & input, & select {
             width: 100%;
@@ -26,6 +34,11 @@ const PostContainer = styled.div`
             padding-left: 15px;
             box-sizing: border-box;
             cursor: text;
+
+            @media (max-width: 768px) {
+                font-size: 14px;
+                height: 35px;
+            }
         }
 
         & textarea {
@@ -38,11 +51,20 @@ const PostContainer = styled.div`
             box-sizing: border-box;
             cursor: text;
             resize: none;
+
+            @media (max-width: 768px) {
+                font-size: 14px;
+                height: 150px;
+            }
         }
 
         & .button-group {
             display: flex;
             gap: 10px;
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+            }
 
             & button {
                 flex: 1;
@@ -52,6 +74,11 @@ const PostContainer = styled.div`
                 border-radius: 5px;
                 cursor: pointer;
                 font-weight: bold;
+
+                @media (max-width: 768px) {
+                    height: 35px;
+                    font-size: 14px;
+                }
             }
 
             & .back-button {

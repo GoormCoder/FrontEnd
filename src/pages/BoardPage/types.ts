@@ -23,6 +23,29 @@ export interface BoardDetails {
         title: string;
     };
 }
+
 export interface PostListProps {
     posts: BoardDetails[];
+}
+
+export interface BoardTabsProps {
+    selectedTab: string;
+    setSelectedTab: (tab: string) => void;
+}
+
+export interface PaginationProps {
+    totalPosts: number;
+    postsPerPage: number;
+    currentPage: number;
+    paginate: (pageNumber: number) => void;
+}
+
+export interface PostItemProps {
+    post: BoardDetails;
+}
+
+export interface SearchbarProps {
+    searchQuery: string;
+    setSearchQuery: (query: string) => void;
+    handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
 }

@@ -17,6 +17,10 @@ const PageContainer = styled.div`
     min-height: 100vh; 
     background-color: #f0f0f0; 
     padding-top: 100px; 
+
+    @media (max-width: 768px) {
+        padding-top: 50px;
+    }
 `;
 
 const BoardContainer = styled.div`
@@ -25,9 +29,13 @@ const BoardContainer = styled.div`
     gap: 50px;
     width: 60vw;
     max-width: 800px;
-    min-height: 600px; /* 컨텐츠가 없을 때 최소 높이를 설정 */
+    min-height: 600px; 
     margin: auto;
-    margin-top: 10px; /* 추가 여백으로 위로 이동 */
+    margin-top: 10px;
+    
+    @media (max-width: 768px) {
+        width: 90vw;
+    }
 `;
 
 const SeparatedContainer = styled.div`
@@ -36,12 +44,17 @@ const SeparatedContainer = styled.div`
     padding: 20px;
     width: 100%;
     background-color: white;
+
 `;
 
 const ButtonContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+        justify-content: center;
+    }
 `;
 
 const WriteButton = styled.button`
@@ -56,12 +69,17 @@ const WriteButton = styled.button`
     &:hover {
         background-color: #0056b3;
     }
+
+    @media (max-width: 768px) {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
 `;
 
 const BoardPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedTab, setSelectedTab] = useState('FREE_BOARD');
+    const [selectedTab, setSelectedTab] = useState('NOTICE_BOARD');
     const [searchTerm, setSearchTerm] = useState('');
     const [posts, setPosts] = useState<BoardDetails[]>([]);
     const postsPerPage = 10;

@@ -1,10 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BoardTabsProps } from '../types';
+
 
 const TabsContainer = styled.div`
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 const Tab = styled.button<{ isActive: boolean }>`
@@ -19,12 +26,20 @@ const Tab = styled.button<{ isActive: boolean }>`
     &:hover {
         background-color: ${({ isActive }) => (isActive ? '#0056b3' : '#e9ecef')};
     }
+
+    @media (max-width: 768px) {
+        margin: 5px 0;
+        width: 80%;
+        padding: 10px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 8px;
+        font-size: 14px;
+    }
 `;
 
-interface BoardTabsProps {
-    selectedTab: string;
-    setSelectedTab: (tab: string) => void;
-}
+
 
 const BoardTabs: React.FC<BoardTabsProps> = ({ selectedTab, setSelectedTab }) => {
     return (
