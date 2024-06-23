@@ -43,6 +43,10 @@ const RankPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+      @media only screen and (max-width: 430px) {
+        /* width: 200px; */
+        
+    }
 `
 
 const RankTableContainer = styled.div`
@@ -67,6 +71,10 @@ const RankTableContainer = styled.div`
     & .non-clicked{
       border-bottom: 1px solid lightgray;
       background-color: #90c7f7a8;
+    }
+      @media only screen and (max-width: 430px) {
+        width: 400px;
+        
     }
 `
 

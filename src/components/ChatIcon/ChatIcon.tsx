@@ -45,6 +45,10 @@ const ChatContainer = styled.div`
     bottom: 40px;
     right: 60px;
     z-index: 100;
+    @media only screen and (max-width: 430px) {
+        bottom: 30px;
+        right: 40px;
+    }
 `
 
 const ChatPageContainer = styled.div<DisplayAndOpacityProps>`

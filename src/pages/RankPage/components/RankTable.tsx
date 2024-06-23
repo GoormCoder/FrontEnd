@@ -72,4 +72,9 @@ const RankTableContainer = styled.div`
     & tr {
         height: 40px;
     }
+
+    @media only screen and (max-width: 430px) {
+        width: 398px;
+        
+    }
 `

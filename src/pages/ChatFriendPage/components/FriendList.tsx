@@ -53,7 +53,7 @@ const List = styled.div`
 
 const FriendContent = styled.div`
     padding: 20px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid lightgray;
     cursor: pointer;
 `
 

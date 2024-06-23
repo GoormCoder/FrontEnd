@@ -55,18 +55,26 @@ const SideStatus = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {solveList.map((row, index) => (
-                            <tr key={index}>
-                                <td>
-                                    {row.solveResult ?
-                                        <>
-                                            {row.solveResult == SolvedState.CORRECT ? <BsCheckLg /> : <BsThreeDots />}
-                                        </>
-                                        : ''}
-                                </td>
-                                <td style={{ textAlign: "left", cursor: "pointer" }}>{row.questionSummaryDto.title}</td>
-                            </tr>
-                        ))}
+                        {solveList.map((row, index) => {
+                            if (index > 0) {
+                                if (row.questionSummaryDto.id == solveList[index - 1].questionSummaryDto.id) {
+                                    return;
+
+                                }
+                            }
+                            return (
+                                <tr key={index} >
+                                    <td>
+                                        {row.solveResult ?
+                                            <>
+                                                {row.solveResult == SolvedState.CORRECT ? <BsCheckLg /> : <BsThreeDots />}
+                                            </>
+                                            : ''}
+                                    </td>
+                                    <td style={{ textAlign: "left", cursor: "pointer" }}>{row.questionSummaryDto.title}</td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
             </div>

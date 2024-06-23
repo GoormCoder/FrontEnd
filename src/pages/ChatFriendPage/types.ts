@@ -18,14 +18,17 @@ export type ChatRoomData = {
     chatRoomId: number;
     chatRoomName: string;
     lastMessage: {
+        messageId: number;
         message: string;
         createdAt: string;
+        sender: {
+            id: number;
+            loginId: string;
+            name: string;
+        }
     };
-    sender: {
-        id: number;
-        loginId: string;
-        name: string;
-    }
+    hasUnreadMessages: boolean;
+    readAt: string;
 }
 
 export type ChatData = {

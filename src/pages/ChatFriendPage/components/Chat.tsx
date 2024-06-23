@@ -9,6 +9,7 @@ import { Client, IMessage } from "@stomp/stompjs";
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
 import { deleteChatRoom, findAllChat, findAllChatRoom, setChatRoomEmpty, setChats, setChatsEmpty } from '../../../store/slices/chatSlice';
 import { showAlert } from '../../../store/slices/alertSlice';
+import { useURL } from '../../../services/api/axios';
 
 const Chat: React.FC<ChatRoomDataProps> = ({ setDisplay }) => {
     const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ const Chat: React.FC<ChatRoomDataProps> = ({ setDisplay }) => {
         if (chatRoom.chatRoomId) {
             dispatch(findAllChat(chatRoom.chatRoomId));
             const client = new Client({
-                brokerURL: "ws://192.168.45.61:8080/ws", // 서버 WebSocket URL
+                brokerURL: `ws://${useURL}:8080/ws`, // 서버 WebSocket URL
                 reconnectDelay: 5000,
                 connectHeaders: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -36,13 +37,13 @@ const Chat: React.FC<ChatRoomDataProps> = ({ setDisplay }) => {
                     console.log(`Connected to ChatRoom ${chatRoom.chatRoomId}`);
                     client.subscribe(`/sub/chats/room/${chatRoom.chatRoomId}`, (data: IMessage) => {
                         // console.log(data)
-                        const msg: string = data.body;
-                        // const msg: ChatData = JSON.parse(data.body);
+                        // const msg: string = data.body;
+                        const msg: ChatData = JSON.parse(data.body);
                         dispatch(setChats({
-                            message: msg,
+                            message: msg.message,
                             loginedMember: {
-                                loginId: "jinsu123", name: "최진수"
-                                // loginId: msg.sender.longinId, name: msg.sender.name
+                                // loginId: "jinsu123", name: "최진수"
+                                loginId: msg.sender.longinId, name: msg.sender.name
                             }
                         }));
                     });

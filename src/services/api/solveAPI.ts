@@ -1,5 +1,5 @@
 import axios from './axios';
-import { Solve, CreateSolveRequest, SolveId } from '../../pages/IDEPage/types';
+import { Solve, CreateSolveRequest, SolveId, SolveList } from '../../pages/IDEPage/types';
 import { SolveData } from '../../pages/QuestListPage/types';
 
 // 특정 풀이 열람
@@ -51,10 +51,10 @@ export function getQuestionSolves(solveId: number): Promise<Solve> {
 }
 
 // 문제 풀이 생성
-export function createSolve(questionId: number, solveRequest: CreateSolveRequest): Promise<Solve> {
+export function createSolve(questionId: number, solveRequest: CreateSolveRequest): Promise<SolveList> {
     return axios.post(`/questions/${questionId}/solves`, solveRequest)
         .then(response => {
-            return response.data as Solve;
+            return response.data as SolveList;
         })
         .catch(error => {
             console.error("풀이 생성 중 오류가 발생했습니다:", error);
