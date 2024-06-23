@@ -17,6 +17,16 @@ const SearchBarContainer = styled.form`
         border-radius: 5px;
         padding-left: 15px;
         cursor: text;
+
+        @media (max-width: 768px) {
+            height: 40px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 480px) {
+            height: 35px;
+            font-size: 12px;
+        }
     }
 
     & input:hover {
@@ -25,6 +35,10 @@ const SearchBarContainer = styled.form`
 
     & ::placeholder {
         color: lightgray;
+
+        @media (max-width: 480px) {
+            font-size: 12px;
+        }
     }
 
     & button {
@@ -37,6 +51,11 @@ const SearchBarContainer = styled.form`
         border-style: none;
         border-radius: 5px;
         cursor: pointer;
+
+        @media (max-width: 480px) {
+            height: 30px;
+            font-size: 20px;
+        }
     }   
 `;
 interface SearchbarProps {
