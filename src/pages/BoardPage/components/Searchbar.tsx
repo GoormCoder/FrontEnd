@@ -30,7 +30,7 @@ const SearchBarContainer = styled.form`
     & button {
         position: absolute;
         right: 2px;
-        width: 5%;
+        width: 40px;
         height: 40px;
         font-size: 25px;
         background-color: white;
@@ -47,16 +47,16 @@ interface SearchbarProps {
 
 const Searchbar: React.FC<SearchbarProps> = ({ searchQuery, setSearchQuery, handleSearch }) => {
     return (
-    <SearchBarContainer onSubmit={handleSearch}>
-        <input 
-            type="search" 
-            value={searchQuery} 
-            onChange={(e) => setSearchQuery(e.target.value)} 
-            placeholder="검색하고 싶은 게시글 검색"
-        />
-        <button type="submit"><IoSearch /></button>    
-    </SearchBarContainer>
-    );    
+        <SearchBarContainer onSubmit={handleSearch}>
+            <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="검색하고 싶은 게시글 검색"
+            />
+            <button type="submit"><IoSearch /></button>
+        </SearchBarContainer>
+    );
 };
 
 export default Searchbar;

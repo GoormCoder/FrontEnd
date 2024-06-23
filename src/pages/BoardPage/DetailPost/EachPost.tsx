@@ -93,8 +93,8 @@ const EachPost: React.FC = () => {
             try {
                 const data = await getBoardPost(parseInt(boardId));
                 setPost(data);
-                setIsLiked(data.likeCount > 0); 
-                const currentUserId = localStorage.getItem('userId'); 
+                setIsLiked(data.likeCount > 0);
+                const currentUserId = localStorage.getItem('userId');
                 if (currentUserId && data.member.id.toString() === currentUserId) {
                     setIsEditable(true);
                 }

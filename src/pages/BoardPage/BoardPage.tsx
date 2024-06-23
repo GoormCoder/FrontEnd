@@ -17,17 +17,20 @@ const PageContainer = styled.div`
     min-height: 100vh; 
     background-color: #f0f0f0; 
     padding-top: 100px; 
+    
 `;
 
 const BoardContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 50px;
     width: 60vw;
     max-width: 800px;
     min-height: 600px; /* 컨텐츠가 없을 때 최소 높이를 설정 */
     margin: auto;
     margin-top: 10px; /* 추가 여백으로 위로 이동 */
+        @media only screen and (max-width: 430px) {
+            width: 80%;
+        }
 `;
 
 const SeparatedContainer = styled.div`
@@ -36,6 +39,9 @@ const SeparatedContainer = styled.div`
     padding: 20px;
     width: 100%;
     background-color: white;
+    @media only screen and (max-width: 430px) {
+            width: 90%;
+    }
 `;
 
 const ButtonContainer = styled.div`
@@ -88,7 +94,7 @@ const BoardPage: React.FC = () => {
                 console.error('전체 게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
             });
     }, []);
-    
+
     const filteredPosts = posts.filter(post =>
         (post.title && post.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (post.member.nickname && post.member.nickname.toLowerCase().includes(searchTerm.toLowerCase()))

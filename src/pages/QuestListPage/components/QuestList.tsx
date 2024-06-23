@@ -49,7 +49,7 @@ const QuestList = () => {
                     </tbody>
                 </table>
             </QuestListContainer>
-            <PageNumberContainer>
+            {/* <PageNumberContainer>
                 <BsChevronBarLeft style={{ fontSize: '20px' }} />
                 <BsChevronLeft />
                 {numbers.map((num) => (
@@ -57,7 +57,7 @@ const QuestList = () => {
                 ))}
                 <BsChevronRight />
                 <BsChevronBarRight style={{ fontSize: '20px' }} />
-            </PageNumberContainer>
+            </PageNumberContainer> */}
         </>
     )
 }

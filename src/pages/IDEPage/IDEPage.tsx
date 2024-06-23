@@ -8,8 +8,9 @@ import { createSolve, getSolve } from '../../services/api/solveAPI';
 import { findQuestionApi } from '../../services/api/questAPI';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { findQuestion } from '../../store/slices/questSlice';
-import { BottomButtonProps } from './types';
+import { BottomButtonProps, CreateSolveRequest } from './types';
 import { SolvedState } from '../QuestListPage/types';
+import { setAllBattleDataEmpty, submitBattle } from '../../store/slices/battleSlice';
 
 const MainContainer = styled.div`
     display: flex;
@@ -102,6 +103,8 @@ const IDEPage: React.FC = () => {
     }
 }`);
 
+    const { battleData, battleMember, battleResult } = useAppSelector(state => state.battle);
+
     const [currentCode, setCurrentCode] = useState(initialCode);
     const [language, setLanguage] = useState('JAVA');
     const [gradingResult, setGradingResult] = useState<string | null>(null);
@@ -135,22 +138,25 @@ const IDEPage: React.FC = () => {
     const handleButtonClick = async () => {
         try {
             const solveRequest = {
-                code: currentCode.trim(),
+                code: currentCode,
                 language: language
             };
             console.log(solveRequest);
+            if (!battleData.battleId) {
+                const solveResponse = await createSolve(questionId, solveRequest);
+                const result = await getSolve(solveResponse.solveId);
+                setGradingResult(result.solveResult);
+                setIsCorrect(result.solveResult === SolvedState.CORRECT);
 
-            const solveResponse = await createSolve(questionId, solveRequest);
-            const result = await getSolve(solveResponse.id);
-            setGradingResult(result.solveResult);
-            setIsCorrect(result.solveResult === SolvedState.CORRECT);
-
-            if (result.solveResult === SolvedState.CORRECT) {
-                alert('정답입니다!');
-                navigate(`/questions/${questionId}/solves`);
+                if (result.solveResult === SolvedState.CORRECT) {
+                    alert('정답입니다!');
+                    navigate(`/questions/${questionId}/solves`);
+                } else {
+                    alert(`틀렸습니다.`); // 오류: ${result.errorMessage}
+                    // setErrorMessage(result.errorMessage || ''); 
+                }
             } else {
-                alert(`틀렸습니다.`); // 오류: ${result.errorMessage}
-                // setErrorMessage(result.errorMessage || ''); 
+                submitBattlehandler(solveRequest);
             }
         } catch (error) {
             console.error('풀이 제출 중 오류가 발생했습니다:', error);
@@ -170,21 +176,55 @@ const IDEPage: React.FC = () => {
     };
 
     const handleQuestionClick = () => {
-        navigate('/board');
+        if (battleData.battleId) {
+            if (window.confirm("대결 진행중!\n다른 페이지로 이동시 다시 입장 불가합니다.\n뒤로 가시겠습니까?")) {
+                dispatch(setAllBattleDataEmpty())
+                window.location.replace('/board');
+            }
+        } else {
+            navigate('/board');
+        }
     };
 
     const handleGoBack = () => {
-        navigate('/quest');
+        if (battleData.battleId) {
+            if (window.confirm("대결 진행중!\n뒤로 이동시 다시 입장 불가합니다.\n뒤로 가시겠습니까?")) {
+                dispatch(setAllBattleDataEmpty())
+                window.location.replace('/quest');
+            }
+        } else {
+            navigate('/quest');
+        }
+
     };
 
     const handleOtherSolvesClick = async () => {
         try {
-            navigate(`/questions/${questionId}/solves`);
+            if (battleData.battleId) {
+                alert("대결 중엔 이용하실 수 없습니다!")
+            } else {
+                navigate(`/questions/${questionId}/solves`);
+            }
         } catch (error) {
             console.error('다른 사람의 풀이를 불러오는 중 오류가 발생했습니다:', error);
             alert('다른 사람의 풀이를 불러오는 중 오류가 발생했습니다.');
         }
     };
+
+    const submitBattlehandler = (solveRequest: CreateSolveRequest) => {
+        dispatch(submitBattle({ battleId: battleData.battleId, questionId: battleData.question.id, solveRequest }))
+        console.log(battleResult);
+    }
+
+    useEffect(() => {
+        if (battleResult.solveResult == SolvedState.CORRECT) {
+            alert(battleResult.battleResult)
+            dispatch(setAllBattleDataEmpty())
+            navigate('/battle')
+        } else if (battleResult.solveResult != "") {
+            alert(battleResult.solveResultMessage)
+        }
+    }, [battleResult])
 
     return (
         <MainContainer>

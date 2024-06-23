@@ -5,6 +5,7 @@ import { Editor } from '@monaco-editor/react';
 import { Solve, SolveId } from '../IDEPage/types';
 import dummySolves from './dummySolves.json';
 import { getQuestionSolveId, getQuestionSolves } from '../../services/api/solveAPI';
+import { SolvedState } from '../QuestListPage/types';
 
 const PageContainer = styled.div`
     display: flex;
@@ -49,7 +50,6 @@ const SolveList: React.FC = () => {
         const fetchSolves = async () => {
             try {
                 if (questionId) {
-                    // 실제 API 호출 대신 더미 데이터를 사용합니다.
 
                     // api 호출
                     const solveId = await getQuestionSolveId(parseInt(questionId));
@@ -69,25 +69,28 @@ const SolveList: React.FC = () => {
 
     return (
         <PageContainer>
-            {solves.map((solve, index) => (
-                <SolveContainer key={index}>
-                    <SolveHeader>
-                        <SolveTitle>{solve.memberSummaryDto.nick}의 풀이</SolveTitle>
+            {solves.map((solve, index) => {
+                if (solve.solveResult != SolvedState.CORRECT) return;
+                return (
+                    <SolveContainer key={index}>
+                        <SolveHeader>
+                            <SolveTitle>{solve.memberSummaryDto.nick}의 풀이</SolveTitle>
 
-                    </SolveHeader>
-                    <Editor
-                        height="400px"
-                        language={solve.language.toLowerCase()}
-                        value={solve.code}
-                        theme="vs-dark"
-                        options={{
-                            readOnly: true,
-                            minimap: { enabled: false },
-                        }}
-                    />
-                    <p>작성일: {solve.createdAt}</p>
-                </SolveContainer>
-            )
+                        </SolveHeader>
+                        <Editor
+                            height="400px"
+                            language={solve.language.toLowerCase()}
+                            value={solve.code}
+                            theme="vs-dark"
+                            options={{
+                                readOnly: true,
+                                minimap: { enabled: false },
+                            }}
+                        />
+                        <p>작성일: {solve.createdAt}</p>
+                    </SolveContainer>
+                )
+            }
             )}
         </PageContainer>
     );

@@ -16,14 +16,17 @@ const initialState: ChatState = {
         chatRoomId: 0,
         chatRoomName: "",
         lastMessage: {
+            messageId: 0,
             message: "",
             createdAt: "",
+            sender: {
+                id: 0,
+                loginId: "",
+                name: ""
+            }
         },
-        sender: {
-            id: 0,
-            loginId: "",
-            name: ""
-        }
+        hasUnreadMessages: false,
+        readAt: ""
     },
     chatRooms: [],
     chats: [],
@@ -97,15 +100,18 @@ const ChatSlice = createSlice({
                 chatRoomId: 0,
                 chatRoomName: "",
                 lastMessage: {
+                    messageId: 0,
                     message: "",
                     createdAt: "",
+                    sender: {
+                        id: 0,
+                        loginId: "",
+                        name: ""
+                    }
                 },
-                sender: {
-                    id: 0,
-                    loginId: "",
-                    name: ""
-                }
-            };
+                hasUnreadMessages: false,
+                readAt: ""
+            }
         },
         setChats(state, action: PayloadAction<{ message: string, loginedMember: { loginId: string, name: string } }>) {
             state.chats.push({

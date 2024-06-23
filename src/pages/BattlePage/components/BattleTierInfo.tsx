@@ -46,6 +46,10 @@ const BattleTierContainer = styled.div`
     justify-content: center;
     gap: 30px;
     width: 400px;
+    @media only screen and (max-width: 430px) {
+        flex-direction: row;
+        position: relative;
+    }
 `
 
 const BattleTierImage = styled.div`
@@ -56,6 +60,11 @@ const BattleTierImage = styled.div`
 
     & img{
         width: 100%;
+    }
+    @media only screen and (max-width: 430px) {
+        width: 18%;
+        position: absolute;
+        left: 75px;
     }
 `
 
@@ -71,4 +80,16 @@ const BattleTierInfoBox = styled.form`
     background-color: lightgray;
     border-radius: 10px;
     padding: 30px 0px 30px 0px;
+    @media only screen and (max-width: 430px) {
+        width: 70%;
+        padding: 10px 0 10px 0;
+        font-size: 18px;
+        gap: 0px;
+        align-items: start;
+        
+
+        & div{
+            padding-left: 110px;
+        }
+    }
 `

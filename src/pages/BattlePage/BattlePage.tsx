@@ -45,6 +45,10 @@ const BattleContentContainer = styled.div`
     width: 70%;
     height: 100%;
     background-color: white;
+    @media only screen and (max-width: 430px) {
+        flex-direction: column;
+        width: 90%;
+    }
 `
 
 const BattlePlayContainer = styled.div`
@@ -54,5 +58,8 @@ const BattlePlayContainer = styled.div`
     justify-content: center;
     gap: 20px;
     width: 400px;
+    @media only screen and (max-width: 430px) {
+        width: 85%;
+    }
 `
 

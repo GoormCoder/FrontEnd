@@ -6,14 +6,16 @@ import { findAllBattleResult } from '../../../store/slices/battleSlice';
 const BattleRecentList = () => {
 
     const { battleInfo } = useAppSelector(state => state.battle);
-
     return (
         <BattleRecentResult>
             <div className='title'>최근 전적</div>
             <List>
-                {battleInfo.battleRecords.slice(0, 5).map((battle) => (
-                    <div>{`${battle.givenUser} VS ${battle.receivedUser} ${battle.result}`}</div>
-                ))}
+                {battleInfo.battleRecords.map((battle, index) => {
+                    if (index > 4) return
+                    return (
+                        <div>{`${battle.givenUser} VS ${battle.receivedUser} ${battle.result}`}</div>
+                    )
+                })}
             </List>
         </BattleRecentResult>
     )
