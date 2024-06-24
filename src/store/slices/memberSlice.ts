@@ -67,18 +67,45 @@ export const findAllMemberByKeyword = createAsyncThunk(
     }
 );
 
+// export const login = createAsyncThunk(
+//     'member/login',
+//     async ({ loginId, password }: { loginId: string, password: string }) => {
+//         try {
+//             // const response = await loginApi(loginId, password);
+//             // return response;
+//         } catch (error) {
+//             console.error('Error fetching quests:', error);
+//             throw error;
+//         }
+//     }
+// );
+
 export const login = createAsyncThunk(
     'member/login',
-    async ({ loginId, password }: { loginId: string, password: string }) => {
+    async ({ loginId, password }: { loginId: string; password: string }) => {
         try {
             // const response = await loginApi(loginId, password);
-            // return response;
+            // Assuming response contains user information and tokens
+            const response = {
+                loginId,
+                name: 'User Name', // replace with response data
+                nickname: 'User Nickname', // replace with response data
+                accessToken: 'fakeAccessToken', // replace with response data
+                refreshToken: 'fakeRefreshToken' // replace with response data
+            };
+            localStorage.setItem('accessToken', response.accessToken);
+            localStorage.setItem('refreshToken', response.refreshToken);
+            localStorage.setItem('loginId', response.loginId);
+            localStorage.setItem('name', response.name);
+            localStorage.setItem('nickname', response.nickname);
+            return response;
         } catch (error) {
-            console.error('Error fetching quests:', error);
+            console.error('Error logging in:', error);
             throw error;
         }
     }
 );
+
 
 const memberSlice = createSlice({
     name: 'member',

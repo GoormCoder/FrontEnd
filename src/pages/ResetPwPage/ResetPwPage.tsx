@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axiosInstance from '../axiosInstance';
+// import axiosInstance from '../axiosInstance';
+import instance from '../../services/api/axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios'; 
 
@@ -47,7 +48,7 @@ function ResetPwPage() {
         }
 
         try {
-            const response = await axiosInstance.post(`/members/resetPw/${UserId}`, {
+            const response = await instance.post(`/members/resetPw/${UserId}`, {
                 password: Password
             });
 

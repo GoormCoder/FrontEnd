@@ -1,4 +1,5 @@
-import axiosInstance from '../axiosInstance';
+// import axiosInstance from '../axiosInstance';
+import instance from '../../services/api/axios';
 import React, { useState } from 'react';
 import { Container, Form, Title, Label, Input, Select, SubmitButton, LinksContainer, Link } from '../../components/PageStyle';
 import { useNavigate } from 'react-router-dom';
@@ -62,7 +63,7 @@ function JoinPage() {
             return alert('비밀번호는 최소 6자리 이상이어야 합니다.');
         }
 
-        axiosInstance.get(`/members/id-duplicated/${UserId}`)
+        instance.get(`/members/id-duplicated/${UserId}`)
             .then(response => {
                 if (response.data) {
                     return alert('이미 존재하는 아이디입니다!!');
@@ -77,7 +78,7 @@ function JoinPage() {
                         nick: Nickname,
                     }
 
-                    axiosInstance.post('/members/join', body)
+                    instance.post('/members/join', body)
                         .then(response => {
                             setShowSuccessAlert(true);
                             setTimeout(() => {

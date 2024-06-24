@@ -7,6 +7,13 @@ const instance = axios.create({
     },
 });
 
+// const instance = axios.create({
+//     baseURL: `http://localhost:8080`,
+//     headers: {
+//         'Content-Type': 'application/json',
+//     },
+// });
+
 const setHeader = (token: string | null) => {
     if (token) {
         instance.defaults.headers.common["Authorization"] = `Bearer ${token}`

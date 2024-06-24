@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axiosInstance from '../axiosInstance';
+// import axiosInstance from '../axiosInstance';
+import instance from '../../services/api/axios';
 import axios from 'axios'; 
 
 import {
@@ -37,7 +38,7 @@ function FindIdPage() {
         setSuccess("");
 
         try {
-            const response = await axiosInstance.post('/members/findId', {
+            const response = await instance.post('/members/findId', {
                 email: Email,
                 name: Name
             });

@@ -11,6 +11,8 @@ import { findQuestion } from '../../store/slices/questSlice';
 import { BottomButtonProps, CreateSolveRequest } from './types';
 import { SolvedState } from '../QuestListPage/types';
 import { setAllBattleDataEmpty, submitBattle } from '../../store/slices/battleSlice';
+import { useEffect } from 'react';
+
 
 const MainContainer = styled.div`
     display: flex;

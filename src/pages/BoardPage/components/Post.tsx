@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { BoardDetails } from '../types';
+import { BoardDetails, PostItemProps } from '../types';
 import { useNavigate } from 'react-router-dom';
 
 const PostItemContainer = styled.tr`
@@ -28,9 +28,7 @@ const PostMeta = styled.td`
     color: #777;
 `;
 
-interface PostItemProps {
-    post: BoardDetails;
-}
+
 
 const PostItem: React.FC<PostItemProps> = ({ post }) => {
     const nav = useNavigate();
