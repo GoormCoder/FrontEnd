@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { createBoardPost } from '../../../services/api/boardAPI'; 
-import { BoardPost } from '../types'; 
+import { createBoardPost } from '../../../services/api/boardAPI';
+import { BoardPost } from '../types';
 
 const PostContainer = styled.div`
     display: flex;
@@ -73,6 +73,11 @@ const PostContainer = styled.div`
             }
         }
     }
+    @media only screen and (max-width: 430px) {
+            & form {
+                width: 90%;
+            }
+    }
 `;
 
 const PostDetail: React.FC = () => {
@@ -88,13 +93,13 @@ const PostDetail: React.FC = () => {
             boardType,
             title,
             content,
-            questionId: 1 
+            questionId: 1
         };
 
         try {
             await createBoardPost(newPost);
             alert('게시글이 성공적으로 등록되었습니다.');
-            navigate('/boards');
+            navigate('/board');
         } catch (error) {
             console.error('게시글 등록 중 오류가 발생했습니다:', error);
             alert('게시글 등록 중 오류가 발생했습니다.');
@@ -109,15 +114,15 @@ const PostDetail: React.FC = () => {
                     <option value="FREE_BOARD">자유 게시판</option>
                     <option value="QUESTION_BOARD">질문 게시판</option>
                 </select>
-                <input 
-                    type='text' 
-                    placeholder='제목' 
-                    value={title} 
-                    onChange={(e) => setTitle(e.target.value)} 
+                <input
+                    type='text'
+                    placeholder='제목'
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
-                <textarea 
-                    placeholder='내용' 
-                    value={content} 
+                <textarea
+                    placeholder='내용'
+                    value={content}
                     onChange={(e) => setContent(e.target.value)}
                 ></textarea>
                 <div className="button-group">

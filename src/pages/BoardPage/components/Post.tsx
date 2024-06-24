@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BoardDetails, PostItemProps } from '../types';
+import { useNavigate } from 'react-router-dom';
 
 const PostItemContainer = styled.tr`
     border-bottom: 1px solid #eee;
@@ -30,8 +31,10 @@ const PostMeta = styled.td`
 
 
 const PostItem: React.FC<PostItemProps> = ({ post }) => {
+    const nav = useNavigate();
+    const [data, setData] = useState(post)
     const handleClick = () => {
-        window.location.href = `/boards/${post.boardId}`;
+        nav(`/board/1`);
     };
 
     return (

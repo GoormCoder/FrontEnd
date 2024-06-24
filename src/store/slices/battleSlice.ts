@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
-import { BattleData, BattleRoomData } from '../../pages/BattlePage/types';
-import { createBattleRoomApi, deleteBattleRoomApi, findBattleRoomApi, startBattleApi } from '../../services/api/battleAPI';
+import { BattleData, BattleInfo, BattleResult, BattleRoomData } from '../../pages/BattlePage/types';
+import { createBattleRoomApi, deleteBattleRoomApi, findAllBattleResultApi, findBattleRoomApi, startBattleApi, submitBattleApi } from '../../services/api/battleAPI';
+import { CreateSolveRequest } from '../../pages/IDEPage/types';
 
 
 interface BattleState {
@@ -11,8 +12,10 @@ interface BattleState {
         loginId: string,
         nickname: string
     }
+    battleInfo: BattleInfo;
+    battleResult: BattleResult;
 }
-const roomId = sessionStorage.getItem("battleRoomId")
+const roomId = sessionStorage.getItem("roomId")
 const battle = sessionStorage.getItem("battleData")
 const member = sessionStorage.getItem("battleMember")
 
@@ -52,7 +55,41 @@ const initialState: BattleState = {
         } : {
             loginId: "",
             nickname: ""
-        }
+        },
+    battleInfo: {
+        nickname: "",
+        battleScore: 0,
+        totalResult: "",
+        winRate: "",
+        battleRecords: [
+            {
+                givenUser: "",
+                receivedUser: "",
+                result: ""
+            }
+        ]
+    },
+    battleResult: {
+        questionSummryDto: {
+            id: 0,
+            level: 0,
+            title: "",
+            tags: [
+                {
+                    id: 0,
+                    name: ""
+                }
+            ]
+        },
+        memberSummryDto: {
+            id: 0,
+            loginId: "",
+            nick: ""
+        },
+        solveResult: "",
+        solveResultMessage: "",
+        battleResult: ""
+    }
 };
 
 
@@ -110,6 +147,33 @@ export const deleteBattleRoom = createAsyncThunk(
     }
 );
 
+export const findAllBattleResult = createAsyncThunk(
+    'battle/findAllBattleResult',
+    async () => {
+        try {
+            const response = await findAllBattleResultApi();
+            return response;
+        } catch (error) {
+            console.error('Error fetching quests:', error);
+            throw error;
+        }
+    }
+);
+
+export const submitBattle = createAsyncThunk(
+    'battle/submitBattle',
+    async ({ battleId, questionId, solveRequest }: { battleId: number, questionId: number, solveRequest: CreateSolveRequest }) => {
+        try {
+            const response = await submitBattleApi(battleId, questionId, solveRequest);
+            return response;
+        } catch (error) {
+            console.error('Error fetching quests:', error);
+            throw error;
+        }
+    }
+);
+
+
 const battleSlice = createSlice({
     name: 'battle',
     initialState,
@@ -118,7 +182,7 @@ const battleSlice = createSlice({
             sessionStorage.removeItem("battleRoomId")
             sessionStorage.removeItem("battleData")
             sessionStorage.removeItem("battleMember")
-            state.battleRoom = emptyState.battleRoom
+            state = emptyState
         },
         setBattleRoomIdEmpty(state) {
             sessionStorage.removeItem("battleRoomId")
@@ -164,6 +228,12 @@ const battleSlice = createSlice({
                 sessionStorage.removeItem("battleMember")
                 state.battleRoom = emptyState.battleRoom
             })
+            .addCase(findAllBattleResult.fulfilled, (state, action) => {
+                state.battleInfo = action.payload
+            })
+            .addCase(submitBattle.fulfilled, (state, action) => {
+                state.battleResult = action.payload
+            })
     }
 });
 
@@ -204,5 +274,39 @@ const emptyState: BattleState = {
     battleMember: {
         loginId: "",
         nickname: ""
+    },
+    battleInfo: {
+        nickname: "",
+        battleScore: 0,
+        totalResult: "",
+        winRate: "",
+        battleRecords: [
+            {
+                givenUser: "",
+                receivedUser: "",
+                result: ""
+            }
+        ]
+    },
+    battleResult: {
+        questionSummryDto: {
+            id: 0,
+            level: 0,
+            title: "",
+            tags: [
+                {
+                    id: 0,
+                    name: ""
+                }
+            ]
+        },
+        memberSummryDto: {
+            id: 0,
+            loginId: "",
+            nick: ""
+        },
+        solveResult: "",
+        solveResultMessage: "",
+        battleResult: ""
     }
 }

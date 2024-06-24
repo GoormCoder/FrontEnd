@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { getUser } from '../../../services/api/memberAPI';
 import { BsCheckLg, BsThreeDots } from "react-icons/bs";
 import { FaCircleQuestion } from "react-icons/fa6";
 import RankInfo from './RankInfo';
 import { User } from '../../ChatFriendPage/types';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
 import { findMemberSolve } from '../../../store/slices/questSlice';
+import { SolvedState } from '../types';
 
 const SideStatus = () => {
     const dispatch = useAppDispatch();
@@ -55,18 +55,26 @@ const SideStatus = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {solveList.map((row, index) => (
-                            <tr key={index}>
-                                <td>
-                                    {row.solveResult ?
-                                        <>
-                                            {row.solveResult == "T" ? <BsCheckLg /> : <BsThreeDots />}
-                                        </>
-                                        : ''}
-                                </td>
-                                <td style={{ textAlign: "left", cursor: "pointer" }}>{row.questionSummaryDto.title}</td>
-                            </tr>
-                        ))}
+                        {solveList.map((row, index) => {
+                            if (index > 0) {
+                                if (row.questionSummaryDto.id == solveList[index - 1].questionSummaryDto.id) {
+                                    return;
+
+                                }
+                            }
+                            return (
+                                <tr key={index} >
+                                    <td>
+                                        {row.solveResult ?
+                                            <>
+                                                {row.solveResult == SolvedState.CORRECT ? <BsCheckLg /> : <BsThreeDots />}
+                                            </>
+                                            : ''}
+                                    </td>
+                                    <td style={{ textAlign: "left", cursor: "pointer" }}>{row.questionSummaryDto.title}</td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
             </div>

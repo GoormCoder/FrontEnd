@@ -1,145 +1,85 @@
 import React, { useState, useEffect } from "react";
-import "./RankPage.css";
+import { User } from "../ChatFriendPage/types";
+import TopThree from "./components/TopThree";
+import RankTable from "./components/RankTable";
+import styled from "styled-components";
+import { RankType } from "./types";
 
-interface User {
-  id: number;
-  name: string;
-  score: number;
-  praiseScore: number;
-  answerCount: number;
-  image: string;
-  correctProblems: number;
-  correctRate: number;
-}
-
-interface TopThreeProps {
-  topUsers: User[];
-  rankingType: string;
-}
-
-const TopThree: React.FC<TopThreeProps> = ({ topUsers, rankingType }) => {
-  return (
-    <div className="top-three">
-      {topUsers.map((user, index) => (
-        <div key={user.id} className={`top-user rank-${index + 1}`}>
-          <img
-            className="user-image"
-            src={user.image || "https://via.placeholder.com/100"}
-            alt={`${index + 1}등`}
-          />
-          <p>{user.name}</p>
-          {rankingType === "score" && <p>점수: {user.score}</p>}
-          {rankingType === "praise" && <p>칭찬 점수: {user.praiseScore}</p>}
-          {rankingType === "answer" && <p>답변 개수: {user.answerCount}</p>}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-interface RankingTableProps {
-  users: User[];
-  rankingType: string;
-}
-
-const RankingTable: React.FC<RankingTableProps> = ({ users, rankingType }) => {
-  return (
-    <table className="ranking-table">
-      <thead>
-        <tr>
-          <th>등수</th>
-          <th>아이디</th>
-          {rankingType === "score" && (
-            <>
-              <th>맞은 문제</th>
-              <th>정답 비율</th>
-              <th>점수</th>
-            </>
-          )}
-          {rankingType === "praise" && <th>칭찬 점수</th>}
-          {rankingType === "answer" && <th>답변 개수</th>}
-        </tr>
-      </thead>
-      <tbody>
-        {users.map((user, index) => (
-          <tr key={user.id}>
-            <td>{index + 4}</td>
-            <td>{user.name}</td>
-            {rankingType === "score" && (
-              <>
-                <td>{user.correctProblems}</td>
-                <td>{user.correctRate}%</td>
-                <td>{user.score}</td>
-              </>
-            )}
-            {rankingType === "praise" && <td>{user.praiseScore}</td>}
-            {rankingType === "answer" && <td>{user.answerCount}</td>}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
-
-const RankPage: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [rankingType, setRankingType] = useState<string>("score");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/users"); // API 엔드포인트 설정
-        const data: User[] = await response.json();
-        console.log("Fetched users:", data);
-        setUsers(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleToggleRanking = () => {
-    let nextRankingType: string;
-    if (rankingType === "score") {
-      nextRankingType = "praise";
-    } else if (rankingType === "praise") {
-      nextRankingType = "answer";
-    } else {
-      nextRankingType = "score";
-    }
-
-    setRankingType(nextRankingType);
-
-    const sortedData = users.sort((a, b) => {
-      if (nextRankingType === "score") {
-        return b.score - a.score;
-      } else if (nextRankingType === "praise") {
-        return b.praiseScore - a.praiseScore;
-      } else {
-        return b.answerCount - a.answerCount;
-      }
-    });
-    setUsers([...sortedData]);
-  };
+const RankPage = () => {
+  const [rankType, setRankType] = useState<string>(RankType.PRAISE);
 
   return (
-    <div className="container">
-      <div className="header">
+    <RankPageContainer>
+      <RankTableContainer>
         <h1>랭킹 페이지</h1>
-        <button className="toggle-button" onClick={handleToggleRanking}>
-          {rankingType === "score"
-            ? "칭찬 랭킹"
-            : rankingType === "praise"
-            ? "답변 랭킹"
-            : "점수 랭킹"}
-        </button>
-      </div>
-      <TopThree topUsers={users.slice(0, 3)} rankingType={rankingType} />
-      <RankingTable users={users.slice(3)} rankingType={rankingType} />
-    </div>
+        <Navigator>
+          {rankType == RankType.PRAISE ?
+            <button className="clicked">칭찬 랭킹</button>
+            :
+            <button className="non-clicked" onClick={() => setRankType(RankType.PRAISE)}>칭찬 랭킹</button>
+          }
+          {rankType == RankType.BATTLE ?
+            <button className="clicked" >대결 랭킹</button>
+            :
+            <button className="non-clicked" onClick={() => setRankType(RankType.BATTLE)}>대결 랭킹</button>
+          }
+          {rankType == RankType.SOLVED ?
+            <button className="clicked">풀이 랭킹</button>
+            :
+            <button className="non-clicked" onClick={() => setRankType(RankType.SOLVED)}>풀이 랭킹</button>
+          }
+        </Navigator>
+        <RankTable rankType={rankType} />
+      </RankTableContainer>
+    </RankPageContainer>
   );
 };
 
 export default RankPage;
+
+const RankPageContainer = styled.div`
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+      @media only screen and (max-width: 430px) {
+        /* width: 200px; */
+        
+    }
+`
+
+const RankTableContainer = styled.div`
+  width:810px;
+    & button {
+      width: 270px;
+      height: 40px;
+      margin: 0 0 -1px 0px;
+      border-style: none;
+      border-radius: 10px 10px 0 0;
+      border: 1px solid lightgray;
+      background-color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    & .clicked {
+      border-bottom: 1px solid white;
+    }
+
+    & .non-clicked{
+      border-bottom: 1px solid lightgray;
+      background-color: #90c7f7a8;
+    }
+      @media only screen and (max-width: 430px) {
+        width: 400px;
+        
+    }
+`
+
+const Navigator = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`

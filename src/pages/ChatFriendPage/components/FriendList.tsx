@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Friend from './Friend'
 import styled from 'styled-components'
 import { DisplayProps, FriendData, SetPageProps, User, UserID } from '../types'
-import { getUser } from '../../../services/api/memberAPI'
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks'
 import { findAllFriends, setFriend } from '../../../store/slices/friendSlice'
 
@@ -54,7 +53,7 @@ const List = styled.div`
 
 const FriendContent = styled.div`
     padding: 20px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid lightgray;
     cursor: pointer;
 `
 

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { BsCheckLg, BsThreeDots, BsChevronBarLeft, BsChevronBarRight, BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { useAppSelector } from '../../../hooks/reduxHooks';
 import { Link } from 'react-router-dom';
+import { SolvedState } from '../types';
 
 
 const numbers = [1, 2, 3, 4]
@@ -28,7 +29,7 @@ const QuestList = () => {
                                 <td style={{ textAlign: 'center' }}>
                                     {row.state ?
                                         <>
-                                            {row.state == "T" ? <BsCheckLg /> : <BsThreeDots />}
+                                            {row.state == SolvedState.CORRECT ? <BsCheckLg /> : <BsThreeDots />}
                                         </>
                                         : ''}
                                 </td>
@@ -48,7 +49,7 @@ const QuestList = () => {
                     </tbody>
                 </table>
             </QuestListContainer>
-            <PageNumberContainer>
+            {/* <PageNumberContainer>
                 <BsChevronBarLeft style={{ fontSize: '20px' }} />
                 <BsChevronLeft />
                 {numbers.map((num) => (
@@ -56,7 +57,7 @@ const QuestList = () => {
                 ))}
                 <BsChevronRight />
                 <BsChevronBarRight style={{ fontSize: '20px' }} />
-            </PageNumberContainer>
+            </PageNumberContainer> */}
         </>
     )
 }

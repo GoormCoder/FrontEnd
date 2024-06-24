@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { findAll, findMemberSolveApi, findQuestionApi } from '../../services/api/questAPI';
-import { Quest, QuestDetail, SolveData, Tag } from '../../pages/QuestListPage/types';
+import { Quest, QuestDetail, SolveData, SolvedState, Tag } from '../../pages/QuestListPage/types';
 
 interface QuestState {
   questList: Quest[];
@@ -12,6 +12,7 @@ interface QuestState {
   quest: Quest;
   questDetaile: QuestDetail;
   solveList: SolveData[];
+  solvedCount: number;
 }
 
 const initialState: QuestState = {
@@ -35,7 +36,8 @@ const initialState: QuestState = {
     title: "",
     content: ""
   },
-  solveList: []
+  solveList: [],
+  solvedCount: 0
 };
 
 
@@ -110,8 +112,8 @@ const questSlice = createSlice({
 
       const searchResult = questList.filter(quest => {
         let state: string = '';
-        if (quest.state === 'T') state = '푼 문제';
-        if (quest.state === 'F') state = '풀고 있는 문제';
+        if (quest.state === SolvedState.CORRECT) state = '푼 문제';
+        if (quest.state != SolvedState.CORRECT) state = '풀고 있는 문제';
         if (quest.state === null) state = '안 푼 문제';
         const nonBlankQuestTitle = removeBlank(quest.title);
         if (!levelList.length && !stateList.length) return nonBlankQuestTitle.includes(nonBlankSearchText);
@@ -133,6 +135,7 @@ const questSlice = createSlice({
         state.questDetaile = action.payload;
       })
       .addCase(findMemberSolve.fulfilled, (state, action) => {
+        action.payload.map((question) => { question.solveResult === SolvedState.CORRECT && state.solvedCount++ })
         state.solveList = action.payload;
       })
   }

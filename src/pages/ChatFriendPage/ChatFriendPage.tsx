@@ -71,30 +71,30 @@ const ChatFriendContainer = styled.div`
 `
 
 const Title = styled.div`
-    /* border: 1px solid black; */
     height: 40px;
     font-size: 25px;
     font-weight: bold;
     padding-left: 15px;
+    box-shadow: 0px 10px 10px 1px whitesmoke;
 `
 
 const FriendListContainer = styled.div<DisplayProps>`
     display: ${props => props.display ? "block" : "none"};
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
     height: 470px;
 `
 const FriendAddContainer = styled.div<DisplayProps>`
     display: ${props => props.display ? "block" : "none"};
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
     height: 470px;
 `
 
 const ChatListContainer = styled.div<DisplayProps>`
     display: ${props => props.display ? "block" : "none"};
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
     height: 470px;
 `
 

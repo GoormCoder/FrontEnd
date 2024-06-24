@@ -25,9 +25,6 @@ const ChatIcon = () => {
                 <ChatPageContainer display={display} opacity={opacity}>
                     <ChatFriendPage isOpen={display} />
                 </ChatPageContainer> : null}
-            {/* <ChatPageContainer display={display} opacity={opacity}>
-                <ChatFriendPage isOpen={display} />
-            </ChatPageContainer> */}
             <ChatIconContainer onClick={() => { setOpenChat() }}>
                 <div>
                     {opacity ? <IoMdClose /> : <IoMdCloudOutline />}
@@ -47,6 +44,11 @@ const ChatContainer = styled.div`
     position: fixed;
     bottom: 40px;
     right: 60px;
+    z-index: 100;
+    @media only screen and (max-width: 430px) {
+        bottom: 30px;
+        right: 40px;
+    }
 `
 
 const ChatPageContainer = styled.div<DisplayAndOpacityProps>`

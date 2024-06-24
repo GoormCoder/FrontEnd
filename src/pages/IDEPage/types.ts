@@ -21,6 +21,17 @@ export interface MemberSummaryDto {
     nick: string;
 }
 
+export interface SolveList {
+    questionSummaryDto: QuestionSummaryDto;
+    memberSummaryDto: MemberSummaryDto;
+    solveId: number;
+    solveResult: string;
+}
+
+export interface SolveId {
+    solveId: number;
+}
+
 export interface Solve {
     id: number;
     code: string;

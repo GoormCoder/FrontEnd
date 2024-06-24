@@ -47,3 +47,14 @@ export interface RnakInfoProps {
     rankInfoDisplay: boolean;
     setRankInfoDisplay?: (isOpend: boolean) => void
 }
+
+// enum
+export enum SolvedState {
+    CORRECT = "CORRECT",
+    WRONG = "WRONG",
+    TIME_OVER = "TIME_OVER",
+    OUT_OF_MEMORY = "OUT_OF_MEMORY",
+    NOT_TRIED_YET = "NOT_TRIED_YET",
+    COMPILE_ERROR = "COMPILE_ERROR",
+    RUNTIME_ERROR = "RUNTIME_ERROR",
+}

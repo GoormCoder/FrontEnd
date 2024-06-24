@@ -1,5 +1,6 @@
 import axios from "./axios";
-import { BattleData, BattleMemberData, BattleRoomData, BattleRoomId } from "../../pages/BattlePage/types";
+import { BattleData, BattleInfo, BattleMemberData, BattleResult, BattleRoomData, BattleRoomId } from "../../pages/BattlePage/types";
+import { CreateSolveRequest } from "../../pages/IDEPage/types";
 
 export function createBattleRoomApi(level: number, language: string): Promise<BattleRoomId> {
     return axios.post('/battles/wait', { level: level, language: language })
@@ -36,6 +37,28 @@ export function startBattleApi(battleRoomId: number): Promise<BattleData> {
 
 export function deleteBattleRoomApi(battleRoomId: number): Promise<BattleData> {
     return axios.post(`/battles/cancel/${battleRoomId}`)
+        .then(res => {
+            return res.data;
+        })
+        .catch(err => {
+            console.error("Error fetching data:", err);
+            return err.response.data;
+        });
+}
+
+export function findAllBattleResultApi(): Promise<BattleInfo> {
+    return axios.get('/battles/record')
+        .then(res => {
+            return res.data;
+        })
+        .catch(err => {
+            console.error("Error fetching data:", err);
+            return err.response.data;
+        });
+}
+
+export function submitBattleApi(battleId: number, questionId: number, solveRequest: CreateSolveRequest): Promise<BattleResult> {
+    return axios.post(`/battles/submit/${battleId}/${questionId}`, solveRequest)
         .then(res => {
             return res.data;
         })

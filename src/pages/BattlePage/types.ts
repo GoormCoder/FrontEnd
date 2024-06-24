@@ -23,6 +23,28 @@ export type BattleData = {
     }
 }
 
+export type BattleResult = {
+    questionSummryDto: {
+        id: number,
+        level: number,
+        title: string,
+        tags: [
+            {
+                id: number,
+                name: string
+            }
+        ]
+    },
+    memberSummryDto: {
+        id: number,
+        loginId: string,
+        nick: string
+    },
+    solveResult: string,
+    solveResultMessage: string,
+    battleResult: string
+}
+
 export type BattleRoomData = {
     roomId: number,
     givenMember: {
@@ -43,8 +65,26 @@ export type BattleRoomId = {
     isFull: boolean
 }
 
+export type BattleInfo = {
+    nickname: string,
+    battleScore: number,
+    totalResult: string,
+    winRate: string,
+    battleRecords: [
+        {
+            givenUser: string,
+            receivedUser: string,
+            result: string
+        }
+    ]
+}
+
 // Interface
 
 
 // enum
-export { }
+export enum Tier {
+    BRONZE = "Bronze",
+    SILVER = "Silver",
+    GOLD = "Gold"
+}
