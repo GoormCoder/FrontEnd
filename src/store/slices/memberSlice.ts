@@ -10,6 +10,8 @@ interface MemberState {
     memberId: UserID[];
     searchText: string;
     RankData: RankData[];
+    PraiseRank: RankData[];
+    BattleRank: RankData[];
 }
 
 const initialState: MemberState = {
@@ -21,7 +23,9 @@ const initialState: MemberState = {
     member: [],
     memberId: [],
     searchText: '',
-    RankData: []
+    RankData: [],
+    PraiseRank: [],
+    BattleRank: []
 };
 
 export const findAllBattleRank = createAsyncThunk(
@@ -100,9 +104,11 @@ const memberSlice = createSlice({
             })
             .addCase(findAllBattleRank.fulfilled, (state, action) => {
                 state.RankData = action.payload;
+                state.BattleRank = action.payload;
             })
             .addCase(findAllPraiseRank.fulfilled, (state, action) => {
                 state.RankData = action.payload;
+                state.PraiseRank = action.payload;
             })
             .addCase(login.fulfilled, (state, action) => {
                 // state.member = action.payload;

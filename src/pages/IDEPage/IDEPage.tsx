@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Editor } from '@monaco-editor/react';
@@ -141,11 +141,11 @@ const IDEPage: React.FC = () => {
 
         // ResizeObserver 오류 코드 
         if (window.ResizeObserver) {
-            const ro = new ResizeObserver(() => {});
+            const ro = new ResizeObserver(() => { });
             ro.observe(document.body);
         }
     }, [questionId]);
-    
+
 
     const handleTimeUp = () => {
         if (buttonRef.current) {
@@ -194,7 +194,7 @@ const IDEPage: React.FC = () => {
         dispatch(findQuestion(questionId));
     }, [dispatch, questionId]);
 
-    
+
 
     const handleQuestionClick = () => {
         if (battleData.battleId) {

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./MyPage.css";
+import styled from "styled-components";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { findAllBattleRank, findAllPraiseRank } from "../../store/slices/memberSlice";
 
 interface UserInfoData {
   id: string;
@@ -111,36 +114,69 @@ const UserInfo: React.FC<{
 };
 
 const DuelRecords: React.FC<{ records: DuelRecord[] }> = ({ records }) => {
+  const { battleInfo } = useAppSelector(state => state.battle);
   return (
     <div className="card">
-      <h2>1대1 대결 전적</h2>
-      {records && records.length > 0 ? (
-        <ul>
-          {records.map((record, index) => (
-            <li key={index}>
-              상대: {record.opponent}, 결과: {record.result}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>전적이 없습니다.</p>
-      )}
+      <div className='title'>최근 전적</div>
+      <List>
+        {battleInfo.battleRecords.map((battle, index) => {
+          if (battle.givenUser == "" || !battleInfo.battleRecords) return <div>최근 전적이 없습니다.</div>
+          if (index > 4) return
+          return (
+            <div>{`${battle.givenUser} VS ${battle.receivedUser} ${battle.result}`}</div>
+          )
+        })}
+      </List>
     </div>
   );
 };
 
+const List = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 70%;
+    border-radius: 5px;
+    padding: 40px 10px 0px 10px;
+
+    & div{
+        font-size: 20px;
+        font-weight: bold;
+        width: 100%;
+        height: 40px;
+        text-align: center;
+    }
+`
+
 const Scores: React.FC<{ data: ScoresData | null }> = ({ data }) => {
+  const dispatch = useAppDispatch();
+  const { PraiseRank, BattleRank, loginedMember } = useAppSelector(state => state.member);
+  const [praise, setPraise] = useState<number>()
+  const [battle, setBattle] = useState<number>()
+  const [total, setTotal] = useState<number>()
+  useEffect(() => {
+    dispatch(findAllPraiseRank())
+    dispatch(findAllBattleRank())
+
+  }, [])
+
+  useEffect(() => {
+    const praiseRank = PraiseRank.find(praise => praise.loginId == loginedMember.loginId)
+    const battleRank = BattleRank.find(battle => battle.loginId == loginedMember.loginId)
+    if (praiseRank && battleRank) {
+      setPraise(praiseRank.type.score)
+      setBattle(battleRank.type.score)
+      setTotal(praiseRank.type.score + battleRank.type.score)
+    }
+  }, [PraiseRank, BattleRank])
   return (
     <div className="card">
       <h2>내 점수</h2>
       {data ? (
         <>
-          <p>총 점수: {data.overallScore}</p>
-          <p>칭찬 점수: {data.praiseScore}</p>
-          <p>답변 개수: {data.answerCount}</p>
-          <p>대결 점수: {data.duelScore}</p>
-          <p>문제 점수: {data.problemScore}</p>
-          <p>풀이 점수: {data.solutionScore}</p>
+          <p>총 점수: {total}</p>
+          <p>칭찬 점수: {praise}</p>
+          <p>대결 점수: {battle}</p>
         </>
       ) : (
         <p>점수 정보가 없습니다.</p>
