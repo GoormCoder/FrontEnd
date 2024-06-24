@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BoardDetails } from '../types';
+import { BoardDetails, PostItemProps } from '../types';
 
 const PostItemContainer = styled.tr`
     border-bottom: 1px solid #eee;
@@ -27,9 +27,7 @@ const PostMeta = styled.td`
     color: #777;
 `;
 
-interface PostItemProps {
-    post: BoardDetails;
-}
+
 
 const PostItem: React.FC<PostItemProps> = ({ post }) => {
     const handleClick = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { BoardDetails } from '../types';
-import { getBoardPost, likeBoardPost, unlikeBoardPost } from '../../../services/api/boardAPI';
+import { getBoardPost, likeBoardPost, unlikeBoardPost, deleteBoardPost } from '../../../services/api/boardAPI';
 
 const DetailContainer = styled.div`
     display: flex;
@@ -101,6 +101,25 @@ const LikeButton = styled.button<{ liked: boolean }>`
     }
 `;
 
+const DeleteButton = styled.button`
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #c82333;
+    }
+
+    @media (max-width: 480px) {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+`;
+
 const EditButton = styled.button`
     padding: 10px 20px;
     font-size: 16px;
@@ -168,6 +187,19 @@ const EachPost: React.FC = () => {
         }
     };
 
+    const handleDelete = async () => {
+        if (boardId && window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
+            try {
+                await deleteBoardPost(Number(boardId));
+                alert('게시글이 성공적으로 삭제되었습니다.');
+                navigate('/board');
+            } catch (error) {
+                console.error('게시글 삭제 중 오류가 발생했습니다:', error);
+                alert('게시글 삭제 중 오류가 발생했습니다.');
+            }
+        }
+    };
+
     const handleEdit = () => {
         if (boardId) {
             navigate(`/boards/${boardId}/edit`);
@@ -196,7 +228,10 @@ const EachPost: React.FC = () => {
                     {isLiked ? '좋아요' : '좋아요 취소'}
                 </LikeButton>
                 {isEditable && (
-                    <EditButton onClick={handleEdit}>게시글 수정</EditButton>
+                    <>
+                        <EditButton onClick={handleEdit}>게시글 수정</EditButton>
+                        <DeleteButton onClick={handleDelete}>게시글 삭제</DeleteButton>
+                    </>
                 )}
             </ButtonContainer>
         </DetailContainer>

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { PaginationProps } from '../types';
 
 const PaginationContainer = styled.div`
     display: flex;
@@ -39,12 +40,7 @@ const PageButton = styled.button<{ isActive: boolean }>`
     }
 `;
 
-interface PaginationProps {
-    totalPosts: number;
-    postsPerPage: number;
-    currentPage: number;
-    paginate: (pageNumber: number) => void;
-}
+
 
 const Pagination: React.FC<PaginationProps> = ({ totalPosts, postsPerPage, currentPage, paginate }) => {
     const pageNumbers = [];
