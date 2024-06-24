@@ -135,18 +135,21 @@ function MyPage() {
   const handleUpdateBirth = async () => {
     const newBirth = userData.birth;
     try {
-        await instance.patch(`/mypage/${loginId}/birth`, newBirth, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            }
-        });
-        alert('생일이 성공적으로 변경되었습니다.');
+      await instance.patch(
+        `/mypage/${loginId}/birth`,
+        { newBirth },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      alert("생일이 성공적으로 변경되었습니다.");
     } catch (error) {
-        console.error(error);
-        alert('생일 변경 중 오류가 발생했습니다.');
+      console.error(error);
+      alert("생일 변경 중 오류가 발생했습니다.");
     }
-};
-
+  };
 
   return (
     <Container>
