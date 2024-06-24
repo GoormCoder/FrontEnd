@@ -1,38 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import instance from '../../services/api/axios';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/reduxHooks';
-import { setLoginedMember } from '../../store/slices/memberSlice';
 
-import {
-    Container,
-    Form,
-    Title,
-    Label,
-    Input,
-    LinksContainer,
-    Link,
-    ErrorMessage,
-    LeftColumn,
-    RightColumn,
-    Row,
-    RowLabel,
-    RowValue,
-    Button // 추가된 버튼 스타일
-} from './MypageStyle';
-
-interface MyPageData {
-    loginId: string;
-    nick: string;
-    name: string;
-    birth: string;
-    email: string;
-    info: string;
-    gender: string;
-    praiseScore: number;
-    battleScore: number;
-}
 
 function MyPage() {
     const navigate = useNavigate();
@@ -200,5 +166,4 @@ function MyPage() {
         </Container>
     );
 }
-
 export default MyPage;
