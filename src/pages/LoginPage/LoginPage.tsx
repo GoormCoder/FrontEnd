@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../../services/api/axios';
+// import axiosInstance from '../../services/api/axios';
+import instance from '../../services/api/axios';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -49,7 +50,7 @@ function LoginPage() {
         }
 
         try {
-            const response = await axiosInstance.post('/members/login', {
+            const response = await instance.post('/members/login', {
                 loginId: UserId,
                 password: Password
             });
