@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axiosInstance from '../axiosInstance';
+// import axiosInstance from '../axiosInstance';
+import instance from '../../services/api/axios';
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
 
@@ -39,7 +40,7 @@ function FindPwPage() {
         setSuccess("");
 
         try {
-            const response = await axiosInstance.post('/members/findPw', {
+            const response = await instance.post('/members/findPw', {
                 email: Email,
                 loginId: UserId
             });
