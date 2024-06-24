@@ -32,6 +32,8 @@ interface MyPageData {
   battleScore: number;
 }
 
+
+
 function MyPage() {
   const navigate = useNavigate();
   const loginedMember = useAppSelector((state) => state.member.loginedMember);
